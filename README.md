@@ -45,7 +45,18 @@
 
 ## :cactus: 브랜치 전략(협의 후 수정)
 
-- 브랜치 전략
+**브랜치 전략 1**
+   - main: 우리가 개발 최종시에 Merge를 하는 곳 
+   - feat/{기능명}/#{issue번호}: 기능을 개발하면서 각자가 사용할 브랜치 ex) feat/Home/#3
+   - 우리가 정의하는 기능명 → 구현 중인 페이지 (ex. Home, MyPage or Common)
+```// 브랜치 생성 ❗❗항상 메인에 체크아웃해서 만들것❗❗
+$ git branch feat/{기능명}/#{이슈번호}
+// 브랜치 체크아웃
+$ git checkout feat/{기능명}/#{이슈번호}
+```
+
+
+**브랜치 전략 2**
   - `feature/담당자명`
     - feature/JongHyuck (파스칼)
   - `담당자명/기능설명`
