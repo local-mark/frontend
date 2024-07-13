@@ -102,7 +102,7 @@ $ git checkout feat/{기능명}/#{이슈번호}
 		|-- 📁 icon
 		|-- 📁 image
 	|-- 📁 styles
-		|-- globalStyle.jsx
+		|-- GlobalStyles.jsx
 		|-- theme.jsx
 	|-- 📁 utils
 	|-- 📁 store
