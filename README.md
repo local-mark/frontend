@@ -43,20 +43,19 @@
 
 <br/>
 
-## 🎋 브랜치 전략
+## :cactus: 브랜치 전략(협의 후 수정)
 
 - 브랜치 전략
   - `feature/담당자명`
-    - feature/SeungHee (파스칼)
+    - feature/JongHyuck (파스칼)
   - `담당자명/기능설명`
-    - SeungHee/ui-publishing (-로 연결)
+    - JongHyuck/ui-publishing (-로 연결)
   ```js
   develop
-  ㄴ feature/SeungHee
-  	ㄴ SeungHee/ui-publishing
+  ㄴ feature/Jonghyuck
+  	ㄴ JongHyuck/ui-publishing
   ```
 - 🚨 반드시 **직속 상위 브랜치**로 머지
-- ❌ 이번 솝커톤에서는 빠른 작업을 위해 issue를 사용하지 않습니다!
 - ↩️ PR은 1명 이상이 확인하면 merge (모두가 코드리뷰할 필요 없으나 반드시 한명은 확인해야 함)
 
 ### 📚 커밋 컨밴션
@@ -81,62 +80,99 @@
 |-- 📁 node_modules
 |-- 📁 public
 |-- 📁 src
-	|-- 📁 @components
-	|-- 📁 @pages
-	|-- 📁 api
-  |-- 📁 constants
-  |-- 📁 hooks
+	|-- 📁 components
+		|-- 📁 common
+		|-- 📁 page이름
+	|-- 📁 pages
+	|-- 📁 services
+        |-- 📁 constants
+        |-- 📁 hooks
 	|-- 📁 assets
 		|-- 📁 icon
 		|-- 📁 image
-	|-- 📁 style
+	|-- 📁 styles
 		|-- globalStyle.js
 		|-- theme.js
+	|-- 📁 utils
+	|-- 📁 store
 	|-- App.jsx
-	|-- main.jsx
-	|-- Router.jsx
-|-- .eslintrc.cjs
+	|-- index.jsx
 |-- .gitignore
-|-- index.html
 |-- package.json
 |-- README.md
-|-- vite.config.js
 |-- yarn.lock
 ```
-
-📁 **src > assets**
-필요한 아이콘 파일은 Figma 에서 **svg로 export** 한 후 `assets/icon`
-
-- ic_arrow.svg
-  필요한 이미지 파일은 Figma 에서 **png로 export** 한 후 `assets/image`폴더에 넣기
-
-- img_picture.png
-  index.ts에서 svg 컴포넌트화 하여 export → 컴포넌트에서 import 시 컴포넌트처럼 불러오기
-
-- 파일명 : `ic_arrow.svg` _(snake case)_
-- 컴포넌트명 (사용할 때) : `IcArrow.svg` _(Pascal case)_
-
 📁 **src > components**
-**common 폴더**
+
+ 
+재사용 가능한 컴포넌트들이 위치하는 폴더입니다.
+- common 폴더
+
 ⇒ 여러 페이지에서 사용할 공통 컴포넌트 (ex- Button, Header)
 
-**각 페이지별 폴더**
+- 각 페이지별 폴더
+
 ⇒ 각 페이지별 폴더 생성 후, 내부에 연관 컴포넌트 파일 생성하기
 
-📁 **src > pages**
-페이지의 최상단 컴포넌트. 각 컴포넌트를 하나의 페이지에서 호출하는 곳
 
-📁 **src > api**
-서버 합동 세미나에서 사용
-api 함수 모아놓는곳
+📁 **src > assets**
+   - 파일명 : `ic_arrow.svg` _(snake case)_
+   - 컴포넌트명 (사용할 때) : `IcArrow.svg` _(Pascal case)_
+
+
+이미지 혹은 폰트와 같은 파일들이 저장되는 폴더입니다.
+이미지와 같은 파일들을 public에 직접 넣는 경우도 있는데 둘의 차이는 컴파일시에 필요한지 여부입니다.
+파비콘과 같이 index.html내부에서 직접 사용하여 컴파일 단계에서 필요하지 않은 파일들은 public에
+반면, 컴포넌트 내부에서 사용하는 이미지 파일인 경우 이 assets 폴더에 위치시켜야 합니다.
+
+
 
 📁 **src > hooks**
-custom hooks 정의하는 경우 이곳에서 정의 후 사용
+
+
+커스텀 훅이 위치하는 폴더입니다.
+
+📁 **src > pages**
+
+
+react router등을 이용하여 라우팅을 적용할 때 페이지 컴포넌트를 이 폴더에 위치시킵니다.
+페이지의 최상단 컴포넌트. 각 컴포넌트를 하나의 페이지에서 호출하는 곳
 
 📁 **src > constants**
-상수 데이터 파일 분리하여 사용하는 경우 이곳에서 정의 후 사용
 
-<br/>
+
+공통적으로 사용되는 상수들을 정의한 파일들이 위치하는 폴더입니다.
+
+📁 **src > config**
+
+  
+config 파일이 많지 않은 경우 보통 최상위에 위치시켜놓지만 여러개의 config 파일이 있을 경우 폴더로 분리하기도 합니다.
+
+📁 **src > styles**
+
+
+globalStyle등의 전역 css 파일들이 포함되는 폴더입니다.
+
+📁 **src > services(=api)**
+
+
+보통 api관련 로직의 모듈 파일이 위치하며 auth와 같이 인증과 관련된 파일이 포함되기도 합니다.
+
+📁 **src > utils**
+
+  
+정규표현식 패턴이나 공통함수 등 공통으로 사용하는 유틸 파일들이 위치하는 폴더입니다.
+
+
+📁 **src > store**
+
+
+리덕스, MobX 등의 상태 관리 라이브러리와 관련된 코드를 저장하는 폴더입니다.
+<hr></hr>
+
+
+
+
 
 
 
