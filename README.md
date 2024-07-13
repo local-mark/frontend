@@ -102,16 +102,19 @@ $ git checkout feat/{기능명}/#{이슈번호}
 		|-- 📁 icon
 		|-- 📁 image
 	|-- 📁 styles
-		|-- globalStyle.js
-		|-- theme.js
+		|-- globalStyle.jsx
+		|-- theme.jsx
 	|-- 📁 utils
 	|-- 📁 store
 	|-- App.jsx
-	|-- index.jsx
+	|-- App.css
+	|-- index.css
+	|-- main.jsx
 |-- .gitignore
+|-- index.html
+|-- package-lock.json
 |-- package.json
 |-- README.md
-|-- yarn.lock
 ```
 📁 **src > components**
 
