@@ -170,7 +170,19 @@ globalStyle등의 전역 css 파일들이 포함되는 폴더입니다.
 리덕스, MobX 등의 상태 관리 라이브러리와 관련된 코드를 저장하는 폴더입니다.
 <hr></hr>
 
+### :tongue: 네이밍
 
+- 컴포넌트명 : PascalCase
+- 내부함수명 : camelCase
+- 변수명 : camelCase
+- 상수명 : UPPER_CASE
+
+<aside>
+<b>이벤트 핸들러 이름</b>
+
+- handle이벤트명 = () ⇒ {}
+- handleClick, handleSubmit, ...
+</aside>
 
 
 
