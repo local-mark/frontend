@@ -198,8 +198,3 @@ globalStyle등의 전역 css 파일들이 포함되는 폴더입니다.
 - handleClick, handleSubmit, ...
 </aside>
 
-
-
-
-
->>>>>>> 9572c510f681f7bbc5f3b2922e41011516e9b0af
