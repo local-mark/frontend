@@ -107,9 +107,11 @@ develop
 	|-- 📁 utils
 	|-- 📁 store
 	|-- App.jsx
-	|-- index.jsx
+	|-- main.jsx
 |-- .gitignore
+|-- index.html
 |-- package.json
+|-- package-lock.json
 |-- README.md
 |-- yarn.lock
 ```
