@@ -53,21 +53,7 @@ $ git branch feat/{기능명}/#{이슈번호}
 $ git checkout feat/{기능명}/#{이슈번호}
 ```
 
-**브랜치 전략 2**
-
--   `feature/담당자명`
-    -   feature/JongHyuck (파스칼)
--   `담당자명/기능설명`
-    -   JongHyuck/ui-publishing (-로 연결)
-
-```js
-develop
-ㄴ feature/Jonghyuck
-	ㄴ JongHyuck/ui-publishing
-```
-
--   🚨 반드시 **직속 상위 브랜치**로 머지
--   ↩️ PR은 1명 이상이 확인하면 merge (모두가 코드리뷰할 필요 없으나 반드시 한명은 확인해야 함)
+반드시 push는 feat/{기능명}/#{이슈번호}에 해주시고, github에서, develop에 PR 날리기!
 
 ### 📚 커밋 컨밴션
 
