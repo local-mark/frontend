@@ -1,25 +1,16 @@
 // src/components/common/Navbar.jsx
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../../assets/icon/Home/localmark_logo.svg';
 import cartIcon from '../../assets/icon/Home/cart_icon.svg';
 
 export default function Navbar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [cartCount, setCartCount] = useState(0); // 카트에 담긴 갯수 상태
-    const history = useHistory();
 
     const handleAuthClick = () => {
-        if (isLoggedIn) {
-            // 로그아웃 처리
-            setIsLoggedIn(false);
-            // 로그아웃 후 로그인 페이지로 이동
-            history.push('/login');
-        } else {
-            // 로그인 페이지로 이동
-            history.push('/login');
-        }
+        setIsLoggedIn(!isLoggedIn);
     };
 
     // 카트에 아이템 추가하는 함수 (예시용)
@@ -41,16 +32,13 @@ export default function Navbar() {
                         <Link to="/more-local">more local</Link>
                     </MenuItem>
                     <MenuItem>
-                        {isLoggedIn ? <Link to="/mypage">마이페이지</Link> : <Link to="/login">마이페이지</Link>}
+                        <Link to="/mypage">마이페이지</Link>
                     </MenuItem>
-                    <MenuItem>{isLoggedIn ? <Link to="/cart">카트</Link> : <Link to="/login">카트</Link>}</MenuItem>
                 </Menu>
                 <RightMenu>
                     <CartIconContainer>
-                        <Link to="/cart">
-                            <Icon src={cartIcon} alt="Cart Icon" />
-                            {cartCount > 0 && <CartCount>{cartCount}</CartCount>}
-                        </Link>
+                        <Icon src={cartIcon} alt="Cart Icon" />
+                        {cartCount > 0 && <CartCount>{cartCount}</CartCount>}
                     </CartIconContainer>
                     <Button onClick={handleAuthClick}>{isLoggedIn ? '로그아웃' : '로그인'}</Button>
                 </RightMenu>
@@ -89,7 +77,7 @@ const Menu = styled.ul`
     display: flex;
     list-style: none;
     gap: 40px;
-    margin-left: -200px;
+    margin-left: -150px;
 `;
 
 const MenuItem = styled.li`
@@ -127,7 +115,7 @@ const Button = styled.button`
     cursor: pointer;
     border-radius: 5px;
     background: var(--Color-Main-primary, #65bd83);
-    white-space: nowrap;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
 `;
 
 const CartIconContainer = styled.div`
