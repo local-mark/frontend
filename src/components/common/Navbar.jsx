@@ -54,6 +54,7 @@ const NavbarWrapper = styled.div`
     width: 100%;
     min-width: 1200px;
     white-space: nowrap;
+    border-bottom: 0.7px solid #dbe0de;
 `;
 
 const NavbarContainer = styled.nav`
@@ -121,6 +122,7 @@ const Button = styled.button`
 const CartIconContainer = styled.div`
     position: relative;
     top: 5px;
+    cursor: pointer;
 `;
 
 const CartCount = styled.div`
