@@ -1,7 +1,8 @@
+// src/styles/GlobalStyles.jsx
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 
-//Pretendard 폰트 임포트
+// Pretendard 폰트 파일을 불러옵니다.
 import PretendardRegular from '../assets/fonts/Pretendard-Regular.woff2';
 import PretendardBold from '../assets/fonts/Pretendard-Bold.woff2';
 
@@ -31,11 +32,13 @@ const GlobalStyles = createGlobalStyle`
     background-color: #f5f5f5;
     margin: 0;
     padding: 0;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
   }
 
   a {
     text-decoration: none;
     color: inherit;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
   }
 
   ul, ol {
@@ -71,6 +74,7 @@ const GlobalStyles = createGlobalStyle`
   h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
     margin: 0;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
   }
 
   h1 {
@@ -102,17 +106,19 @@ const GlobalStyles = createGlobalStyle`
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
+    overflow-x: auto; /* 가로 스크롤 허용 */
   }
 
   .row {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin: 0 -0.5rem;
   }
 
   .col {
     flex: 1;
     padding: 0 0.5rem;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
   }
 `;
 
