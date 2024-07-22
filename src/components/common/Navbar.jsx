@@ -1,5 +1,5 @@
 // src/components/common/Navbar.jsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/icon/Home/localmark_logo.svg';
@@ -52,7 +52,7 @@ const NavbarWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    min-width: 1200px;
+    min-width: 1500px;
     white-space: nowrap;
     border-bottom: 0.7px solid #dbe0de;
 `;
