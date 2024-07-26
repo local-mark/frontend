@@ -11,13 +11,22 @@ import {
     FormContent,
     Input,
     InputContainer,
+    InputFrame,
     LoginButton,
     LoginContainer,
     LoginContent,
     LoginSection,
     LoginSpace,
     RememberContainer,
+    RememberFrame,
     UserType,
+    FindFrame,
+    Find,
+    SignupButton,
+    LoginText,
+    SignupText,
+    StyledIcon,
+    StyledIcon2,
 } from './Login.style';
 
 export default function Login() {
@@ -31,7 +40,7 @@ export default function Login() {
         e.preventDefault();
 
         if (email === '' || password === '') {
-            alert('이메일 혹은 비밀번호 값이 존재하지 않습니다.');
+            alert('아이디(이메일) 혹은 비밀번호 값이 존재하지 않습니다.');
             return;
         }
 
@@ -51,7 +60,7 @@ export default function Login() {
         } catch (error) {
             setLoading(false);
             if (error.response && error.response.status == 404) {
-                alert('이메일 혹은 비밀번호가 잘못되었습니다.');
+                alert('등록되지 않은 아이디이거나 아이디 또는 비밀번호를 잘못 입력했습니다.');
             } else {
                 alert('로그인에 실패하였습니다.');
             }
@@ -69,33 +78,47 @@ export default function Login() {
                                     <ConsumerButton>로컬 컨슈머</ConsumerButton>
                                     <CreatorButton>로컬 크리에이터</CreatorButton>
                                 </UserType>
-                                <InputContainer>
-                                    <div>E-mail (ID)</div>
-                                    <Input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => {
-                                            setEmail(e.target.value);
-                                        }}
-                                    ></Input>
-                                </InputContainer>
-                                <InputContainer>
-                                    <div>Password</div>
-                                    <Input
-                                        type="password"
-                                        value={password}
-                                        onChange={(e) => {
-                                            setPassword(e.target.value);
-                                        }}
-                                    ></Input>
-                                </InputContainer>
-                                <RememberContainer>
-                                    <Checkbox type="checkbox"></Checkbox>
-                                    <div>아이디 기억하기</div>
-                                </RememberContainer>
+                                <InputFrame>
+                                    <InputContainer>
+                                        <Input
+                                            type="email"
+                                            placeholder="아이디(이메일)"
+                                            value={email}
+                                            onChange={(e) => {
+                                                setEmail(e.target.value);
+                                            }}
+                                        ></Input>
+                                        <StyledIcon2></StyledIcon2>
+                                    </InputContainer>
+                                    <InputContainer>
+                                        <Input
+                                            type="password"
+                                            placeholder="비밀번호"
+                                            value={password}
+                                            onChange={(e) => {
+                                                setPassword(e.target.value);
+                                            }}
+                                        ></Input>
+                                        <StyledIcon></StyledIcon>
+                                    </InputContainer>
+                                    <RememberContainer>
+                                        <RememberFrame>
+                                            <Checkbox type="checkbox"></Checkbox>
+                                            <div>아이디 기억하기</div>
+                                        </RememberFrame>
+                                        <FindFrame>
+                                            <Find>아이디 찾기</Find>
+                                            <Find>비밀번호 찾기</Find>
+                                        </FindFrame>
+                                    </RememberContainer>
+                                </InputFrame>
                                 <LoginContainer>
-                                    <LoginButton onClick={handleLogin}>{loading ? 'Loading...' : '로그인'}</LoginButton>
-                                    <div>회원가입</div>
+                                    <LoginButton onClick={handleLogin}>
+                                        <LoginText>{loading ? 'Loading...' : '로그인'}</LoginText>
+                                    </LoginButton>
+                                    <SignupButton>
+                                        <SignupText>회원가입</SignupText>
+                                    </SignupButton>
                                 </LoginContainer>
                             </FormContent>
                         </Form>

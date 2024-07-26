@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { IoEye } from 'react-icons/io5';
+import { MdCancel } from 'react-icons/md';
 
 export const LoginSection = styled.div`
     display: flex;
@@ -37,106 +39,130 @@ export const Form = styled.div`
     padding: 30px;
     flex-direction: column;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
 `;
 
 export const FormContent = styled.div`
     display: flex;
-    height: 515px;
+    width: 384px;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-    align-self: stretch;
+    gap: 60px;
 `;
 
 export const UserType = styled.div`
     display: flex;
-    padding: 3px;
-    justify-content: center;
+    width: 298px;
+    padding: var(--Spacing-2, 6px);
     align-items: center;
-    gap: 3px;
     border-radius: 100px;
-    border: 1px solid var(--Color-Text-cto, #000);
-    background: #f6f6f6;
+    background: var(--Color-Gray-gray-200, #eee);
 `;
 
 export const ConsumerButton = styled.button`
     display: flex;
-    padding: 13px;
+    width: 143px;
+    padding: var(--Text-size-2, 12px) var(--Spacing-4, 16px);
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     gap: 10px;
-    border-radius: 50px;
-    background: var(--Color-Text-cto, #000);
-    color: #fff;
-    text-align: center;
-    font-family: Roboto;
-    font-size: 13px;
+    flex-shrink: 0;
+    border-radius: 100px;
+    background: var(--Color-Gray-gray-900, #222);
+    color: var(--Color-Background-white, #fff);
+
+    /* B3_SB */
+    font-family: Pretendard;
+    font-size: var(--Text-size-4, 16px);
     font-style: normal;
     font-weight: 600;
-    line-height: normal;
+    line-height: 140%; /* 22.4px */
+    letter-spacing: -0.32px;
 `;
 
 export const CreatorButton = styled.button`
     display: flex;
-    padding: 13px;
+    width: 143px;
+    padding: var(--Text-size-2, 12px) var(--Spacing-4, 16px);
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     gap: 10px;
-    border-radius: 50px;
-    border: 1px solid var(--Color-Text-cto, #000);
-    background: #fff;
-    color: var(--Color-Text-cto, #000);
-    text-align: center;
-    font-family: Roboto;
-    font-size: 13px;
+    flex-shrink: 0;
+    border-radius: 100px;
+    background: var(--Color-Gray-gray-200, #eee);
+    color: var(--Color-Text-primary, #222);
+
+    /* B4_M */
+    font-family: Pretendard;
+    font-size: var(--Text-size-4, 16px);
     font-style: normal;
-    font-weight: 600;
-    line-height: normal;
+    font-weight: 500;
+    line-height: 140%; /* 22.4px */
+    letter-spacing: -0.32px;
+`;
+
+export const InputFrame = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--Text-size-2, 12px);
+    align-self: stretch;
 `;
 
 export const InputContainer = styled.div`
     display: flex;
-    height: 109px;
-    padding: 10px 0px;
-    flex-direction: column;
-    align-items: flex-start;
+    width: 384px;
+    padding: 18px 24px;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
-    flex-shrink: 0;
-    align-self: stretch;
-    color: var(--Color-Text-cto, #000);
-    font-family: Roboto;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 140.625%; /* 28.125px */
+    border-radius: 10px;
+    border: 1px solid var(--Color-Gray-gray-400, #bdbdbd);
 `;
 
 export const Input = styled.input`
-    height: 50px;
-    flex-shrink: 0;
-    align-self: stretch;
-    border-radius: 5px;
-    border: 1px solid var(--Color-Text-cto, #000);
-    background: #fff;
+    flex: 1 0 0;
+    color: var(--Color-Text-light1, #9e9e9e);
+
+    /* B4_M */
+    font-family: Pretendard;
+    font-size: var(--Text-size-4, 16px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%; /* 22.4px */
+    letter-spacing: -0.32px;
+    border: none;
 `;
 
 export const RememberContainer = styled.div`
     display: flex;
-    height: 44px;
-    padding: 10px 0px;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
     align-self: stretch;
-    color: var(--Color-Text-cto, #000);
-    font-family: Roboto;
-    font-size: 20px;
+`;
+
+export const RememberFrame = styled.div`
+    display: flex;
+    align-items: center;
+    gap: var(--Spacing-1, 4px);
+`;
+
+export const FindFrame = styled.div`
+    display: flex;
+    align-items: center;
+    gap: var(--Spacing-4, 16px);
+`;
+
+export const Find = styled.div`
+    color: var(--Color-Text-light1, #9e9e9e);
+
+    /* B6_M */
+    font-family: Pretendard;
+    font-size: var(--Text-size-3, 14px);
     font-style: normal;
-    font-weight: 400;
-    line-height: 119.531%; /* 23.906px */
+    font-weight: 500;
+    line-height: 140%; /* 19.6px */
+    letter-spacing: -0.28px;
 `;
 
 export const Checkbox = styled.input`
@@ -150,20 +176,61 @@ export const Checkbox = styled.input`
 export const LoginContainer = styled.div`
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 10px;
+    align-items: flex-start;
+    gap: var(--Text-size-2, 12px);
+    align-self: stretch;
 `;
 
 export const LoginButton = styled.button`
     display: flex;
-    width: 98px;
-    height: var(--Spacing-8, 48px);
-    padding: 13px 24px;
-    justify-content: center;
+    flex-direction: column;
     align-items: flex-start;
     gap: 10px;
-    border-radius: 5px;
-    background: var(--Color-Text-cto, #000);
+    align-self: stretch;
+    border-radius: 3px;
+    background: var(--Color-Main-primary, #65bd83);
+`;
+
+export const LoginText = styled.button`
+    display: flex;
+    padding: 16px 151px;
+    justify-content: center;
+    align-items: center;
+    gap: var(--Spacing-2, 6px);
+    align-self: stretch;
+    border-radius: 1px;
     color: #ffffff;
+`;
+
+export const SignupButton = styled.button`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 3px;
+    border: 1px solid var(--Color-Main-primary, #65bd83);
+`;
+
+export const SignupText = styled.button`
+    display: flex;
+    padding: 16px 151px;
+    justify-content: center;
+    align-items: center;
+    gap: var(--Spacing-2, 6px);
+    align-self: stretch;
+    border-radius: 1px;
+    color: #65bd83;
+`;
+
+export const StyledIcon = styled(IoEye)`
+    width: var(--Text-size-7, 22px);
+    height: var(--Text-size-7, 22px);
+    flex-shrink: 0;
+`;
+
+export const StyledIcon2 = styled(MdCancel)`
+    width: var(--Text-size-7, 22px);
+    height: var(--Text-size-7, 22px);
+    flex-shrink: 0;
 `;
