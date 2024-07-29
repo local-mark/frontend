@@ -11,11 +11,14 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "eslint-config-prettier": "^9.1.0",
+        "@reduxjs/toolkit": "^2.2.6",
+        "axios": "^1.7.2",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
-        "react-router-dom": "^6.24.1",
-        "styled-components": "^6.1.11",
+        "react-icons": "^5.2.1",
+        "react-redux": "^9.1.2",
+        "react-router-dom": "^6.25.1",
+        "styled-components": "^6.1.12",
         "styled-reset": "^4.5.2"
     },
     "devDependencies": {
@@ -23,10 +26,11 @@
         "@types/react-dom": "^18.3.0",
         "@vitejs/plugin-react": "^4.3.1",
         "eslint": "^8.57.0",
+        "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-react": "^7.34.2",
         "eslint-plugin-react-hooks": "^4.6.2",
         "eslint-plugin-react-refresh": "^0.4.7",
-        "prettier": "3.3.3",
+        "prettier": "^3.3.3",
         "vite": "^5.3.1"
     }
 }
