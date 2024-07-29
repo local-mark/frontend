@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Sidebar from '../../components/Gallery/GallerySidebar';
+import Sidebar from '../../components/Gallery/Sidebar';
 import RegionFilter from '../../components/Gallery/RegionFilter';
 import SearchBar from '../../components/Gallery/SearchBar';
 import ProductGallery from '../../components/Gallery/ProductGallery';

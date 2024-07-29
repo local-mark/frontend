@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import SortBar from './SortBar';
+import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 
 import mockup1 from '../../assets/image/Gallery/mockup_1.svg';
 import mockup2 from '../../assets/image/Gallery/mockup_2.svg';
@@ -117,15 +119,31 @@ const mockProducts = [
     },
 ];
 
-const ProductGallery = ({ category, region, query, sort, currentPage, onPageChange }) => {
+const ProductGallery = ({ category, region, query, currentPage, onPageChange }) => {
     const [products, setProducts] = useState([]);
+    const [sort, setSort] = useState('viewCount');
 
     useEffect(() => {
-        setProducts(mockProducts);
-    }, [category, region, query, sort, currentPage]);
+        let sortedProducts = [...mockProducts];
+        switch (sort) {
+            case 'highPrice':
+                sortedProducts.sort((a, b) => b.price - a.price);
+                break;
+            case 'lowPrice':
+                sortedProducts.sort((a, b) => a.price - b.price);
+                break;
+            case 'popularity':
+                sortedProducts.sort((a, b) => b.popularity - a.popularity);
+                break;
+            default:
+                sortedProducts.sort((a, b) => b.viewCount - a.viewCount);
+        }
+        setProducts(sortedProducts);
+    }, [sort, category, region, query, currentPage]);
 
     return (
-        <>
+        <GalleryWrapper>
+            <SortBar sort={sort} setSort={setSort} />
             <GalleryContainer>
                 {products.map((product) => (
                     <ProductItem key={product.id}>
@@ -151,29 +169,36 @@ const ProductGallery = ({ category, region, query, sort, currentPage, onPageChan
                 ))}
             </GalleryContainer>
             <Pagination currentPage={currentPage} totalPages={5} onPageChange={onPageChange} />
-        </>
+        </GalleryWrapper>
     );
 };
 
+const GalleryWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    max-width: 1300px;
+    min-width: 1000px;
+    width: 100%;
+`;
+
 const GalleryContainer = styled.div`
-    grid-template-columns: repeat(3, 1fr); /* 한 열에 3개의 제품 */
     display: grid;
-    width: 1400px;
-    padding-top: 52px;
-    gap: 50px;
-    margin-left: 250px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 20px;
 `;
 
 const ProductItem = styled.div`
     padding: 16px;
     display: flex;
+    gap: 10px;
     flex-direction: column;
+    margin-bottom: 30px;
 `;
 
 const ProductImage = styled.img`
-    width: 400px; /* 이미지 너비 */
-    height: 400px; /* 이미지 높이 */
-    object-fit: cover; /* 이미지를 컨테이너에 맞춤 */
+    width: 100%;
+    object-fit: cover;
 `;
 
 const ProductDetails = styled.div`
@@ -258,37 +283,51 @@ const ProductDiscount = styled.div`
 `;
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-    const pages = [];
-    for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-    }
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            onPageChange(currentPage + 1);
+        }
+    };
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            onPageChange(currentPage - 1);
+        }
+    };
 
     return (
         <PaginationContainer>
-            {pages.map((page) => (
-                <PageButton key={page} onClick={() => onPageChange(page)} disabled={page === currentPage}>
-                    {page}
+            <PageButton onClick={handlePreviousPage} disabled={currentPage === 1}>
+                <FaChevronLeft />
+            </PageButton>
+            {[...Array(totalPages)].map((_, index) => (
+                <PageButton key={index + 1} onClick={() => onPageChange(index + 1)} active={index + 1 === currentPage}>
+                    {index + 1}
                 </PageButton>
             ))}
+            <PageButton onClick={handleNextPage} disabled={currentPage === totalPages}>
+                <FaChevronRight />
+            </PageButton>
         </PaginationContainer>
     );
 };
 
 const PaginationContainer = styled.div`
     display: flex;
-    justify-content: center;
     margin-top: 16px;
+    margin-left: 460px;
 `;
 
 const PageButton = styled.button`
     margin: 0 5px;
     padding: 10px 15px;
     cursor: pointer;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
+    border: none;
+    background-color: transparent;
+    color: ${(props) => (props.active ? '#FF8162' : '#000')};
+    font-weight: ${(props) => (props.active ? 'bold' : 'normal')};
     &:disabled {
-        background-color: #eee;
-        cursor: not-allowed;
+        opacity: 0.5;
     }
 `;
 

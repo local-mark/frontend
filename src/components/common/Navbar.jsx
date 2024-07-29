@@ -1,16 +1,21 @@
 // src/components/common/Navbar.jsx
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/icon/Home/localmark_logo.svg';
 import cartIcon from '../../assets/icon/Home/cart_icon.svg';
 
 export default function Navbar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [cartCount, setCartCount] = useState(0); // 카트에 담긴 갯수 상태
+    const navigate = useNavigate();
 
     const handleAuthClick = () => {
-        setIsLoggedIn(!isLoggedIn);
+        if (isLoggedIn) {
+            setIsLoggedIn(false);
+        } else {
+            navigate('/login');
+        }
     };
 
     // 카트에 아이템 추가하는 함수 (예시용)
@@ -52,7 +57,7 @@ const NavbarWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    min-width: 1500px;
+    min-width: 2000px;
     white-space: nowrap;
     border-bottom: 0.7px solid #dbe0de;
 `;
