@@ -29,7 +29,7 @@ export default function Navbar() {
                         <Link to="/gallery">제품 갤러리</Link>
                     </MenuItem>
                     <MenuItem>
-                        <Link to="/more-local">more local</Link>
+                        <Link to="/morelocal">more local</Link>
                     </MenuItem>
                     <MenuItem>
                         <Link to="/mypage">마이페이지</Link>
