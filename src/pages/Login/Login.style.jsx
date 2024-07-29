@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { IoEye } from 'react-icons/io5';
+import { IoEyeOff } from 'react-icons/io5';
 import { MdCancel } from 'react-icons/md';
 
 export const LoginSection = styled.div`
@@ -59,7 +60,7 @@ export const UserType = styled.div`
     background: var(--Color-Gray-gray-200, #eee);
 `;
 
-export const ConsumerButton = styled.button`
+export const UserTypeButton = styled.button`
     display: flex;
     width: 143px;
     padding: var(--Text-size-2, 12px) var(--Spacing-4, 16px);
@@ -68,35 +69,12 @@ export const ConsumerButton = styled.button`
     gap: 10px;
     flex-shrink: 0;
     border-radius: 100px;
-    background: var(--Color-Gray-gray-900, #222);
-    color: var(--Color-Background-white, #fff);
 
     /* B3_SB */
     font-family: Pretendard;
     font-size: var(--Text-size-4, 16px);
     font-style: normal;
     font-weight: 600;
-    line-height: 140%; /* 22.4px */
-    letter-spacing: -0.32px;
-`;
-
-export const CreatorButton = styled.button`
-    display: flex;
-    width: 143px;
-    padding: var(--Text-size-2, 12px) var(--Spacing-4, 16px);
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-    border-radius: 100px;
-    background: var(--Color-Gray-gray-200, #eee);
-    color: var(--Color-Text-primary, #222);
-
-    /* B4_M */
-    font-family: Pretendard;
-    font-size: var(--Text-size-4, 16px);
-    font-style: normal;
-    font-weight: 500;
     line-height: 140%; /* 22.4px */
     letter-spacing: -0.32px;
 `;
@@ -171,6 +149,7 @@ export const Checkbox = styled.input`
     border-radius: 5px;
     border: 1px solid var(--Color-Text-cto, #000);
     background: #fff;
+    accent-color: black;
 `;
 
 export const LoginContainer = styled.div`
@@ -227,10 +206,28 @@ export const StyledIcon = styled(IoEye)`
     width: var(--Text-size-7, 22px);
     height: var(--Text-size-7, 22px);
     flex-shrink: 0;
+    opacity: 0.5;
+`;
+
+export const StyledIcon3 = styled(IoEyeOff)`
+    width: var(--Text-size-7, 22px);
+    height: var(--Text-size-7, 22px);
+    flex-shrink: 0;
+    opacity: 0.5;
 `;
 
 export const StyledIcon2 = styled(MdCancel)`
     width: var(--Text-size-7, 22px);
     height: var(--Text-size-7, 22px);
     flex-shrink: 0;
+    opacity: 0.5;
+`;
+
+export const Mes = styled.div`
+    display: flex;
+    width: 384px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--Spacing-1, 4px);
+    color: #ff616a;
 `;
