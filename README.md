@@ -93,11 +93,9 @@ $ git checkout feat/{기능명}/#{이슈번호}
 	|-- 📁 utils
 	|-- 📁 store
 	|-- App.jsx
-	|-- main.jsx
+	|-- index.jsx
 |-- .gitignore
-|-- index.html
 |-- package.json
-|-- package-lock.json
 |-- README.md
 |-- yarn.lock
 ```

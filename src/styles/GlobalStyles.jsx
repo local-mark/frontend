@@ -1,39 +1,74 @@
 import { createGlobalStyle } from 'styled-components';
+import reset from 'styled-reset';
+
+//Pretendard 폰트 임포트
+import PretendardRegular from '../assets/fonts/Pretendard-Regular.woff2';
+import PretendardBold from '../assets/fonts/Pretendard-Bold.woff2';
 
 const GlobalStyles = createGlobalStyle`
-  html,
-  body {
-    width: 100vw;
-    height: 100vh;
+  ${reset}
+
+  @font-face {
+    font-family: 'Pretendard';
+    src: url(${PretendardRegular}) format('woff2'),
+         url(${PretendardBold}) format('woff2');
+    font-style: normal;
   }
 
-  #root {
-    display: flex;
-    flex-direction: column;
-
-
+  *, *::before, *::after {
+    box-sizing: border-box;
   }
 
   html {
-    font-size: 62.5%;
+    font-size: 62.5%; /* 1rem = 10px */
   }
 
-  * {
-    box-sizing: border-box;
-  }
-  
   body {
-    background-color: #FFF;;
+    font-family: 'Pretendard', sans-serif;
+    font-size: 1.6rem; /* 16px */
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  ul, ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
   }
 
   button {
-    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    background: none;
     border: none;
+    cursor: pointer;
+  }
+
+  input, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
     outline: none;
   }
 
-  body, button {
-    font-family: Pretendard;
+ 
+  .container {
+    margin: 0 auto;
   }
+
+
 `;
+
 export default GlobalStyles;
