@@ -76,14 +76,14 @@ const NavbarContainer = styled.nav`
 const Logo = styled.img`
     width: 190px;
     height: 100px;
-    margin-left: 140px;
+    margin-left: 200px;
 `;
 
 const Menu = styled.ul`
     display: flex;
     list-style: none;
     gap: 40px;
-    margin-left: -150px;
+    margin-left: -650px;
 `;
 
 const MenuItem = styled.li`
