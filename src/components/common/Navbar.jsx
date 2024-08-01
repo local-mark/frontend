@@ -34,10 +34,14 @@ export default function Navbar() {
                         <Link to="/gallery">제품 갤러리</Link>
                     </MenuItem>
                     <MenuItem>
-                        <Link to="/morelocal">more local</Link>
+                        <Link to="/localletter">more local</Link>
                     </MenuItem>
                     <MenuItem>
                         <Link to="/mypage">마이페이지</Link>
+                    </MenuItem>
+                    <MenuItem>
+                        <Link to="/community">크리에이터 커뮤니티</Link>
+                        {/* 임시 라우터 */}
                     </MenuItem>
                 </Menu>
                 <RightMenu>
