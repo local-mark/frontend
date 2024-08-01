@@ -61,7 +61,7 @@ const NavbarWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    min-width: 2000px;
+    min-width: 1300px;
     white-space: nowrap;
     border-bottom: 0.7px solid #dbe0de;
 `;
@@ -80,14 +80,14 @@ const NavbarContainer = styled.nav`
 const Logo = styled.img`
     width: 190px;
     height: 100px;
-    margin-left: 200px;
+    margin-left: 100px;
 `;
 
 const Menu = styled.ul`
     display: flex;
     list-style: none;
     gap: 40px;
-    margin-left: -650px;
+    margin-left: -50px;
 `;
 
 const MenuItem = styled.li`

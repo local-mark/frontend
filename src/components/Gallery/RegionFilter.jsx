@@ -50,6 +50,7 @@ const RegionFilterContainer = styled.div`
     flex-wrap: wrap;
     padding: 20px;
     margin-top: 40px;
+    max-width: 1200px;
 `;
 
 const RegionButton = styled.button`

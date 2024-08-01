@@ -182,8 +182,8 @@ const ProductGallery = ({ category, region, query, currentPage, onPageChange }) 
 const GalleryWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    max-width: 1300px;
-    min-width: 1000px;
+    max-width: 1200px;
+    min-width: 1100px;
     width: 100%;
 `;
 
@@ -322,7 +322,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 const PaginationContainer = styled.div`
     display: flex;
     margin-top: 16px;
-    margin-left: 460px;
+    margin-left: 430px;
 `;
 
 const PageButton = styled.button`
