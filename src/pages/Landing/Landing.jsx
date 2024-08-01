@@ -104,8 +104,8 @@ const ServiceProfileContainer = styled.div`
     }
     
     #catchphrase {
-        font-size: 4em; /* 큰 글씨 */
-        font-weight: bold; /* 두꺼운 글씨 */
+        font-size: 4em;
+        font-weight: bold;
     }
 
     button {
