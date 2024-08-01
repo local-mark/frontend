@@ -3,6 +3,8 @@ import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import SingUp from './pages/SignUp/SignUp';
 import Gallery from './pages/Gallery/Gallery';
+import ProductDetail from './pages/Gallery/ProductDetail';
+
 function App() {
     return (
         <div className="App">
@@ -11,6 +13,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SingUp />} />
                 <Route path="/gallery" element={<Gallery />} />
+                <Route path="/gallery/product/:productId" element={<ProductDetail />} />
             </Routes>
         </div>
     );

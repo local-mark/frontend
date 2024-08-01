@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import SortBar from './SortBar';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 import mockup1 from '../../assets/image/Gallery/mockup_1.svg';
 import mockup2 from '../../assets/image/Gallery/mockup_2.svg';
@@ -122,6 +123,7 @@ const mockProducts = [
 const ProductGallery = ({ category, region, query, currentPage, onPageChange }) => {
     const [products, setProducts] = useState([]);
     const [sort, setSort] = useState('viewCount');
+    const navigate = useNavigate();
 
     useEffect(() => {
         let sortedProducts = [...mockProducts];
@@ -141,12 +143,16 @@ const ProductGallery = ({ category, region, query, currentPage, onPageChange }) 
         setProducts(sortedProducts);
     }, [sort, category, region, query, currentPage]);
 
+    const handleProductClick = (productId) => {
+        navigate(`/gallery/product/${productId}`);
+    };
+
     return (
         <GalleryWrapper>
             <SortBar sort={sort} setSort={setSort} />
             <GalleryContainer>
                 {products.map((product) => (
-                    <ProductItem key={product.id}>
+                    <ProductItem key={product.id} onClick={() => handleProductClick(product.id)}>
                         <ProductImage src={product.image} alt={product.product_name} />
                         <ProductDetails>
                             <ProductHeader>
@@ -194,6 +200,7 @@ const ProductItem = styled.div`
     gap: 10px;
     flex-direction: column;
     margin-bottom: 30px;
+    cursor: pointer;
 `;
 
 const ProductImage = styled.img`
