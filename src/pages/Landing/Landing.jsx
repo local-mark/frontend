@@ -11,25 +11,26 @@ export default function Landing() {
     return (
         <LandingContainer>
             <ServiceProfileContainer>
-                <div id='text-container'>
-                    <p id='catchphrase'>로컬마크 캐치프레이즈</p>
+                <div id="text-container">
+                    <p id="catchphrase">로컬마크 캐치프레이즈</p>
                     <p>로컬마크 상세 설명 페이지</p>
-                    <Link to='/gallery'>
+                    <Link to="/gallery">
                         <button>지금 둘러보기</button>
                     </Link>
                 </div>
-                <div id='image-container'>
+                <div id="image-container">
                     <img src={mockup1} alt="Mockup 1" />
                 </div>
-                
             </ServiceProfileContainer>
             <FeatureContainer>
                 <img src={mockup2} alt="Mockup 2" />
                 <div>
-                    <p id='feature-title'>로컬 비즈니스 통계</p>
+                    <p id="feature-title">로컬 비즈니스 통계</p>
                     <p>
-                        로컬 비즈니스 통계 상술<br/>
-                        로컬 비즈니스 통계 상술<br/>
+                        로컬 비즈니스 통계 상술
+                        <br />
+                        로컬 비즈니스 통계 상술
+                        <br />
                         로컬 비즈니스 통계 상술
                     </p>
                     <ul>
@@ -44,12 +45,22 @@ export default function Landing() {
                 <TargetCreater>
                     <img src={mockup3} alt="Mockup 3" />
                     <p>
-                    Self-improvement is a journey of setting and achieving goals. In this blog post, we introduce five key habits that can be easily integrated into daily life. The first is goal setting and time management, which lay the foundation for personal achievement and professional growth. The second habit is self-encouragement through positive thinking, which is crucial for overcoming challenges and moving towards success. The third is maintaining health through regular exercise and a balanced diet.
+                        Self-improvement is a journey of setting and achieving goals. In this blog post, we introduce
+                        five key habits that can be easily integrated into daily life. The first is goal setting and
+                        time management, which lay the foundation for personal achievement and professional growth. The
+                        second habit is self-encouragement through positive thinking, which is crucial for overcoming
+                        challenges and moving towards success. The third is maintaining health through regular exercise
+                        and a balanced diet.
                     </p>
                 </TargetCreater>
                 <TargetConsumer>
                     <p>
-                    Self-improvement is a journey of setting and achieving goals. In this blog post, we introduce five key habits that can be easily integrated into daily life. The first is goal setting and time management, which lay the foundation for personal achievement and professional growth. The second habit is self-encouragement through positive thinking, which is crucial for overcoming challenges and moving towards success. The third is maintaining health through regular exercise and a balanced diet.
+                        Self-improvement is a journey of setting and achieving goals. In this blog post, we introduce
+                        five key habits that can be easily integrated into daily life. The first is goal setting and
+                        time management, which lay the foundation for personal achievement and professional growth. The
+                        second habit is self-encouragement through positive thinking, which is crucial for overcoming
+                        challenges and moving towards success. The third is maintaining health through regular exercise
+                        and a balanced diet.
                     </p>
                     <img src={mockup4} alt="Mockup 4" />
                 </TargetConsumer>
@@ -87,7 +98,8 @@ const ServiceProfileContainer = styled.div`
     width: 80%;
     margin: 0 auto;
 
-    .text-container, .image-container {
+    .text-container,
+    .image-container {
         flex: 1;
     }
 
@@ -102,7 +114,7 @@ const ServiceProfileContainer = styled.div`
         justify-content: center;
         align-items: center;
     }
-    
+
     #catchphrase {
         font-size: 4em;
         font-weight: bold;
@@ -121,14 +133,13 @@ const ServiceProfileContainer = styled.div`
     button:hover {
         background-color: #0056b3;
     }
-    
+
     img {
         width: 100%;
         max-width: 400px;
         height: auto;
     }
 `;
-
 
 const FeatureContainer = styled.div`
     display: flex;
@@ -141,7 +152,7 @@ const FeatureContainer = styled.div`
         font-size: 2em;
         font-weight: bold;
     }
-    
+
     img {
         margin-right: 30px;
         width: 30%;
@@ -173,8 +184,6 @@ const FeatureContainer = styled.div`
     }
 `;
 
-
-
 const TargetedContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -184,7 +193,7 @@ const TargetedContainer = styled.div`
 
 const TargetTitle = styled.h4`
     margin-bottom: 50px;
-    
+
     font-size: 2em;
     font-weight: bold;
 `;

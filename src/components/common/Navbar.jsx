@@ -34,10 +34,14 @@ export default function Navbar() {
                         <Link to="/gallery">제품 갤러리</Link>
                     </MenuItem>
                     <MenuItem>
-                        <Link to="/morelocal">more local</Link>
+                        <Link to="/localletter">more local</Link>
                     </MenuItem>
                     <MenuItem>
                         <Link to="/mypage">마이페이지</Link>
+                    </MenuItem>
+                    <MenuItem>
+                        <Link to="/community">크리에이터 커뮤니티</Link>
+                        {/* 임시 라우터 */}
                     </MenuItem>
                 </Menu>
                 <RightMenu>
@@ -57,7 +61,7 @@ const NavbarWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    min-width: 2000px;
+    min-width: 1300px;
     white-space: nowrap;
     border-bottom: 0.7px solid #dbe0de;
 `;
@@ -76,14 +80,14 @@ const NavbarContainer = styled.nav`
 const Logo = styled.img`
     width: 190px;
     height: 100px;
-    margin-left: 140px;
+    margin-left: 100px;
 `;
 
 const Menu = styled.ul`
     display: flex;
     list-style: none;
     gap: 40px;
-    margin-left: -150px;
+    margin-left: -50px;
 `;
 
 const MenuItem = styled.li`

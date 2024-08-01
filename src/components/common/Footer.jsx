@@ -39,6 +39,7 @@ const FooterWrapper = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
+    max-width: 2100px;
     min-width: 1500px;
     height: 296px;
     padding: 50px 354px 118.109px 360px;
