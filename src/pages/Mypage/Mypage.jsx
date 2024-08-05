@@ -26,9 +26,11 @@ import {
 } from './Mypage.style';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Modal from './Modal';
 
 export default function Mypage() {
     const [item, setItem] = useState([0, 1, 2, 3]);
+    const [modal, setModal] = useState(false);
 
     return (
         <div>
@@ -79,7 +81,7 @@ export default function Mypage() {
                                                 </DetailFrame2>
                                             </DetailFrame>
                                         </ProductFrame>
-                                        <ReviewButton>리뷰 작성</ReviewButton>
+                                        <ReviewButton onClick={() => setModal(true)}>리뷰 작성</ReviewButton>
                                     </ProductInfo>
                                 </OrderContainer>
                             );
@@ -87,6 +89,7 @@ export default function Mypage() {
                     </BottomFrame>
                 </MypageFrame>
             </MypageSection>
+            {modal ? <Modal setModal={setModal}></Modal> : null}
         </div>
     );
 }
