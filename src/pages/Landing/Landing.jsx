@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import ProfileSlider from '../../components/Landing/ProfileSlider';
+
 import mockup1 from '../../assets/image/Landing/catchphrase.svg';
 import mockup2 from '../../assets/image/Landing/feature.svg';
 import mockup3 from '../../assets/image/Landing/creator.svg';
@@ -18,10 +20,14 @@ export default function Landing() {
                         <button>지금 둘러보기</button>
                     </Link>
                 </div>
+                
                 <div id="image-container">
                     <img src={mockup1} alt="Mockup 1" />
                 </div>
             </ServiceProfileContainer>
+            <div>
+                <ProfileSlider />
+            </div>
             <FeatureContainer>
                 <img src={mockup2} alt="Mockup 2" />
                 <div>
