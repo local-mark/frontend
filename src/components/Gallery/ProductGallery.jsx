@@ -9,6 +9,8 @@ import mockup2 from '../../assets/image/Gallery/mockup_2.svg';
 import mockup3 from '../../assets/image/Gallery/mockup_3.svg';
 import mockup4 from '../../assets/image/Gallery/mockup_4.svg';
 
+const productsPerPage = 12;
+
 const mockProducts = [
     {
         id: 1,
@@ -118,6 +120,51 @@ const mockProducts = [
         discount_rate: 20,
         price: 10000,
     },
+    {
+        id: 13,
+        image: mockup4,
+        product_name: '제품명',
+        brand_name: '브랜드명',
+        region: '성수',
+        discount_rate: 20,
+        price: 10000,
+    },
+    {
+        id: 14,
+        image: mockup1,
+        product_name: '제품명',
+        brand_name: '브랜드명',
+        region: '제주',
+        discount_rate: 30,
+        price: 50000,
+    },
+    {
+        id: 15,
+        image: mockup2,
+        product_name: '제품명',
+        brand_name: '브랜드명',
+        region: '성수',
+        discount_rate: 20,
+        price: 10000,
+    },
+    {
+        id: 16,
+        image: mockup3,
+        product_name: '제품명',
+        brand_name: '브랜드명',
+        region: '제주',
+        discount_rate: 30,
+        price: 50000,
+    },
+    {
+        id: 17,
+        image: mockup4,
+        product_name: '제품명',
+        brand_name: '브랜드명',
+        region: '제주',
+        discount_rate: 20,
+        price: 10000,
+    },
 ];
 
 const ProductGallery = ({ category, region, query, currentPage, onPageChange }) => {
@@ -140,8 +187,11 @@ const ProductGallery = ({ category, region, query, currentPage, onPageChange }) 
             default:
                 sortedProducts.sort((a, b) => b.viewCount - a.viewCount);
         }
-        setProducts(sortedProducts);
+        const pageProducts = sortedProducts.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
+        setProducts(pageProducts);
     }, [sort, category, region, query, currentPage]);
+
+    const totalPages = Math.ceil(mockProducts.length / productsPerPage);
 
     const handleProductClick = (productId) => {
         navigate(`/gallery/product/${productId}`);
@@ -163,7 +213,7 @@ const ProductGallery = ({ category, region, query, currentPage, onPageChange }) 
                             <ProductPrice>
                                 {product.discount_rate ? (
                                     <>
-                                        <ProductDiscount>{product.discount_rate}%</ProductDiscount>{' '}
+                                        <ProductDiscount>{product.discount_rate}%</ProductDiscount>
                                         {product.price.toLocaleString()}원
                                     </>
                                 ) : (
@@ -174,11 +224,10 @@ const ProductGallery = ({ category, region, query, currentPage, onPageChange }) 
                     </ProductItem>
                 ))}
             </GalleryContainer>
-            <Pagination currentPage={currentPage} totalPages={5} onPageChange={onPageChange} />
+            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
         </GalleryWrapper>
     );
 };
-
 const GalleryWrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -199,7 +248,6 @@ const ProductItem = styled.div`
     display: flex;
     gap: 10px;
     flex-direction: column;
-    margin-bottom: 30px;
     cursor: pointer;
 `;
 
@@ -322,7 +370,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 const PaginationContainer = styled.div`
     display: flex;
     margin-top: 16px;
-    margin-left: 430px;
+    margin-left: 480px;
 `;
 
 const PageButton = styled.button`

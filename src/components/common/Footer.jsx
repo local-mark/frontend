@@ -28,6 +28,9 @@ export default function Footer() {
                     <Column>
                         <StyledLink to="/mypage">마이페이지</StyledLink>
                     </Column>
+                    <Column>
+                        <StyledLink to="/community">크리에이터 커뮤니티</StyledLink>
+                    </Column>
                 </RightSection>
             </FooterContainer>
         </FooterWrapper>
