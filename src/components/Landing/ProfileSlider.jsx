@@ -25,21 +25,22 @@ export default class ProfileSlider extends Component {
         const settings = {
             dots: true,
             infinite: true,
-            speed: 500,
+            speed: 1000,
             slidesToShow: 1,
             slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 3000,
             nextArrow: <Arrow />,
             prevArrow: <Arrow />
         };
 
         const sliderStyle = {
-            backgroundColor: '#f0f0f0', // 슬라이더 전체 배경색
-            padding: '20px' // 슬라이더 내부 패딩
+            backgroundColor: '#f0f0f0',
+            padding: '20px'
         };
 
         return (
             <div style={sliderStyle}>
-                <h2> Single Item</h2>
                 <StyledSlider {...settings}>
                     <StyledBox>
                         <StyledImg src={mockup1} alt="Mockup 1" />
@@ -61,7 +62,7 @@ export default class ProfileSlider extends Component {
 
 const StyledSlider = styled(Slider)`
     .slick-list {
-        width: 1600px;
+        width: 40vw;
         margin: 0 auto;
     }
 
@@ -80,10 +81,14 @@ const StyledSlider = styled(Slider)`
 `;
 
 const StyledBox = styled.div`
-    cursor: pointer;
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
 `;
 
 const StyledImg = styled.img`
-    width: 380px;
-    height: 190px;
+    width: 40vw;
+    height: 30vw;
 `;

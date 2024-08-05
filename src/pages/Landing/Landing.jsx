@@ -20,14 +20,8 @@ export default function Landing() {
                         <button>지금 둘러보기</button>
                     </Link>
                 </div>
-                
-                <div id="image-container">
-                    <img src={mockup1} alt="Mockup 1" />
-                </div>
-            </ServiceProfileContainer>
-            <div>
                 <ProfileSlider />
-            </div>
+            </ServiceProfileContainer>
             <FeatureContainer>
                 <img src={mockup2} alt="Mockup 2" />
                 <div>
