@@ -25,6 +25,7 @@ import {
     ReviewButton,
 } from './Mypage.style';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Mypage() {
     const [item, setItem] = useState([0, 1, 2, 3]);
@@ -36,7 +37,9 @@ export default function Mypage() {
                     <TopFrame>
                         <NicknameContainer>
                             <div>닉네임님</div>
-                            <DesignedIcons></DesignedIcons>
+                            <Link to="userid">
+                                <DesignedIcons></DesignedIcons>
+                            </Link>
                         </NicknameContainer>
                         <RecentorderContainer>
                             <RecentFrame>
