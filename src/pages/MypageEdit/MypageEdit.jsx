@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import {
     AgreeFrame,
     Button,
@@ -65,9 +66,11 @@ export default function MypageEdit() {
                                                 <InputField>
                                                     <Input></Input>
                                                 </InputField>
-                                                <OkButton>
-                                                    <OkbuttonLayer>변경</OkbuttonLayer>
-                                                </OkButton>
+                                                <Link to="newpassword">
+                                                    <OkButton>
+                                                        <OkbuttonLayer>변경</OkbuttonLayer>
+                                                    </OkButton>
+                                                </Link>
                                             </TempFrame3>
                                         </FormFrame>
                                     </PwFrame>
