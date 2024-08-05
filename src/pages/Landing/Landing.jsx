@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import ProfileSlider from '../../components/Landing/ProfileSlider';
 
-import mockup1 from '../../assets/image/Landing/catchphrase.svg';
+import mockup1 from '../../assets/image/Gallery/mockup_1.svg';
 import mockup2 from '../../assets/image/Landing/feature.svg';
 import mockup3 from '../../assets/image/Landing/creator.svg';
 import mockup4 from '../../assets/image/Landing/consumer.svg';
@@ -13,14 +13,13 @@ export default function Landing() {
     return (
         <LandingContainer>
             <ServiceProfileContainer>
-                <div id="text-container">
-                    <p id="catchphrase">로컬마크 캐치프레이즈</p>
-                    <p>로컬마크 상세 설명 페이지</p>
-                    <Link to="/gallery">
-                        <button>지금 둘러보기</button>
-                    </Link>
-                </div>
-                <ProfileSlider />
+               <img src={mockup1} alt='Sample' className='background-image' />
+               <OverlayBox></OverlayBox>
+               <ProfileContents>
+                    <div className='title'>Local Mark</div>
+                    <div className='explain'>now, local mark</div>
+                    <button>Start Now!</button>
+               </ProfileContents>
             </ServiceProfileContainer>
             <FeatureContainer>
                 <img src={mockup2} alt="Mockup 2" />
@@ -90,54 +89,57 @@ const LandingContainer = styled.div`
 `;
 
 const ServiceProfileContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: left;
-    margin-bottom: 100px;
-    width: 80%;
-    margin: 0 auto;
-
-    .text-container,
-    .image-container {
-        flex: 1;
-    }
-
-    .text-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .image-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    #catchphrase {
-        font-size: 4em;
-        font-weight: bold;
-    }
-
-    button {
-        margin: 10px;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #0056b3;
-    }
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
 
     img {
         width: 100%;
-        max-width: 400px;
         height: auto;
+        display: block;
+    }
+`;
+
+const OverlayBox = styled.div`
+    position: 'absolute';
+    top: 0;
+    left: 0;
+    width: '100%';
+    height: '100%';
+    backgroundColor: 'rgba(0, 0, 0, 0.5)';
+`;
+
+const ProfileContents = styled.div`
+    position: 'absolute';
+    top: '50%';
+    left: '50%';
+    transform: 'translate(-50%, -50%)';
+    textAlign: 'center';
+
+    .title {
+        color: 'green';
+        fontSize: '54px';
+        fontWeight: 'bold';
+        marginBottom: '30px';
+    }
+
+    .explain {
+        color: 'white';
+        fontSize: '24px';
+        marginBottom: '20px';
+    }
+
+    button {
+        padding: '10px 20px';
+        fontSize: '16px';
+        fontWeight: 'bold';
+        color: 'white';
+        backgroundColor: '#007BFF';
+        border: 'none';
+        borderRadius: '5px';
+        cursor: 'pointer';
+        transition: 'background-color 0.3s';
     }
 `;
 
