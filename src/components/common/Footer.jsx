@@ -39,11 +39,10 @@ export default function Footer() {
 
 const FooterWrapper = styled.div`
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 2100px;
-    min-width: 1500px;
+    min-width: 1300px;
     height: 296px;
     padding: 50px 354px 118.109px 360px;
     border-top: 0.5px solid var(--Color-Gray-gray-400, #bdbdbd);
