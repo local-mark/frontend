@@ -82,7 +82,7 @@ const Sidebar = () => {
 const SidebarWrapper = styled.div`
     width: 250px;
     padding: 20px;
-    margin-left: 200px;
+    margin-left: 150px;
     margin-top: 30px;
 `;
 

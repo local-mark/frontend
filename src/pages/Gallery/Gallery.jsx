@@ -37,11 +37,19 @@ const Gallery = () => {
 
 const GalleryContainer = styled.div`
     display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    box-sizing: border-box;
 `;
 
 const Content = styled.div`
     flex: 1;
     padding: 20px;
+    max-width: 1600px;
+    min-width: 1400px;
+    width: 100%;
+    box-sizing: border-box;
 `;
 
 export default Gallery;
