@@ -17,6 +17,7 @@ export const ModalBackground = styled.div`
     flex-shrink: 0;
     background: rgba(0, 0, 0, 0.16);
     backdrop-filter: blur(4px);
+    overflow-y: auto; /* 추가: 내용이 넘칠 경우 스크롤 추가 */
 `;
 
 export const Review = styled.div`
