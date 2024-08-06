@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import ImageOverlay from '../../components/Landing/ImageOverlay';
+
 import ProfileSlider from '../../components/Landing/ProfileSlider';
 
 import mockup1 from '../../assets/image/Gallery/mockup_1.svg';
@@ -12,25 +14,33 @@ import mockup4 from '../../assets/image/Landing/consumer.svg';
 export default function Landing() {
     return (
         <LandingContainer>
-            <ServiceProfileContainer>
-               <img src={mockup1} alt='Sample' className='background-image' />
-               <OverlayBox></OverlayBox>
-               <ProfileContents>
-                    <div className='title'>Local Mark</div>
-                    <div className='explain'>now, local mark</div>
-                    <button>Start Now!</button>
-               </ProfileContents>
-            </ServiceProfileContainer>
+            <ImageOverlay
+                    imageSrc={mockup1}
+                    overlayColor="rgba(0, 0, 0, 0.5)"
+                    contents={
+                      <div>
+                        <h2>
+                            누구보다 특별한 당신에게 <br /><Highlight>로컬이라는 유니크함</Highlight>을 더하다
+                        </h2>
+                        <p>
+                            어디에서도 만나볼 수 없는 로컬 크리에이터들의 제품들을 <br />지금, 로컬마크에서 만나보세요.
+                        </p>
+                        <Link to='/gallery'>
+                            <button>지금 바로 시작하기</button>
+                        </Link>
+                      </div>
+                    }
+            />
             <FeatureContainer>
                 <img src={mockup2} alt="Mockup 2" />
                 <div>
-                    <p id="feature-title">로컬 비즈니스 통계</p>
+                    <p id="feature-title">로컬 비즈?��?�� ?���?</p>
                     <p>
-                        로컬 비즈니스 통계 상술
+                        로컬 비즈?��?�� ?���? ?��?��
                         <br />
-                        로컬 비즈니스 통계 상술
+                        로컬 비즈?��?�� ?���? ?��?��
                         <br />
-                        로컬 비즈니스 통계 상술
+                        로컬 비즈?��?�� ?���? ?��?��
                     </p>
                     <ul>
                         <li>Benefit of Feature</li>
@@ -40,7 +50,7 @@ export default function Landing() {
                 </div>
             </FeatureContainer>
             <TargetedContainer>
-                <TargetTitle>타겟별 니즈 설명</TargetTitle>
+                <TargetTitle>???겟별 ?���? ?���?</TargetTitle>
                 <TargetCreater>
                     <img src={mockup3} alt="Mockup 3" />
                     <p>
@@ -66,14 +76,14 @@ export default function Landing() {
             </TargetedContainer>
             <SignUpLinkContainer>
                 <SignUpTitleContainer>
-                    <SignUpTitle>지금 회원가입하기</SignUpTitle>
+                    <SignUpTitle>�?�? ?��?���??��?���?</SignUpTitle>
                 </SignUpTitleContainer>
                 <SignUpButtonContainer>
                     <Link to="/signup">
-                        <button>로컬 크리에이터</button>
+                        <button>로컬 ?��리에?��?��</button>
                     </Link>
                     <Link to="/signup">
-                        <button>소비자</button>
+                        <button>?��비자</button>
                     </Link>
                 </SignUpButtonContainer>
             </SignUpLinkContainer>
@@ -85,8 +95,12 @@ const LandingContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding-bottom: 20px;
 `;
+
+const Highlight = styled.span`
+    color: #65BD83;
+`
 
 const ServiceProfileContainer = styled.div`
     position: relative;
