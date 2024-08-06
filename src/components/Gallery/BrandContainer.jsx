@@ -1,10 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import mockup1 from '../../assets/image/Gallery/mockup_1.svg';
-import mockup2 from '../../assets/image/Gallery/mockup_2.svg';
-import mockup3 from '../../assets/image/Gallery/mockup_3.svg';
-import mockup4 from '../../assets/image/Gallery/mockup_4.svg';
 
 const mockData = {
     brand: [
@@ -24,7 +20,7 @@ export default function BrandContainer() {
     const brand = mockData.brand[0];
 
     const handleBrandProfileClick = () => {
-        navigate(`/brand/${brand.brand_id}`);
+        navigate(`/brand/${brand.brand_id}/products`);
     };
 
     return (
