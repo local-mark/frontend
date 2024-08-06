@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaChevronUp } from 'react-icons/fa';
 
 const categories = [
@@ -31,16 +31,45 @@ const categories = [
 ];
 
 const Sidebar = () => {
-    const [openCategory, setOpenCategory] = useState(0);
+    const [openCategory, setOpenCategory] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(0);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.pathname === '/gallery') {
+            setOpenCategory(0);
+        } else {
+            categories.forEach((category, index) => {
+                if (category.subcategories) {
+                    category.subcategories.forEach((subcategory) => {
+                        if (location.pathname.includes(subcategory)) {
+                            setOpenCategory(index);
+                            setSelectedCategory(index);
+                        }
+                    });
+                }
+            });
+        }
+    }, [location.pathname]);
 
     const handleCategoryClick = (index) => {
-        setOpenCategory(openCategory === index ? null : index);
+        if (categories[index].link) {
+            navigate(categories[index].link);
+        } else {
+            setOpenCategory(openCategory === index ? null : index);
+        }
+    };
+
+    const handleSubcategoryClick = (index, subcategory) => {
+        setSelectedCategory(index);
+        navigate(`/${subcategory}`);
     };
 
     return (
         <SidebarWrapper>
             <SelectedCategory>
-                <CategoryTitle active={true}>{categories[openCategory].name}</CategoryTitle>
+                <CategoryTitle active={true}>{categories[selectedCategory].name}</CategoryTitle>
                 <Divider />
             </SelectedCategory>
             <SidebarContainer>
@@ -59,7 +88,12 @@ const Sidebar = () => {
                                     <SubcategoryList>
                                         {category.subcategories.map((subcategory) => (
                                             <SubcategoryItem key={subcategory}>
-                                                <Link to={`/${subcategory}`}>{subcategory}</Link>
+                                                <Link
+                                                    onClick={() => handleSubcategoryClick(index, subcategory)}
+                                                    to={`/${subcategory}`}
+                                                >
+                                                    {subcategory}
+                                                </Link>
                                             </SubcategoryItem>
                                         ))}
                                     </SubcategoryList>
@@ -113,6 +147,7 @@ const CategoryName = styled.div`
     letter-spacing: -0.36px;
     color: ${(props) => (props.active ? '#65BD83' : '#000')};
 `;
+
 const CategoryTitle = styled.div`
     color: var(--Color-Text-primary, #222);
     font-family: Pretendard;
@@ -122,11 +157,12 @@ const CategoryTitle = styled.div`
     line-height: 140%; /* 33.6px */
     letter-spacing: -0.48px;
 `;
+
 const Divider = styled.div`
     width: 204px;
     height: 4px;
     background: var(--Color-Main-primary, #65bd83);
-    margin: 5px 0; /* Add some margin for spacing */
+    margin: 5px 0;
 `;
 
 const SubcategoryList = styled.ul`
