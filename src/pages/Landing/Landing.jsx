@@ -11,6 +11,10 @@ import mockup2 from '../../assets/image/Landing/feature.svg';
 import mockup3 from '../../assets/image/Landing/creator.svg';
 import mockup4 from '../../assets/image/Landing/consumer.svg';
 
+import masanai from '../../assets/image/Landing/masanai.svg';
+import dodari from '../../assets/image/Landing/dodari.svg';
+import soonsoap from '../../assets/image/Landing/soonsoap.svg';
+
 export default function Landing() {
     return (
         <LandingContainer>
@@ -31,6 +35,31 @@ export default function Landing() {
                       </div>
                     }
             />
+            <div>
+                <CreatorContainer>
+                    <div>
+                        <h4>로컬 크리에이터</h4>
+                        <p>지역의 자연•문화 특성과 아이디어를 결합해 사업적 가치를 창출하는 창업가
+                        </p>
+                        <button>로컬 크리에이터로 시작하기</button>
+                    </div>
+                    <div>
+                        <img src={masanai} alt='masanai' />
+                        <img src={dodari} alt='dodari' />
+                        <img src={soonsoap} alt='soonsoap' />
+                    </div>
+                </CreatorContainer>
+                <ConsumerContainer>
+                    <div>
+                        <img src={dodari} alt='dodari' />
+                        <img src={soonsoap} alt='soonsoap' />
+                    </div>
+                    <div>
+                        <h4>직접 인증받은 브랜드만 입점</h4>
+                        <button>로컬 컨슈머로 시작하기</button>
+                    </div>
+                </ConsumerContainer>
+            </div>
             <FeatureContainer>
                 <img src={mockup2} alt="Mockup 2" />
                 <div>
@@ -102,60 +131,15 @@ const Highlight = styled.span`
     color: #65BD83;
 `
 
-const ServiceProfileContainer = styled.div`
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-    margin: auto;
+const CreatorContainer = styled.div`
+    flex-direction: row;
+    padding: 20px;
+`
 
-    img {
-        width: 100%;
-        height: auto;
-        display: block;
-    }
-`;
-
-const OverlayBox = styled.div`
-    position: 'absolute';
-    top: 0;
-    left: 0;
-    width: '100%';
-    height: '100%';
-    backgroundColor: 'rgba(0, 0, 0, 0.5)';
-`;
-
-const ProfileContents = styled.div`
-    position: 'absolute';
-    top: '50%';
-    left: '50%';
-    transform: 'translate(-50%, -50%)';
-    textAlign: 'center';
-
-    .title {
-        color: 'green';
-        fontSize: '54px';
-        fontWeight: 'bold';
-        marginBottom: '30px';
-    }
-
-    .explain {
-        color: 'white';
-        fontSize: '24px';
-        marginBottom: '20px';
-    }
-
-    button {
-        padding: '10px 20px';
-        fontSize: '16px';
-        fontWeight: 'bold';
-        color: 'white';
-        backgroundColor: '#007BFF';
-        border: 'none';
-        borderRadius: '5px';
-        cursor: 'pointer';
-        transition: 'background-color 0.3s';
-    }
-`;
+const ConsumerContainer = styled.div`
+    flex-direction: row;
+    padding: 20px;
+`
 
 const FeatureContainer = styled.div`
     display: flex;
