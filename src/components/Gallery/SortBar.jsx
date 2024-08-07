@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { FaCaretDown } from 'react-icons/fa';
 
@@ -36,6 +36,7 @@ const SortContainer = styled.div`
     justify-content: flex-end;
     position: relative;
     margin-right: 40px;
+    margin-top: 10px;
 `;
 
 const SortButton = styled.button`
