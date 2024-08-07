@@ -37,16 +37,47 @@ export default function Landing() {
             />
             <div>
                 <CreatorContainer>
-                    <div>
+                    <div className='TextContainer'>
                         <h4>로컬 크리에이터</h4>
-                        <p>지역의 자연•문화 특성과 아이디어를 결합해 사업적 가치를 창출하는 창업가
-                        </p>
-                        <button>로컬 크리에이터로 시작하기</button>
+                        <p>지역의 자연•문화 특성과 아이디어를 결합해 사업적 가치를 창출하는 창업가</p>
+                        <Link to="/signup?role=Creator">
+                            <button>로컬 크리에이터로 시작하기</button>
+                        </Link>
                     </div>
-                    <div>
-                        <img src={masanai} alt='masanai' />
-                        <img src={dodari} alt='dodari' />
-                        <img src={soonsoap} alt='soonsoap' />
+                    <div className='ImageBoxContainer'>
+                        <div className='ImageBox'>
+                            <img src={masanai} alt='masanai' />
+                            <div className='caption'>
+                                <p className='explain'>
+                                    경상남도 마산의 로컬 패션 브랜드
+                                </p>
+                                <p className='brandName'>
+                                    마사나이
+                                </p>
+                            </div>
+                        </div>
+                        <div className='ImageBox'>
+                            <img src={dodari} alt='dodari' />
+                            <div className='caption'>
+                                <p className='explain'>
+                                    부산 영도의 아웃도어 디자인 브랜드
+                                </p>
+                                <p className='brandName'>
+                                    도다리비쥬얼랩
+                                </p>
+                            </div>
+                        </div>
+                        <div className='ImageBox'>
+                            <img src={soonsoap} alt='soonsoap' />
+                            <div className='caption'>
+                                <p className='explain'>
+                                    전남 순천의 로컬 비누 브랜드
+                                </p>
+                                <p className='brandName'>
+                                    순솝
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </CreatorContainer>
                 <ConsumerContainer>
@@ -56,7 +87,9 @@ export default function Landing() {
                     </div>
                     <div>
                         <h4>직접 인증받은 브랜드만 입점</h4>
-                        <button>로컬 컨슈머로 시작하기</button>
+                        <Link to="/signup?role=Consumer">
+                            <button>로컬 컨슈머로 시작하기</button>
+                        </Link>
                     </div>
                 </ConsumerContainer>
             </div>
@@ -132,8 +165,53 @@ const Highlight = styled.span`
 `
 
 const CreatorContainer = styled.div`
-    flex-direction: row;
+    display: flex;
+    width: 100vw;
     padding: 20px;
+
+    .TextContainer {
+        flex: 0 0 25%;
+    }
+
+    h4 {
+        color: #FF8162;
+    }
+
+    .ImageBoxContainer {
+        display: flex;
+        flex-direction: row;
+        flex: 0 0 75%;
+
+        .ImageBox {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+
+            .caption {
+                .explain {
+                    color: blue;
+                }
+
+                .brandName {
+                    color: green;
+                }
+            }
+        }
+    }
+`;
+
+const ImageBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    .explain {
+        color: yellow;
+    }
+
+    .brandName {
+        color: purple;
+    }
 `
 
 const ConsumerContainer = styled.div`
