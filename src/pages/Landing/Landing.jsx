@@ -85,7 +85,7 @@ export default function Landing() {
                         <img src={dodari} alt='dodari' />
                         <img src={soonsoap} alt='soonsoap' />
                     </div>
-                    <div>
+                    <div className=''>
                         <h4>직접 인증받은 브랜드만 입점</h4>
                         <Link to="/signup?role=Consumer">
                             <button>로컬 컨슈머로 시작하기</button>
@@ -171,10 +171,23 @@ const CreatorContainer = styled.div`
 
     .TextContainer {
         flex: 0 0 25%;
+        justify-content: center;
+        text-align: start;
+
+        button {
+            background-color: #FF8162;
+            color: white;
+            border: none;
+            padding: 10px 40px;
+            cursor: pointer;
+            font-size: 1.5em;
+            border-radius: 5px;
+        }
     }
 
     h4 {
-        color: #FF8162;
+        font-size: 2.25em;
+        font-weight: bold;
     }
 
     .ImageBoxContainer {
@@ -199,20 +212,6 @@ const CreatorContainer = styled.div`
         }
     }
 `;
-
-const ImageBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-
-    .explain {
-        color: yellow;
-    }
-
-    .brandName {
-        color: purple;
-    }
-`
 
 const ConsumerContainer = styled.div`
     flex-direction: row;
