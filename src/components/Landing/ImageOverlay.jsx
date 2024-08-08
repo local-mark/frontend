@@ -25,7 +25,7 @@ const Overlay = styled.div`
   bottom: 0;
   display: flex;
   justify-content: center;
-  background-color: ${({ overlayColor }) => overlayColor || 'rgba(0, 0, 0, 0.5)'};
+  background-color: rgba(0, 0, 0, 0.5);
   padding-top: 5%;
   padding-left: 15%;
   padding-right: 50%;
@@ -58,16 +58,37 @@ const ContentContainer = styled.div`
   }
 `;
 
+const Arrow = styled.div`
+  position: absolute;
+  bottom: 20px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid white;
+  cursor: pointer;
 
+  &:hover {
+    border-top: 10px solid #65BD83;
+  }
+`;
 
-const ImageOverlay = ({ imageSrc, overlayColor, contents }) => {
+const ImageOverlay = ({ imageSrc, contents }) => {
+  const scrollToNextSection = () => {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <ImageContainer>
       <Image src={imageSrc} alt="Overlay" />
-      <Overlay overlayColor={overlayColor}>
+      <Overlay>
         <ContentContainer>
           {contents}
         </ContentContainer>
+        <Arrow onClick={scrollToNextSection} />
       </Overlay>
     </ImageContainer>
   );

@@ -20,7 +20,6 @@ export default function Landing() {
         <LandingContainer>
             <ImageOverlay
                     imageSrc={mockup1}
-                    overlayColor="rgba(0, 0, 0, 0.5)"
                     contents={
                       <div>
                         <h2>
