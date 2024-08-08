@@ -80,11 +80,11 @@ export default function Landing() {
                     </div>
                 </CreatorContainer>
                 <ConsumerContainer>
-                    <div>
+                    <div className='ImageBox'>
                         <img src={dodari} alt='dodari' />
                         <img src={soonsoap} alt='soonsoap' />
                     </div>
-                    <div className=''>
+                    <div className='TextBox'>
                         <h4>직접 인증받은 브랜드만 입점</h4>
                         <Link to="/signup?role=Consumer">
                             <button>로컬 컨슈머로 시작하기</button>
@@ -135,19 +135,6 @@ export default function Landing() {
                     <img src={mockup4} alt="Mockup 4" />
                 </TargetConsumer>
             </TargetedContainer>
-            <SignUpLinkContainer>
-                <SignUpTitleContainer>
-                    <SignUpTitle>�?�? ?��?���??��?���?</SignUpTitle>
-                </SignUpTitleContainer>
-                <SignUpButtonContainer>
-                    <Link to="/signup">
-                        <button>로컬 ?��리에?��?��</button>
-                    </Link>
-                    <Link to="/signup">
-                        <button>?��비자</button>
-                    </Link>
-                </SignUpButtonContainer>
-            </SignUpLinkContainer>
         </LandingContainer>
     );
 }
@@ -166,15 +153,15 @@ const Highlight = styled.span`
 const CreatorContainer = styled.div`
     display: flex;
     width: 100vw;
+    height: 43vh;
     padding: 20px;
 
     .TextContainer {
         flex: 0 0 25%;
-        justify-content: center;
-        text-align: start;
+        align-items: flex-start;
 
         button {
-            background-color: #FF8162;
+            background-color: #65BD83;
             color: white;
             border: none;
             padding: 10px 40px;
@@ -197,7 +184,6 @@ const CreatorContainer = styled.div`
         .ImageBox {
             display: flex;
             flex-direction: column;
-            flex: 1;
 
             .caption {
                 .explain {
@@ -213,9 +199,36 @@ const CreatorContainer = styled.div`
 `;
 
 const ConsumerContainer = styled.div`
-    flex-direction: row;
+    width: 100vw;
+    height: 43vh;
     padding: 20px;
-`
+
+    .ImageBox {
+        flex-direction: row;
+        flex: 0 0 50%;
+    }
+    
+    h4 {
+        font-size: 2.25em;
+        font-weight: bold;
+    }
+
+    .TextBox {
+        flex: 0 0 50%;
+        flex-direction: column;
+        align-items: flex-end;
+
+        button {
+            background-color: #FF8162;
+            color: white;
+            border: none;
+            padding: 10px 40px;
+            cursor: pointer;
+            font-size: 1.5em;
+            border-radius: 5px;
+        }
+    }
+`;
 
 const FeatureContainer = styled.div`
     display: flex;
@@ -305,59 +318,5 @@ const TargetConsumer = styled.div`
 
     p {
         flex: 1;
-    }
-`;
-
-const SignUpLinkContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 80%;
-    margin: 0 auto;
-`;
-
-const SignUpTitleContainer = styled.div`
-    flex: 2;
-    display: flex;
-    justify-content: center;
-`;
-
-const SignUpButtonContainer = styled.div`
-    flex: 1;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-    button {
-        margin: 10px;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-
-        &:hover {
-            background-color: #0056b3;
-        }
-    }
-`;
-
-const SignUpTitle = styled.h4`
-    font-size: 2em;
-    font-weight: bold;
-`;
-
-const SignUpButton = styled.button`
-    margin: 10px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-
-    &:hover {
-        background-color: #0056b3;
     }
 `;

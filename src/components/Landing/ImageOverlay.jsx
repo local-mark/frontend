@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const ImageContainer = styled.div`
   position: relative;
   width: 100vw;
-  height: 80vh;
+  height: 87vh;
   overflow: hidden;
 `;
 
@@ -26,13 +26,13 @@ const Overlay = styled.div`
   display: flex;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.5);
-  padding-top: 5%;
-  padding-left: 15%;
-  padding-right: 50%;
 `;
 
 const ContentContainer = styled.div`
   text-align: left;
+  padding-top: 5%;
+  padding-left: 15%;
+  padding-right: 50%;
 
   h2 {
     color: white;
@@ -63,13 +63,13 @@ const Arrow = styled.div`
   bottom: 20px;
   width: 0;
   height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 10px solid white;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid white;
   cursor: pointer;
 
   &:hover {
-    border-top: 10px solid #65BD83;
+    border-top: 25px solid #65BD83;
   }
 `;
 
