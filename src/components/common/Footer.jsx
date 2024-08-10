@@ -26,10 +26,10 @@ export default function Footer() {
                         </SubMenu>
                     </Column>
                     <Column>
-                        <StyledLink to="/mypage">마이페이지</StyledLink>
+                        <StyledLink to="/community">크리에이터 커뮤니티</StyledLink>
                     </Column>
                     <Column>
-                        <StyledLink to="/community">크리에이터 커뮤니티</StyledLink>
+                        <StyledLink to="/mypage">마이페이지</StyledLink>
                     </Column>
                 </RightSection>
             </FooterContainer>

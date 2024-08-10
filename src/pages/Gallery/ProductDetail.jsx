@@ -25,8 +25,8 @@ const mockProducts = [
         description_images: [mockup2, mockup3],
         colors: ['핑크', '레드'],
         sizes: ['s', 'm', 'l'],
-        rating: 4.5,
-        reviewCount: 108,
+        star_avg: 4.5,
+        review_cnt: 108,
         shipping_info: '3',
     },
     {
@@ -43,8 +43,8 @@ const mockProducts = [
         description_images: [mockup1, mockup4],
         colors: ['블루', '그린'],
         sizes: ['s', 'm'],
-        rating: 4.2,
-        reviewCount: 56,
+        star_avg: 4.2,
+        review_cnt: 56,
         shipping_info: '3',
     },
     {
@@ -61,8 +61,8 @@ const mockProducts = [
         description_images: [mockup2, mockup3],
         colors: ['핑크', '레드'],
         sizes: ['s', 'm', 'l'],
-        rating: 4.5,
-        reviewCount: 108,
+        star_avg: 4.5,
+        review_cnt: 108,
         shipping_info: '3',
     },
     {
@@ -79,8 +79,8 @@ const mockProducts = [
         description_images: [mockup1, mockup4],
         colors: ['블루', '그린'],
         sizes: ['s', 'm'],
-        rating: 4.2,
-        reviewCount: 56,
+        star_avg: 4.2,
+        review_cnt: 56,
         shipping_info: '3',
     },
     {
@@ -97,8 +97,8 @@ const mockProducts = [
         description_images: [mockup2, mockup3],
         colors: ['핑크', '레드'],
         sizes: ['s', 'm', 'l'],
-        rating: 4.5,
-        reviewCount: 108,
+        star_avg: 4.5,
+        review_cnt: 108,
         shipping_info: '3',
     },
     {
@@ -115,8 +115,8 @@ const mockProducts = [
         description_images: [mockup1, mockup4],
         colors: ['블루', '그린'],
         sizes: ['s', 'm'],
-        rating: 4.2,
-        reviewCount: 56,
+        star_avg: 4.2,
+        review_cnt: 56,
         shipping_info: '3',
     },
 ];
@@ -188,10 +188,10 @@ const ProductDetail = () => {
                         <ProductName>{product.product_name}</ProductName>
                         <Rating>
                             {Array.from({ length: 5 }, (_, index) => (
-                                <FaStar key={index} color={index < product.rating ? '#65BD83' : '#ddd'} />
+                                <FaStar key={index} color={index < product.star_avg ? '#65BD83' : '#ddd'} />
                             ))}
-                            <RatingValue>{product.rating.toFixed(1)}</RatingValue>
-                            <ReviewLink href="#reviews">{product.reviewCount}개 리뷰 보기</ReviewLink>
+                            <RatingValue>{product.star_avg.toFixed(1)}</RatingValue>
+                            <ReviewLink href="#reviews">{product.review_cnt}개 리뷰 보기</ReviewLink>
                         </Rating>
                         <PriceContainer>
                             <Discount>{product.discount_rate}%</Discount>
