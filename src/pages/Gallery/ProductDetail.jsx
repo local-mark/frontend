@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaChevronRight, FaChevronLeft, FaStar, FaTimes } from 'react-icons/fa';
 import BrandContainer from '../../components/Gallery/BrandContainer';
 import ProductContent from '../../components/Gallery/ProductContent';
+import { CartContext } from '../../store/CartContext';
 
 import mockup1 from '../../assets/image/Gallery/mockup_1.svg';
 import mockup2 from '../../assets/image/Gallery/mockup_2.svg';
@@ -12,118 +13,354 @@ import mockup4 from '../../assets/image/Gallery/mockup_4.svg';
 
 const mockProducts = [
     {
-        product_id: 1,
-        brand_id: 1,
-        product_name: 'Palace Tee-Light Pink',
-        brand_name: '푸른',
-        region: '서울',
-        price: 50000,
-        discount_rate: 30,
-        delivery_fee: 3000,
-        description: '따스한 ~~ ',
-        images: [mockup1, mockup2, mockup3, mockup4],
-        description_images: [mockup2, mockup3],
-        colors: ['핑크', '레드'],
-        sizes: ['s', 'm', 'l'],
-        star_avg: 4.5,
-        review_cnt: 108,
-        shipping_info: '3',
+        isSuccess: true,
+        code: 2000,
+        message: 'SUCCESS!',
+        result: {
+            product: {
+                product_id: 1,
+                brand_id: 1,
+                product_name: '상의1',
+                brand_name: '푸른',
+                price: 12000,
+                discount_rate: 30,
+                delivery_fee: 3000,
+                description: '따스한 ~~ ',
+                star_avg: 3.5,
+                review_cnt: 2,
+            },
+            options: [
+                {
+                    opt_comb_id: 1,
+                    option_type: {
+                        색상: '초록',
+                        사이즈: 'S',
+                    },
+                    stock: 10,
+                },
+                {
+                    opt_comb_id: 2,
+                    option_type: {
+                        색상: '초록',
+                        사이즈: 'M',
+                    },
+                    stock: 5,
+                },
+                {
+                    opt_comb_id: 3,
+                    option_type: {
+                        색상: '노랑',
+                        사이즈: 'S',
+                    },
+                    stock: 3,
+                },
+                {
+                    opt_comb_id: 4,
+                    option_type: {
+                        색상: '노랑',
+                        사이즈: 'M',
+                    },
+                    stock: 15,
+                },
+            ],
+            images: [mockup1, mockup2, mockup3],
+        },
     },
     {
-        product_id: 2,
-        brand_id: 2,
-        product_name: 'Palace Tee-Light Pink',
-        brand_name: '하얀',
-        region: '부산',
-        price: 10000,
-        discount_rate: 20,
-        delivery_fee: 2000,
-        description: '부드러운 ~~ ',
-        images: [mockup2, mockup3, mockup4],
-        description_images: [mockup1, mockup4],
-        colors: ['블루', '그린'],
-        sizes: ['s', 'm'],
-        star_avg: 4.2,
-        review_cnt: 56,
-        shipping_info: '3',
+        isSuccess: true,
+        code: 2000,
+        message: 'SUCCESS!',
+        result: {
+            product: {
+                product_id: 2,
+                brand_id: 2,
+                product_name: '상의2',
+                brand_name: '하얀',
+                price: 8000,
+                discount_rate: 20,
+                delivery_fee: 2500,
+                description: '편안한 ~~ ',
+                star_avg: 4.0,
+                review_cnt: 15,
+            },
+            options: [
+                {
+                    opt_comb_id: 5,
+                    option_type: {
+                        색상: '파랑',
+                        사이즈: 'S',
+                    },
+                    stock: 20,
+                },
+                {
+                    opt_comb_id: 6,
+                    option_type: {
+                        색상: '파랑',
+                        사이즈: 'M',
+                    },
+                    stock: 10,
+                },
+                {
+                    opt_comb_id: 7,
+                    option_type: {
+                        색상: '빨강',
+                        사이즈: 'S',
+                    },
+                    stock: 8,
+                },
+                {
+                    opt_comb_id: 8,
+                    option_type: {
+                        색상: '빨강',
+                        사이즈: 'M',
+                    },
+                    stock: 12,
+                },
+            ],
+            images: [mockup2, mockup3, mockup4],
+        },
     },
     {
-        product_id: 1,
-        brand_id: 1,
-        product_name: 'Palace Tee-Light Pink',
-        brand_name: '푸른',
-        region: '서울',
-        price: 50000,
-        discount_rate: 30,
-        delivery_fee: 3000,
-        description: '따스한 ~~ ',
-        images: [mockup1, mockup2, mockup3, mockup4],
-        description_images: [mockup2, mockup3],
-        colors: ['핑크', '레드'],
-        sizes: ['s', 'm', 'l'],
-        star_avg: 4.5,
-        review_cnt: 108,
-        shipping_info: '3',
+        isSuccess: true,
+        code: 2000,
+        message: 'SUCCESS!',
+        result: {
+            product: {
+                product_id: 3,
+                brand_id: 1,
+                product_name: '상의3',
+                brand_name: '푸른',
+                price: 15000,
+                discount_rate: 25,
+                delivery_fee: 3000,
+                description: '포근한 ~~ ',
+                star_avg: 4.3,
+                review_cnt: 5,
+            },
+            options: [
+                {
+                    opt_comb_id: 9,
+                    option_type: {
+                        색상: '초록',
+                        사이즈: 'L',
+                    },
+                    stock: 7,
+                },
+                {
+                    opt_comb_id: 10,
+                    option_type: {
+                        색상: '파랑',
+                        사이즈: 'L',
+                    },
+                    stock: 5,
+                },
+            ],
+            images: [mockup1, mockup4, mockup2],
+        },
     },
     {
-        product_id: 2,
-        brand_id: 2,
-        product_name: 'Palace Tee-Light Pink',
-        brand_name: '하얀',
-        region: '부산',
-        price: 10000,
-        discount_rate: 20,
-        delivery_fee: 2000,
-        description: '부드러운 ~~ ',
-        images: [mockup2, mockup3, mockup4],
-        description_images: [mockup1, mockup4],
-        colors: ['블루', '그린'],
-        sizes: ['s', 'm'],
-        star_avg: 4.2,
-        review_cnt: 56,
-        shipping_info: '3',
+        isSuccess: true,
+        code: 2000,
+        message: 'SUCCESS!',
+        result: {
+            product: {
+                product_id: 4,
+                brand_id: 3,
+                product_name: '상의4',
+                brand_name: '편안',
+                price: 60000,
+                discount_rate: 10,
+                delivery_fee: 5000,
+                description: '폭신한 ~~ ',
+                star_avg: 4.7,
+                review_cnt: 25,
+            },
+            options: [
+                {
+                    opt_comb_id: 11,
+                    option_type: {
+                        색상: '회색',
+                        사이즈: 'Queen',
+                    },
+                    stock: 3,
+                },
+                {
+                    opt_comb_id: 12,
+                    option_type: {
+                        색상: '회색',
+                        사이즈: 'King',
+                    },
+                    stock: 2,
+                },
+            ],
+            images: [mockup3, mockup1, mockup4],
+        },
     },
     {
-        product_id: 3,
-        brand_id: 3,
-        product_name: 'Palace Tee-Light Pink',
-        brand_name: '푸른',
-        region: '서울',
-        price: 50000,
-        discount_rate: 30,
-        delivery_fee: 3000,
-        description: '따스한 ~~ ',
-        images: [mockup1, mockup2, mockup3, mockup4],
-        description_images: [mockup2, mockup3],
-        colors: ['핑크', '레드'],
-        sizes: ['s', 'm', 'l'],
-        star_avg: 4.5,
-        review_cnt: 108,
-        shipping_info: '3',
+        isSuccess: true,
+        code: 2000,
+        message: 'SUCCESS!',
+        result: {
+            product: {
+                product_id: 5,
+                brand_id: 2,
+                product_name: '상의5',
+                brand_name: '하얀',
+                price: 25000,
+                discount_rate: 15,
+                delivery_fee: 3500,
+                description: '아늑한 ~~ ',
+                star_avg: 3.9,
+                review_cnt: 30,
+            },
+            options: [
+                {
+                    opt_comb_id: 13,
+                    option_type: {
+                        색상: '베이지',
+                        사이즈: 'S',
+                    },
+                    stock: 25,
+                },
+                {
+                    opt_comb_id: 14,
+                    option_type: {
+                        색상: '베이지',
+                        사이즈: 'L',
+                    },
+                    stock: 15,
+                },
+            ],
+            images: [mockup4, mockup2, mockup1],
+        },
     },
     {
-        product_id: 4,
-        brand_id: 4,
-        product_name: 'Palace Tee-Light Pink',
-        brand_name: '하얀',
-        region: '부산',
-        price: 10000,
-        discount_rate: 20,
-        delivery_fee: 2000,
-        description: '부드러운 ~~ ',
-        images: [mockup2, mockup3, mockup4],
-        description_images: [mockup1, mockup4],
-        colors: ['블루', '그린'],
-        sizes: ['s', 'm'],
-        star_avg: 4.2,
-        review_cnt: 56,
-        shipping_info: '3',
+        isSuccess: true,
+        code: 2000,
+        message: 'SUCCESS!',
+        result: {
+            product: {
+                product_id: 6,
+                brand_id: 3,
+                product_name: '상의6',
+                brand_name: '편안',
+                price: 40000,
+                discount_rate: 20,
+                delivery_fee: 4000,
+                description: '따뜻한 ~~ ',
+                star_avg: 4.6,
+                review_cnt: 10,
+            },
+            options: [
+                {
+                    opt_comb_id: 15,
+                    option_type: {
+                        색상: '회색',
+                        사이즈: 'Medium',
+                    },
+                    stock: 6,
+                },
+                {
+                    opt_comb_id: 16,
+                    option_type: {
+                        색상: '회색',
+                        사이즈: 'Large',
+                    },
+                    stock: 4,
+                },
+            ],
+            images: [mockup3, mockup4, mockup2],
+        },
+    },
+    {
+        isSuccess: true,
+        code: 2000,
+        message: 'SUCCESS!',
+        result: {
+            product: {
+                product_id: 7,
+                brand_id: 1,
+                product_name: '상의7',
+                brand_name: '푸른',
+                price: 100000,
+                discount_rate: 5,
+                delivery_fee: 7000,
+                description: '편안한 ~~ ',
+                star_avg: 4.8,
+                review_cnt: 50,
+            },
+            options: [
+                {
+                    opt_comb_id: 17,
+                    option_type: {
+                        색상: '화이트',
+                        사이즈: 'Single',
+                    },
+                    stock: 4,
+                },
+                {
+                    opt_comb_id: 18,
+                    option_type: {
+                        색상: '화이트',
+                        사이즈: 'Double',
+                    },
+                    stock: 6,
+                },
+            ],
+            images: [mockup2, mockup1, mockup4],
+        },
+    },
+    {
+        isSuccess: true,
+        code: 2000,
+        message: 'SUCCESS!',
+        result: {
+            product: {
+                product_id: 8,
+                brand_id: 2,
+                product_name: '상의8',
+                brand_name: '하얀',
+                price: 50000,
+                discount_rate: 25,
+                delivery_fee: 5000,
+                description: '실용적인 ~~ ',
+                star_avg: 4.2,
+                review_cnt: 18,
+            },
+            options: [
+                {
+                    opt_comb_id: 19,
+                    option_type: {
+                        색상: '갈색',
+                        사이즈: '120cm',
+                    },
+                    stock: 10,
+                },
+                {
+                    opt_comb_id: 20,
+                    option_type: {
+                        색상: '갈색',
+                        사이즈: '150cm',
+                    },
+                    stock: 5,
+                },
+            ],
+            images: [mockup1, mockup3, mockup2],
+        },
     },
 ];
 
 const ProductDetail = () => {
     const { productId } = useParams();
-    const product = mockProducts.find((p) => p.product_id === Number(productId));
+    const productData = mockProducts.find((p) => p.result.product.product_id === Number(productId));
+
+    if (!productData) {
+        return <div>Product not found</div>;
+    }
+
+    const product = productData.result.product;
+    const { addToCart } = useContext(CartContext);
+    const navigate = useNavigate();
 
     const [currentImage, setCurrentImage] = useState(0);
     const [selectedColor, setSelectedColor] = useState('');
@@ -132,18 +369,21 @@ const ProductDetail = () => {
     const [selectedOptions, setSelectedOptions] = useState([]);
 
     const handleNextImage = () => {
-        setCurrentImage((prev) => (prev + 1) % product.images.length);
+        setCurrentImage((prev) => (prev + 1) % productData.result.images.length);
     };
 
     const handlePreviousImage = () => {
-        setCurrentImage((prev) => (prev - 1 + product.images.length) % product.images.length);
+        setCurrentImage((prev) => (prev - 1 + productData.result.images.length) % productData.result.images.length);
     };
 
     useEffect(() => {
         if (selectedColor && selectedSize) {
             const option = `${selectedColor} - ${selectedSize}`;
             if (!selectedOptions.some((opt) => opt.option === option)) {
-                setSelectedOptions([...selectedOptions, { option, quantity, price: product.price }]);
+                setSelectedOptions([
+                    ...selectedOptions,
+                    { option, quantity, price: product.price, delivery_fee: product.delivery_fee },
+                ]);
                 setSelectedColor('');
                 setSelectedSize('');
             }
@@ -162,6 +402,48 @@ const ProductDetail = () => {
 
     const totalOrderPrice = selectedOptions.reduce((sum, opt) => sum + opt.price * opt.quantity, 0);
 
+    const handleAddToCart = () => {
+        if (selectedOptions.length === 0) {
+            alert('선택한 상품이 없습니다.');
+            return;
+        }
+
+        selectedOptions.forEach((opt) => {
+            const selectedItem = {
+                id: product.product_id,
+                name: product.product_name,
+                price: opt.price,
+                option: opt.option,
+                quantity: opt.quantity,
+                delivery_fee: opt.delivery_fee,
+            };
+            addToCart(selectedItem);
+        });
+
+        alert('장바구니에 추가되었습니다.');
+    };
+
+    const handleBuyNow = () => {
+        if (selectedOptions.length === 0) {
+            alert('선택한 상품이 없습니다.');
+            return;
+        }
+
+        selectedOptions.forEach((opt) => {
+            const selectedItem = {
+                id: product.product_id,
+                name: product.product_name,
+                price: opt.price,
+                option: opt.option,
+                quantity: opt.quantity,
+                delivery_fee: opt.delivery_fee,
+            };
+            addToCart(selectedItem);
+        });
+
+        navigate('/cart');
+    };
+
     return (
         <>
             <Wrapper>
@@ -170,12 +452,12 @@ const ProductDetail = () => {
                         <ArrowButtonLeft onClick={handlePreviousImage}>
                             <FaChevronLeft />
                         </ArrowButtonLeft>
-                        <ProductImage src={product.images[currentImage]} alt="제품 이미지" />
+                        <ProductImage src={productData.result.images[currentImage]} alt="제품 이미지" />
                         <ArrowButtonRight onClick={handleNextImage}>
                             <FaChevronRight />
                         </ArrowButtonRight>
                         <Pagination>
-                            {product.images.map((_, index) => (
+                            {productData.result.images.map((_, index) => (
                                 <PageDot
                                     key={index}
                                     active={index === currentImage}
@@ -199,7 +481,7 @@ const ProductDetail = () => {
                         </PriceContainer>
                         <Divider />
                         <ShippingInfo>
-                            배송 정보 <a>{product.shipping_info}일 이내 출고</a>
+                            배송 정보 <a>{product.shipping_info || '3'}일 이내 출고</a>
                         </ShippingInfo>
                         <ShippingFee>
                             배송비 <a>{product.delivery_fee.toLocaleString()}원</a>
@@ -208,21 +490,25 @@ const ProductDetail = () => {
                         <OptionSelectContainer>
                             <OptionSelect value={selectedColor} onChange={(e) => setSelectedColor(e.target.value)}>
                                 <option>색상 선택</option>
-                                {product.colors.map((color, index) => (
-                                    <OptionItemStyled key={index} value={color}>
-                                        {color}
-                                    </OptionItemStyled>
-                                ))}
+                                {[...new Set(productData.result.options.map((opt) => opt.option_type.색상))].map(
+                                    (color, index) => (
+                                        <OptionItemStyled key={index} value={color}>
+                                            {color}
+                                        </OptionItemStyled>
+                                    )
+                                )}
                             </OptionSelect>
                         </OptionSelectContainer>
                         <OptionSelectContainer>
                             <OptionSelect value={selectedSize} onChange={(e) => setSelectedSize(e.target.value)}>
                                 <option>사이즈 선택</option>
-                                {product.sizes.map((size, index) => (
-                                    <OptionItemStyled key={index} value={size}>
-                                        {size}
-                                    </OptionItemStyled>
-                                ))}
+                                {[...new Set(productData.result.options.map((opt) => opt.option_type.사이즈))].map(
+                                    (size, index) => (
+                                        <OptionItemStyled key={index} value={size}>
+                                            {size}
+                                        </OptionItemStyled>
+                                    )
+                                )}
                             </OptionSelect>
                         </OptionSelectContainer>
                         {selectedOptions.length > 0 && (
@@ -260,8 +546,10 @@ const ProductDetail = () => {
                             </>
                         )}
                         <ButtonContainer>
-                            <Button>장바구니 담기</Button>
-                            <Button primary>바로 구매하기</Button>
+                            <Button onClick={handleAddToCart}>장바구니 담기</Button>
+                            <Button primary onClick={handleBuyNow}>
+                                바로 구매하기
+                            </Button>
                         </ButtonContainer>
                     </InfoSection>
                 </Container>
@@ -269,7 +557,7 @@ const ProductDetail = () => {
             <BrandWrapper>
                 <BrandContainer />
             </BrandWrapper>
-            <ProductContent images={product.description_images} /> {/* 상품 설명 이미지 컴포넌트 추가 */}
+            <ProductContent images={productData.result.images} />
         </>
     );
 };
