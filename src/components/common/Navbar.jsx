@@ -4,11 +4,17 @@ import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/icon/Home/localmark_logo.svg';
 import cartIcon from '../../assets/icon/Home/cart_icon.svg';
+import { useLocation } from 'react-router-dom';
 
 export default function Navbar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [cartCount, setCartCount] = useState(0); // 카트에 담긴 갯수 상태
     const navigate = useNavigate();
+    const location = useLocation();
+
+    if (location.pathname.includes('/creatercommunity/write')) {
+        return null;
+    };
 
     const handleAuthClick = () => {
         if (isLoggedIn) {
@@ -40,7 +46,7 @@ export default function Navbar() {
                         <Link to="/mypage">마이페이지</Link>
                     </MenuItem>
                     <MenuItem>
-                        <Link to="/community">크리에이터 커뮤니티</Link>
+                        <Link to="/creatercommunity">크리에이터 커뮤니티</Link>
                         {/* 임시 라우터 */}
                     </MenuItem>
                 </Menu>
