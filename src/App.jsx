@@ -13,7 +13,7 @@ import Brand from './pages/Brand/Brand';
 import BrandRegist from './pages/BrandRegist/BrandRegist';
 import BrandManage from './pages/BrandManage/BrandManage';
 import CreaterCommunity from './pages/CreaterCommunity/CreaterCommunity';
-import Write from './pages/CreaterCommunity/Write'
+import Write from './pages/CreaterCommunity/Write';
 import samplePosts from './pages/CreaterCommunity/samplePosts';
 import PostDetail from './components/CreaterCommunity/PostDetail';
 import Cart from './pages/Cart/Cart';
@@ -34,9 +34,10 @@ function App() {
                 <Route path="/mypage/userid/newpassword" element={<NewPassword />} />
                 <Route path="/brand/:brandId/products" element={<Brand />} />
                 <Route path="/brand/regist" element={<BrandRegist />} />
+                <Route path="/brand" element={<BrandManage />} />
                 {/* 라우팅 경로 재설정 필요*/}
                 <Route path="/creatercommunity/*" element={<CreaterCommunity />} />
-                <Route path="creatercommunity/write" element={<Write />} />
+                <Route path="/creatercommunity/write" element={<Write />} />
                 <Route path="/creatercommunity/chat/posts/:id" element={<PostDetail posts={samplePosts} />} />
                 <Route path="/cart" element={<Cart />} />
             </Routes>
