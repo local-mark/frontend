@@ -25,7 +25,7 @@ const Overlay = styled.div`
     bottom: 0;
     display: flex;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0);
 `;
 
 const ContentContainer = styled.div`
