@@ -411,11 +411,14 @@ const ProductDetail = () => {
         selectedOptions.forEach((opt) => {
             const selectedItem = {
                 id: product.product_id,
+                brand_id: product.brand_id,
                 name: product.product_name,
+                image: productData.result.images[0],
                 price: opt.price,
                 option: opt.option,
                 quantity: opt.quantity,
                 delivery_fee: opt.delivery_fee,
+                brand_name: product.brand_name,
             };
             addToCart(selectedItem);
         });
@@ -433,10 +436,13 @@ const ProductDetail = () => {
             const selectedItem = {
                 id: product.product_id,
                 name: product.product_name,
+                brand_id: product.brand_id,
+                image: productData.result.images[0],
                 price: opt.price,
                 option: opt.option,
                 quantity: opt.quantity,
                 delivery_fee: opt.delivery_fee,
+                brand_name: product.brand_name,
             };
             addToCart(selectedItem);
         });
