@@ -5,27 +5,27 @@ import { FaChevronUp } from 'react-icons/fa';
 
 const categories = [
     {
-        name: '전체',
+        category: '전체',
         link: '/gallery',
     },
     {
-        name: '의류',
+        category: '의류',
         subcategories: ['상의', '하의', '악세서리', '아우터', '이너웨어'],
     },
     {
-        name: '생활용품',
+        category: '생활용품',
         subcategories: ['청소용품', '주방용품', '욕실'],
     },
     {
-        name: '인테리어',
+        category: '인테리어',
         subcategories: ['홈데코', '디자인', '책', '음반', '조명'],
     },
     {
-        name: '식품',
+        category: '식품',
         subcategories: ['가공식품', '음료', '신선식품'],
     },
     {
-        name: '레저',
+        category: '레저',
         subcategories: ['스포츠용품', '캠핑용품'],
     },
 ];
@@ -69,19 +69,19 @@ const Sidebar = () => {
     return (
         <SidebarWrapper>
             <SelectedCategory>
-                <CategoryTitle active={true}>{categories[selectedCategory].name}</CategoryTitle>
+                <CategoryTitle active={true}>{categories[selectedCategory].category}</CategoryTitle>
                 <Divider />
             </SelectedCategory>
             <SidebarContainer>
                 {categories.map((category, index) => (
-                    <Category key={category.name}>
+                    <Category key={category.category}>
                         {category.subcategories ? (
                             <>
                                 <CategoryHeader
                                     onClick={() => handleCategoryClick(index)}
                                     active={openCategory === index}
                                 >
-                                    <CategoryName active={openCategory === index}>{category.name}</CategoryName>
+                                    <CategoryName active={openCategory === index}>{category.category}</CategoryName>
                                     {openCategory === index && <FaChevronUp color="#65BD83" />}
                                 </CategoryHeader>
                                 {openCategory === index && (
@@ -102,7 +102,7 @@ const Sidebar = () => {
                         ) : (
                             <CategoryHeader onClick={() => handleCategoryClick(index)} active={openCategory === index}>
                                 <Link to={category.link}>
-                                    <CategoryName active={openCategory === index}>{category.name}</CategoryName>
+                                    <CategoryName active={openCategory === index}>{category.category}</CategoryName>
                                 </Link>
                             </CategoryHeader>
                         )}
