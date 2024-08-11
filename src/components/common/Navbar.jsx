@@ -82,7 +82,7 @@ export default function Navbar() {
                         <Link to="/localletter">more local</Link>
                     </MenuItem>
                     <MenuItem onMouseEnter={() => handleMouseEnter('community')}>
-                        <Link to="/community">크리에이터 커뮤니티</Link>
+                        <Link to="/creatercommunity">크리에이터 커뮤니티</Link>
                     </MenuItem>
                     <MenuItem>
                         <Link to="/mypage">마이페이지</Link>
