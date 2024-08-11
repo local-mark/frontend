@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import Slider from "react-slick";
+import React, { Component } from 'react';
+import Slider from 'react-slick';
 import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -7,16 +7,16 @@ import 'slick-carousel/slick/slick-theme.css';
 import mockup1 from '../../assets/image/Landing/catchphrase.svg';
 import mockup2 from '../../assets/image/Landing/feature.svg';
 import mockup3 from '../../assets/image/Landing/creator.svg';
-import mockup4 from '../../assets/image/Landing/consumer.svg'
+import mockup4 from '../../assets/image/Landing/consumer.svg';
 
 function Arrow(props) {
     const { className, style, onClick } = props;
     return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", background: "gray", width: '50px', height: '50px'}}
-        onClick={onClick}
-      />
+        <div
+            className={className}
+            style={{ ...style, display: 'block', background: 'gray', width: '50px', height: '50px' }}
+            onClick={onClick}
+        />
     );
 }
 
@@ -31,12 +31,12 @@ export default class ProfileSlider extends Component {
             autoplay: true,
             autoplaySpeed: 3000,
             nextArrow: <Arrow />,
-            prevArrow: <Arrow />
+            prevArrow: <Arrow />,
         };
 
         const sliderStyle = {
             backgroundColor: '#f0f0f0',
-            padding: '20px'
+            padding: '20px',
         };
 
         return (
