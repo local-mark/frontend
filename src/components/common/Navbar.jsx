@@ -37,9 +37,9 @@ const moreLocal = [
 ];
 
 const community = [
-    { name: '잡담', link: '/community/chat' },
-    { name: '질문', link: '/community/questions' },
-    { name: '정보공유', link: '/community/share' },
+    { name: '잡담', link: '/creatercommunity/chat' },
+    { name: '질문', link: '/creatercommunity/chat/posts/:id' },
+    { name: '정보공유', link: '/creatercommunity/info' },
 ];
 
 export default function Navbar() {
@@ -81,7 +81,7 @@ export default function Navbar() {
                     <MenuItem onMouseEnter={() => handleMouseEnter('local')}>
                         <Link to="/localletter">more local</Link>
                     </MenuItem>
-                    <MenuItem onMouseEnter={() => handleMouseEnter('community')}>
+                    <MenuItem onMouseEnter={() => handleMouseEnter('creatercommunity')}>
                         <Link to="/creatercommunity">크리에이터 커뮤니티</Link>
                     </MenuItem>
                     <MenuItem>
@@ -130,8 +130,8 @@ export default function Navbar() {
                         </DropdownMenuMoreLocal>
                     </DropdownMenuWrapper>
                 )}
-                {dropdownVisible === 'community' && (
-                    <DropdownMenuWrapper onMouseEnter={() => handleMouseEnter('community')}>
+                {dropdownVisible === 'creatercommunity' && (
+                    <DropdownMenuWrapper onMouseEnter={() => handleMouseEnter('creatercommunity')}>
                         <DropdownMenuCommunity>
                             {community.map((item, index) => (
                                 <SubMenuItem key={index}>
