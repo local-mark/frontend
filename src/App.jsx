@@ -11,6 +11,8 @@ import MypageEdit from './pages/MypageEdit/MypageEdit';
 import NewPassword from './pages/NewPassword/NewPassword';
 import Brand from './pages/Brand/Brand';
 import BrandRegist from './pages/BrandRegist/BrandRegist';
+import BrandManage from './pages/BrandManage/BrandManage';
+import Cart from './pages/Cart/Cart';
 
 function App() {
     return (
@@ -29,6 +31,8 @@ function App() {
                 <Route path="/brand/:brandId/products" element={<Brand />} />
                 <Route path="/brand/regist" element={<BrandRegist />} />
                 {/* 라우팅 경로 재설정 필요*/}
+                <Route path="/brand" element={<BrandManage />} /> {/* 라우팅 경로 조정 필요*/}
+                <Route path="/cart" element={<Cart />} />
             </Routes>
         </div>
     );

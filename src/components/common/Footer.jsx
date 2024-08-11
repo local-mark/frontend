@@ -19,17 +19,17 @@ export default function Footer() {
                         <StyledLink to="/gallery">제품 갤러리</StyledLink>
                     </Column>
                     <Column>
-                        <StyledLink to="/morelocal">more local</StyledLink>
+                        <StyledLink to="/localletter">more local</StyledLink>
                         <SubMenu>
                             <StyledLink to="/localletter">로컬레터</StyledLink>
-                            <StyledLink to="/event">이벤트</StyledLink>
+                            <StyledLink to="/events">이벤트</StyledLink>
                         </SubMenu>
                     </Column>
                     <Column>
-                        <StyledLink to="/mypage">마이페이지</StyledLink>
+                        <StyledLink to="/community">크리에이터 커뮤니티</StyledLink>
                     </Column>
                     <Column>
-                        <StyledLink to="/community">크리에이터 커뮤니티</StyledLink>
+                        <StyledLink to="/mypage">마이페이지</StyledLink>
                     </Column>
                 </RightSection>
             </FooterContainer>
