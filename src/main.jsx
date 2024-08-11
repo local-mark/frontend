@@ -9,16 +9,19 @@ import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import { Provider } from 'react-redux';
 import store from './store/store';
+import { CartProvider } from './store/CartContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
         <React.StrictMode>
             <ThemeProvider theme={theme}>
                 <BrowserRouter>
-                    <GlobalStyle />
-                    <Navbar />
-                    <App />
-                    <Footer />
+                    <CartProvider>
+                        <GlobalStyle />
+                        <Navbar />
+                        <App />
+                        <Footer />
+                    </CartProvider>
                 </BrowserRouter>
             </ThemeProvider>
         </React.StrictMode>

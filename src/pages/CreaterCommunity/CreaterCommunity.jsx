@@ -3,7 +3,7 @@ import { Routes, Route, Link, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import BoardList from '../../components/CreaterCommunity/BoardList';
 import Write from './Write';
-import samplePosts from './samplePosts'
+import samplePosts from './samplePosts';
 import { useLocation } from 'react-router-dom';
 import PageBar from '../../components/CreaterCommunity/PageBar';
 import { NavLink } from 'react-router-dom';
@@ -15,10 +15,7 @@ const CreaterCommunity = ({ posts }) => {
     const postsPerPage = 5;
     const totalPages = Math.ceil(samplePosts.length / postsPerPage);
 
-    const currentPosts = samplePosts.slice(
-        (currentPage - 1) * postsPerPage,
-        currentPage * postsPerPage
-    );
+    const currentPosts = samplePosts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -28,19 +25,11 @@ const CreaterCommunity = ({ posts }) => {
         <CreaterCommunityContainer>
             {!location.pathname.includes('/creatercommunity/write') && (
                 <CreaterCommunityNavbar>
-                    <CreaterCommunityTitle>
-                        크리에이터 커뮤니티
-                    </CreaterCommunityTitle>
+                    <CreaterCommunityTitle>크리에이터 커뮤니티</CreaterCommunityTitle>
                     <CreaterCommunityMenu>
-                        <CreaterCommunityMenuItem to="chat" >
-                            잡담
-                        </CreaterCommunityMenuItem>
-                        <CreaterCommunityMenuItem to="questions" >
-                            질문
-                        </CreaterCommunityMenuItem>
-                        <CreaterCommunityMenuItem to="info">
-                            정보공유
-                        </CreaterCommunityMenuItem>
+                        <CreaterCommunityMenuItem to="chat">잡담</CreaterCommunityMenuItem>
+                        <CreaterCommunityMenuItem to="questions">질문</CreaterCommunityMenuItem>
+                        <CreaterCommunityMenuItem to="info">정보공유</CreaterCommunityMenuItem>
                     </CreaterCommunityMenu>
                     <WriteButtonConatiner>
                         <Link to="/creatercommunity/write">
@@ -64,9 +53,7 @@ const CreaterCommunity = ({ posts }) => {
                             </>
                         }
                     />
-                    <Route
-                        path="chat/posts/:id"
-                        element={<PostDetail posts={samplePosts} />} />
+                    <Route path="chat/posts/:id" element={<PostDetail posts={samplePosts} />} />
                     <Route
                         path="questions"
                         element={
@@ -94,7 +81,7 @@ const CreaterCommunity = ({ posts }) => {
                         }
                     />
                     <Route path="write" element={<Write />} />
-                    <Route path="*" element={<Navigate to="/creatercommunity/chat" />} />
+                    <Route path="*" element={<Navigate to="/creatercommunity/" />} />
                 </Routes>
             </CreaterCommunityContentConatainer>
         </CreaterCommunityContainer>
@@ -120,7 +107,7 @@ const WriteButtonConatiner = styled.div`
     width: 100%;
     max-width: 1200px;
     margin-left: auto;
-`
+`;
 
 const CreaterCommunityTitle = styled.div`
     width: 100%;
@@ -152,8 +139,8 @@ const CreaterCommunityMenuItem = styled(NavLink)`
     color: black;
 
     &.active {
-        color: #65BD83;
-        border-bottom: 2px solid #65BD83;
+        color: #65bd83;
+        border-bottom: 2px solid #65bd83;
     }
 `;
 
@@ -164,15 +151,14 @@ const CreaterCommunityContentConatainer = styled.div`
     flex-direction: column;
     width: 100%;
     height: 600px;
-`
+`;
 
 const WriteButton = styled.button`
     color: white;
-    background-color: #FF8162;
+    background-color: #ff8162;
     border: none;
     width: 94px;
     height: 41px;
     border-radius: 5px;
     margin-left: auto;
-`
-
+`;
