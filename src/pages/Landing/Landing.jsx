@@ -4,22 +4,28 @@ import styled from 'styled-components';
 
 import ImageOverlay from '../../components/Landing/ImageOverlay';
 
-import ProfileSlider from '../../components/Landing/ProfileSlider';
+// clear image, but size fixed.
+import first_background from '../../assets/image/Landing/first_background.png';
+import masanai from '../../assets/image/Landing/masanai.png';
+import dodari from '../../assets/image/Landing/dodari_visual_lab.png';
+import still_ma_spring from '../../assets/image/Landing/stillmaspring.png';
+import soonsoap_1 from '../../assets/image/Landing/soap.png';
+import soonsoap_2 from '../../assets/image/Landing/soap_2.png';
 
-import mockup1 from '../../assets/image/Gallery/mockup_1.svg';
-import mockup2 from '../../assets/image/Landing/feature.svg';
-import mockup3 from '../../assets/image/Landing/creator.svg';
-import mockup4 from '../../assets/image/Landing/consumer.svg';
-
+/* // adjusted size, but bad image quality.
+import first_background from '../../assets/image/Landing/first_background.svg';
 import masanai from '../../assets/image/Landing/masanai.svg';
-import dodari from '../../assets/image/Landing/dodari.svg';
-import soonsoap from '../../assets/image/Landing/soonsoap.svg';
+import dodari from '../../assets/image/Landing/dodari_visual_lab.svg';
+import still_ma_spring from '../../assets/image/Landing/stillmaspring.svg';
+import soonsoap_1 from '../../assets/image/Landing/soap.svg';
+import soonsoap_2 from '../../assets/image/Landing/soap_2.svg';
+ */
 
 export default function Landing() {
     return (
         <LandingContainer>
             <ImageOverlay
-                    imageSrc={mockup1}
+                    imageSrc={first_background}
                     contents={
                       <div>
                         <h2>
@@ -69,7 +75,7 @@ export default function Landing() {
                             </div>
                         </div>
                         <div className='ImageBox'>
-                            <img src={soonsoap} alt='soonsoap' />
+                            <img src={soonsoap_1} alt='soonsoap' />
                             <div className='caption'>
                                 <p className='explain'>
                                     전남 순천의 로컬 비누 브랜드
@@ -87,22 +93,21 @@ export default function Landing() {
                             <img src={dodari} alt='dodari' />
                         </div>
                         <div className='ImageBox'>
-                            <img src={soonsoap} alt='soonsoap' />
-                        </div>
-                        <div className='TextBox'>
-                            <h4>직접 인증받은 브랜드만 입점</h4>
-                            <Link to="/signup?role=Consumer">
-                                <button>로컬 컨슈머로 시작하기</button>
-                            </Link>
-                        </div>
+                            <img src={soonsoap_1} alt='soonsoap' />
+                        </div>    
                     </div>
-                    
+                    <div className='TextBox'>
+                        <h4>직접 인증받은 브랜드만 입점</h4>
+                        <Link to="/signup?role=Consumer">
+                            <button>로컬 컨슈머로 시작하기</button>
+                        </Link>
+                    </div>
                 </ConsumerContainer>
             </div>
             <BrandCoverContainer>
                 <div className='BrandCover'>
                     <div className='ImageBox'>
-                        <img src={mockup3} alt='brand_cover_1' />
+                        <img src={still_ma_spring} alt='brand_cover_1' />
                     </div>
                     <div className='TextBox'>
                         <div className='BrandNameBox'>
@@ -143,7 +148,7 @@ export default function Landing() {
                         </div>
                     </div>
                     <div className='ImageBox'>
-                        <img src={mockup4} alt='brand_cover_2' />
+                        <img src={soonsoap_2} alt='brand_cover_2' />
                     </div>
                 </div>
             </BrandCoverContainer>
