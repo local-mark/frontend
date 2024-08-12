@@ -22,6 +22,8 @@ import {
     Checkbox,
     SignupText,
     Warn,
+    UserType,
+    UserTypeButton,
 } from './SignUp.style';
 import { useState, useEffect } from 'react';
 import { loginData } from '../../store/userSlice';
@@ -29,7 +31,7 @@ import axios from 'axios';
 
 export default function SingUp() {
     const navigate = useNavigate();
-
+    const [activeButton, setActiveButton] = useState('Consumer');
     const [showPassword, setShowPassword] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
 
@@ -188,8 +190,34 @@ export default function SingUp() {
                         <SignupForm>
                             <FormContainer>
                                 <Frame>
+                                    <UserType>
+                                        <UserTypeButton
+                                            onClick={() => {
+                                                setActiveButton('Consumer');
+                                            }}
+                                            style={{
+                                                background: activeButton === 'Consumer' ? '#222' : '#eee',
+                                                color: activeButton === 'Consumer' ? '#fff' : '#222',
+                                            }}
+                                        >
+                                            로컬 컨슈머
+                                        </UserTypeButton>
+                                        <UserTypeButton
+                                            onClick={() => {
+                                                setActiveButton('Creator');
+                                            }}
+                                            style={{
+                                                background: activeButton === 'Creator' ? '#222' : '#eee',
+                                                color: activeButton === 'Creator' ? '#fff' : '#222',
+                                            }}
+                                        >
+                                            로컬 크리에이터
+                                        </UserTypeButton>
+                                    </UserType>
                                     <SignupContainer>
-                                        <SignupTitle>로컬 컨슈머 회원가입</SignupTitle>
+                                        <SignupTitle>
+                                            로컬 {activeButton === 'Consumer' ? '컨슈머' : '크리에이터'} 회원가입
+                                        </SignupTitle>
                                         <Form>
                                             <InputContainer>
                                                 <InputType>닉네임</InputType>
@@ -204,7 +232,7 @@ export default function SingUp() {
                                                 <Warn>{nicknameMessage}</Warn>
                                             </InputContainer>
                                             <InputContainer>
-                                                <InputType>아이디(이메일)</InputType>
+                                                <InputType>이메일</InputType>
                                                 <InputField>
                                                     <Input
                                                         type="email"
@@ -289,13 +317,14 @@ export default function SingUp() {
                                                 <Warn>{password2Message}</Warn>
                                             </InputContainer>
                                         </Form>
+                                        <Agree>
+                                            <Checkbox type="checkbox" onChange={handleCheckboxChange}></Checkbox>
+                                            <AgreeText style={{ color: isChecked ? '#65BD83' : '#000' }}>
+                                                이용약관, 개인 정보 수집 및 이용에 동의합니다.
+                                            </AgreeText>
+                                        </Agree>
                                     </SignupContainer>
-                                    <Agree>
-                                        <Checkbox type="checkbox" onChange={handleCheckboxChange}></Checkbox>
-                                        <AgreeText style={{ color: isChecked ? '#65BD83' : '#000' }}>
-                                            이용약관, 개인 정보 수집 및 이용에 동의합니다.
-                                        </AgreeText>
-                                    </Agree>
+
                                     <Button onClick={handleButtonClick}>
                                         <SignupText>회원가입 하기</SignupText>
                                     </Button>

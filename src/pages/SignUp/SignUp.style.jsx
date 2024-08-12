@@ -67,7 +67,7 @@ export const SignupTitle = styled.div`
 export const Frame = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: var(--Spacing-6, 32px);
     align-self: stretch;
 `;
@@ -212,4 +212,32 @@ export const Warn = styled.div`
     font-weight: 500;
     line-height: 140%; /* 19.6px */
     letter-spacing: -0.28px;
+`;
+
+export const UserType = styled.div`
+    display: flex;
+    width: 298px;
+    padding: var(--Spacing-2, 6px);
+    align-items: center;
+    border-radius: 100px;
+    background: var(--Color-Gray-gray-200, #eee);
+`;
+
+export const UserTypeButton = styled.button`
+    display: flex;
+    width: 143px;
+    padding: var(--Text-size-2, 12px) var(--Spacing-4, 16px);
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border-radius: 100px;
+
+    /* B3_SB */
+    font-family: Pretendard;
+    font-size: var(--Text-size-4, 16px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: 140%; /* 22.4px */
+    letter-spacing: -0.32px;
 `;
