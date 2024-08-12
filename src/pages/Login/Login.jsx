@@ -29,6 +29,7 @@ import {
     UserTypeButton,
     Mes,
 } from './Login.style';
+import { useCookies } from 'react-cookie';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -42,6 +43,16 @@ export default function Login() {
     const [mes, setMes] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [btn, setBtn] = useState(false);
+    const [rememberId, setRememberId] = useState(false);
+    const [cookies, setCookie, removeCookie] = useCookies(['rememberedId']);
+
+    //페이지 로드 시 쿠키에서 아이디 불러오기
+    useEffect(() => {
+        if (cookies.rememberedId) {
+            setId(cookies.rememberedId);
+            setRememberId(true);
+        }
+    }, [cookies]);
 
     //ID칸과 PASSWORD칸이 비어있는지 확인
     useEffect(() => {
@@ -73,6 +84,13 @@ export default function Login() {
             };
 
             const result = await axios.post('http://umc.localmark.store/auth/login', body);
+
+            // 로그인 성공 시 아이디 기억하기 설정
+            if (rememberId) {
+                setCookie('rememberedId', id, { path: '/', maxAge: 7 * 24 * 60 * 60 }); // 쿠키 유효기간 7일
+            } else {
+                removeCookie('rememberedId');
+            }
 
             dispatch(loginAction(result.data));
             navigate('/');
@@ -174,7 +192,11 @@ export default function Login() {
                                     </InputContainer>
                                     <RememberContainer>
                                         <RememberFrame>
-                                            <Checkbox type="checkbox"></Checkbox>
+                                            <Checkbox
+                                                type="checkbox"
+                                                checked={rememberId}
+                                                onChange={(e) => setRememberId(e.target.checked)}
+                                            ></Checkbox>
                                             <div>아이디 기억하기</div>
                                         </RememberFrame>
                                         <FindFrame>
