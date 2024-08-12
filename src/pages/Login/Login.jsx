@@ -210,7 +210,7 @@ export default function Login() {
                                         <LoginText>{loading ? 'Loading...' : '로그인'}</LoginText>
                                     </LoginButton>
                                     <SignupButton>
-                                        <Link to="/signup">
+                                        <Link to={`/signup?role=${activeButton}`}>
                                             <SignupText>회원가입</SignupText>
                                         </Link>
                                     </SignupButton>
