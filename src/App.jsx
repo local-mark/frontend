@@ -33,8 +33,8 @@ function App() {
                 <Route path="/mypage/userid" element={<MypageEdit />} />
                 <Route path="/mypage/userid/newpassword" element={<NewPassword />} />
                 <Route path="/brand/:brandId/products" element={<Brand />} />
-                <Route path="/brand/regist" element={<BrandRegist />} />
-                <Route path="/brand" element={<BrandManage />} />
+                <Route path="/brand" element={<BrandRegist />} />
+                <Route path="/brandmanage" element={<BrandManage />} />
                 {/* 라우팅 경로 재설정 필요*/}
                 <Route path="/creatercommunity/*" element={<CreaterCommunity />} />
                 <Route path="/creatercommunity/write" element={<Write />} />
