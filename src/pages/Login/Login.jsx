@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginAction } from '../../store/userSlice';
@@ -33,7 +33,7 @@ import {
 export default function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [email, setEmail] = useState('');
+    const [id, setId] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState('');
     const [activeButton, setActiveButton] = useState('Consumer');
@@ -41,34 +41,47 @@ export default function Login() {
     const [pwfocus, setPwfocus] = useState(false);
     const [mes, setMes] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [btn, setBtn] = useState(false);
 
+    //ID칸과 PASSWORD칸이 비어있는지 확인
+    useEffect(() => {
+        if (id == '' || password == '') {
+            setBtn(false);
+        } else {
+            setBtn(true);
+        }
+    });
+
+    //비어있지 않아야 로그인 버튼이 동작
+    const handleButtonClick = (e) => {
+        e.preventDefault();
+        if (btn) {
+            handleLogin(e);
+        }
+    };
+
+    //로그인 동작
     const handleLogin = async (e) => {
         e.preventDefault();
-
-        if (email === '' || password === '') {
-            alert('아이디(이메일) 혹은 비밀번호 값이 존재하지 않습니다.');
-            return;
-        }
 
         setLoading(true);
 
         try {
             const body = {
-                email: email,
+                loginId: id,
                 password: password,
             };
 
-            const result = await axios.post('#', body);
-            alert('로그인 되셨습니다.');
+            const result = await axios.post('http://umc.localmark.store/auth/login', body);
 
             dispatch(loginAction(result.data));
             navigate('/');
         } catch (error) {
             setLoading(false);
-            if (error.response && error.response.status == 404) {
+            if (error.response && error.response.status == 400) {
                 setMes(true);
             } else {
-                alert('로그인에 실패하였습니다.');
+                alert('로그인에 실패하였습니다.'); //임의 표시
             }
         }
     };
@@ -121,14 +134,14 @@ export default function Login() {
                                         }}
                                     >
                                         <Input
-                                            type="email"
-                                            placeholder="아이디(이메일)"
-                                            value={email}
+                                            type="text"
+                                            placeholder="아이디"
+                                            value={id}
                                             onChange={(e) => {
-                                                setEmail(e.target.value);
+                                                setId(e.target.value);
                                             }}
                                         ></Input>
-                                        {email && <StyledIcon2 onClick={() => setEmail('')}></StyledIcon2>}
+                                        {id && <StyledIcon2 onClick={() => setId('')}></StyledIcon2>}
                                     </InputContainer>
                                     {mes ? (
                                         <Mes>
@@ -171,7 +184,7 @@ export default function Login() {
                                     </RememberContainer>
                                 </InputFrame>
                                 <LoginContainer>
-                                    <LoginButton onClick={handleLogin}>
+                                    <LoginButton onClick={handleButtonClick}>
                                         <LoginText>{loading ? 'Loading...' : '로그인'}</LoginText>
                                     </LoginButton>
                                     <SignupButton>
