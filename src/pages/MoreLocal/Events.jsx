@@ -201,9 +201,9 @@ const Events = () => {
       <Header>
         <Logo>More Local</Logo>
         <Nav>
-          <NavLink to="/localletter">로컬 레터</NavLink>
+          <NavLink to="/morelocal/letters">로컬 레터</NavLink>
           <NavWrapper>
-            <NavLink to="/events" primary>
+            <NavLink to="/morelocal/events" primary>
               이벤트
             </NavLink>
           </NavWrapper>

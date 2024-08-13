@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const PageContainer = styled.div`
   display: flex;
-  width: 1920px;
+  width: 100vw;
   padding-bottom: 140px;
   flex-direction: column;
   align-items: center;
@@ -13,7 +13,7 @@ const PageContainer = styled.div`
 `;
 
 const Header = styled.header`
-  width: 1200px;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -66,7 +66,7 @@ const Main = styled.main`
 
 const CardGrid = styled.div`
   display: flex;
-  width: 1200px;
+  width: 100vw;
   align-items: flex-start;
   align-content: flex-start;
   gap: 100px 24px;
@@ -75,7 +75,7 @@ const CardGrid = styled.div`
 
 const Card = styled.div`
   display: flex;
-  width: 588px;
+  width: 30vw;
   flex-direction: column;
   align-items: flex-start;
   flex-shrink: 0;
@@ -85,8 +85,8 @@ const Card = styled.div`
 `;
 
 const CardImage = styled.img`
-  width: 588px;
-  height: 441px;
+  width: 30vw;
+  height: 45vh;
   object-fit: cover;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -131,11 +131,11 @@ const LocalLetter = () => {
         <Logo>More Local</Logo>
         <Nav>
           <NavWrapper>
-            <NavLink to="#" primary>
+            <NavLink to="/morelocal/letters" primary>
               로컬 레터
             </NavLink>
           </NavWrapper>
-          <NavLink to="/events">이벤트</NavLink>
+          <NavLink to="/morelocal/events">이벤트</NavLink>
         </Nav>
       </Header>
       <Main>
