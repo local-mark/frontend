@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import LetterCard from "../../components/MoreLocal/LetterCard";
 
 const PageContainer = styled.div`
   display: flex;
@@ -64,67 +65,13 @@ const Main = styled.main`
   margin-top: 20px;
 `;
 
-const CardGrid = styled.div`
-  display: flex;
-  width: 100vw;
-  align-items: flex-start;
-  align-content: flex-start;
-  gap: 100px 24px;
-  flex-wrap: wrap;
-`;
-
-const Card = styled.div`
-  display: flex;
-  width: 30vw;
-  flex-direction: column;
-  align-items: flex-start;
-  flex-shrink: 0;
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 0px 2px 30px 5px rgba(0, 0, 0, 0.1);
-`;
-
-const CardImage = styled.img`
-  width: 30vw;
-  height: 45vh;
-  object-fit: cover;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-`;
-
-const CardContent = styled.div`
-  display: flex;
-  padding: 24px;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  align-self: stretch;
-`;
-
-const Category = styled.div`
-  color: #ff5722;
-  font-size: 14px;
-  font-weight: bold;
-`;
-
-const CardTitle = styled.h3`
-  font-size: 20px;
-  font-weight: bold;
-  margin: 0;
-`;
-
-const CardDescription = styled.p`
-  font-size: 16px;
-  color: #333;
-  margin: 0;
-`;
-
-const Date = styled.div`
-  font-size: 14px;
-  color: #999;
-`;
-
 const LocalLetter = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageChange = (page) => {
+      setCurrentPage(page);
+  };
+
   return (
     <PageContainer>
       <Header>
@@ -139,96 +86,7 @@ const LocalLetter = () => {
         </Nav>
       </Header>
       <Main>
-        <CardGrid>
-          <Card>
-            <CardImage
-              src="https://via.placeholder.com/588x441"
-              alt="Example"
-            />
-            <CardContent>
-              <Category>인터뷰</Category>
-              <CardTitle>동심을 찾아주는 이로이로 소품샵 - 장은혜</CardTitle>
-              <Date>2024. 07. 01</Date>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardImage
-              src="https://via.placeholder.com/588x441"
-              alt="Example"
-            />
-            <CardContent>
-              <Category>인터뷰</Category>
-              <CardTitle>동심을 찾아주는 이로이로 소품샵 - 장은혜</CardTitle>
-              <Date>2024. 07. 01</Date>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardImage
-              src="https://via.placeholder.com/588x441"
-              alt="Example"
-            />
-            <CardContent>
-              <Category>인터뷰</Category>
-              <CardTitle>동심을 찾아주는 이로이로 소품샵 - 장은혜</CardTitle>
-              <Date>2024. 07. 01</Date>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardImage
-              src="https://via.placeholder.com/588x441"
-              alt="Example"
-            />
-            <CardContent>
-              <Category>인터뷰</Category>
-              <CardTitle>동심을 찾아주는 이로이로 소품샵 - 장은혜</CardTitle>
-              <Date>2024. 07. 01</Date>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardImage
-              src="https://via.placeholder.com/588x441"
-              alt="Example"
-            />
-            <CardContent>
-              <Category>인터뷰</Category>
-              <CardTitle>동심을 찾아주는 이로이로 소품샵 - 장은혜</CardTitle>
-              <Date>2024. 07. 01</Date>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardImage
-              src="https://via.placeholder.com/588x441"
-              alt="Example"
-            />
-            <CardContent>
-              <Category>인터뷰</Category>
-              <CardTitle>동심을 찾아주는 이로이로 소품샵 - 장은혜</CardTitle>
-              <Date>2024. 07. 01</Date>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardImage
-              src="https://via.placeholder.com/588x441"
-              alt="Example"
-            />
-            <CardContent>
-              <Category>인터뷰</Category>
-              <CardTitle>동심을 찾아주는 이로이로 소품샵 - 장은혜</CardTitle>
-              <Date>2024. 07. 01</Date>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardImage
-              src="https://via.placeholder.com/588x441"
-              alt="Example"
-            />
-            <CardContent>
-              <Category>인터뷰</Category>
-              <CardTitle>동심을 찾아주는 이로이로 소품샵 - 장은혜</CardTitle>
-              <Date>2024. 07. 01</Date>
-            </CardContent>
-          </Card>
-        </CardGrid>
+        <LetterCard curruntPage={currentPage} onPageChange={handlePageChange} />
       </Main>
     </PageContainer>
   );
