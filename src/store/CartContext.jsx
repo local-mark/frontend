@@ -1,9 +1,10 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
+    const [cartCount, setCartCount] = useState(0); // 옵션 기준으로 장바구니 아이템 갯수 상태
 
     const addToCart = (item) => {
         setCartItems((prevItems) => {
@@ -58,9 +59,26 @@ export const CartProvider = ({ children }) => {
         return total;
     };
 
+    const calculateCartCount = () => {
+        // 옵션 기준으로 유니크한 상품 갯수를 반환
+        return cartItems.length;
+    };
+
+    useEffect(() => {
+        setCartCount(calculateCartCount());
+    }, [cartItems]);
+
     return (
         <CartContext.Provider
-            value={{ cartItems, addToCart, removeFromCart, updateCartItem, clearCart, calculateTotalOrderPrice }}
+            value={{
+                cartItems,
+                addToCart,
+                removeFromCart,
+                updateCartItem,
+                clearCart,
+                calculateTotalOrderPrice,
+                cartCount, // 옵션 기준으로 계산된 장바구니 갯수
+            }}
         >
             {children}
         </CartContext.Provider>
