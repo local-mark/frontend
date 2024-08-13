@@ -17,6 +17,7 @@ import Write from './pages/CreaterCommunity/Write';
 import samplePosts from './pages/CreaterCommunity/samplePosts';
 import PostDetail from './components/CreaterCommunity/PostDetail';
 import Cart from './pages/Cart/Cart';
+import Payment from './pages/Payment/Payment';
 
 function App() {
     return (
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/creatercommunity/write" element={<Write />} />
                 <Route path="/creatercommunity/chat/posts/:id" element={<PostDetail posts={samplePosts} />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/payment" element={<Payment />} />
             </Routes>
         </div>
     );
