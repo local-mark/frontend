@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
     SignupContent,
     SignupSection,
@@ -24,26 +24,34 @@ import {
     Warn,
     UserType,
     UserTypeButton,
+    OkButton,
+    OkbuttonLayer,
 } from './SignUp.style';
 import { useState, useEffect } from 'react';
 import { loginData } from '../../store/userSlice';
 import axios from 'axios';
+import { postData } from '../../services/api';
 
 export default function SingUp() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const [loading, setLoading] = useState('');
     const [activeButton, setActiveButton] = useState('Consumer');
     const [showPassword, setShowPassword] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
+    const [click, setClick] = useState(false);
 
     //body에 입력되는 state
     const [nickname, setNickname] = useState('');
     const [email, setEmail] = useState('');
+    const [id, setId] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
 
     //버튼 활성화 위한 state
     const [nicknameCheck, setNicknameCheck] = useState(false);
     const [emailCheck, setEmailCheck] = useState(false);
+    const [idCheck, setIdCheck] = useState(false);
     const [passwordCheck, setPasswordCheck] = useState(false);
     const [password2Check, setPassword2Check] = useState(false);
     const [btn, setBtn] = useState(false);
@@ -51,6 +59,7 @@ export default function SingUp() {
     //wanr 메시지를 위한 state
     const [nicknameMessage, setNicknameMessage] = useState('');
     const [emailMessage, setEmailMessage] = useState('');
+    const [idMessage, setIdMessage] = useState('');
     const [passwordMessage, setPasswordMessage] = useState('');
     const [password2Message, setPassword2Message] = useState('');
 
@@ -96,6 +105,28 @@ export default function SingUp() {
         }
     };
 
+    //아이디 유효성 검사
+    const checkId = (value) => {
+        // 영문과 숫자를 포함하고 8자 이상
+        const regExp = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+
+        setId(value);
+
+        if (value.trim() === '') {
+            setIdMessage('아이디를 입력해주세요.');
+            setIdCheck(false);
+        } else if (value.length < 8) {
+            setIdMessage('최소 8자리 이상 입력해주세요.');
+            setIdCheck(false);
+        } else if (!regExp.test(value)) {
+            setIdMessage('아이디는 영문과 숫자를 포함해야 합니다.');
+            setIdCheck(false);
+        } else {
+            setIdMessage('');
+            setIdCheck(true);
+        }
+    };
+
     //비밀번호 유효성 검사
     const checkPassword = (value) => {
         // 영문과 숫자를 포함하고 8자 이상
@@ -135,44 +166,68 @@ export default function SingUp() {
     };
 
     useEffect(() => {
-        if (nicknameCheck && emailCheck && passwordCheck && password2Check) {
+        const queryParams = new URLSearchParams(location.search);
+        const role = queryParams.get('role');
+        if (role) {
+            setActiveButton(role);
+        }
+    }, [location.search]);
+
+    useEffect(() => {
+        if (nicknameCheck && emailCheck && idCheck && passwordCheck && password2Check) {
             setBtn(true);
         } else {
             setBtn(false);
         }
-    }, [nicknameCheck, emailCheck, passwordCheck, password2Check]);
+    }, [nicknameCheck, emailCheck, idCheck, passwordCheck, password2Check]);
 
     const handleSignup = async (e) => {
         e.preventDefault();
+
+        setLoading(true);
 
         try {
             const body = {
                 nickname: nickname,
                 email: email,
                 password: password,
-                password2: password2,
+                loginId: id,
+                type: activeButton === 'Consumer' ? 'general' : 'creator',
+                status: 'active',
             };
 
-            await axios.post('www.naver.com', body); //endpoint 수정 필요
-            alert('인증 완료! 가입되었습니다.');
+            await postData('/users/signup', body);
+            console.log('회원가입 성공');
             navigate('/login');
             loginData(body);
         } catch (error) {
-            if (error.response && error.response.status === 404) {
-                // status code 수정 필요
-                setNicknameMessage('이미 있는 닉네임입니다.');
-            }
-            if (error.response && error.response.status === 404) {
-                // status code 수정 필요
-                setEmailMessage('이미 가입된 아이디입니다.');
+            setLoading(false);
+            if (error.response && error.response.status === 400) {
+                const errorCode = error.response.data.code;
+
+                if (errorCode === 'USER4001') {
+                    setIdMessage('이미 가입된 아이디입니다.');
+                } else if (errorCode === 'USER4002') {
+                    setNicknameMessage('이미 있는 닉네임입니다.');
+                } else if (errorCode === 'USER4003') {
+                    setEmailMessage('이미 가입된 이메일입니다.');
+                } else {
+                    console.error('알 수 없는 에러 코드:', errorCode);
+                }
             }
         }
     };
 
     const handleButtonClick = (e) => {
         e.preventDefault();
-        if (btn) {
+        if (!click) {
+            setEmailMessage('이메일 인증을 진행해 주세요.');
+        }
+
+        if (btn && isChecked) {
             handleSignup(e);
+        } else if (btn && !isChecked) {
+            alert('이용약관에 동의해주세요.');
         } else {
             alert('모든 정보를 빠짐없이 입력해주세요.');
         }
@@ -180,6 +235,11 @@ export default function SingUp() {
 
     const handleCheckboxChange = (e) => {
         setIsChecked(e.target.checked);
+    };
+
+    const handleClick = () => {
+        setClick(true);
+        setEmailMessage('');
     };
 
     return (
@@ -233,6 +293,7 @@ export default function SingUp() {
                                             </InputContainer>
                                             <InputContainer>
                                                 <InputType>이메일</InputType>
+                                                <Cause>인증에 사용할 이메일을 작성해 주세요.</Cause>
                                                 <InputField>
                                                     <Input
                                                         type="email"
@@ -240,8 +301,30 @@ export default function SingUp() {
                                                         value={email}
                                                         onChange={(e) => checkEmail(e.target.value.trim())}
                                                     ></Input>
+                                                    <OkButton
+                                                        onClick={handleClick}
+                                                        style={{
+                                                            background: click ? '#00000014' : 'null',
+                                                        }}
+                                                    >
+                                                        <OkbuttonLayer style={{ color: click ? '#9E9E9E' : 'null' }}>
+                                                            {click ? '인증 완료' : '인증 요청'}
+                                                        </OkbuttonLayer>
+                                                    </OkButton>
                                                 </InputField>
                                                 <Warn>{emailMessage}</Warn>
+                                            </InputContainer>
+                                            <InputContainer>
+                                                <InputType>아이디</InputType>
+                                                <InputField>
+                                                    <Input
+                                                        type="text"
+                                                        placeholder="아이디"
+                                                        value={id}
+                                                        onChange={(e) => checkId(e.target.value.trim())}
+                                                    ></Input>
+                                                </InputField>
+                                                <Warn>{idMessage}</Warn>
                                             </InputContainer>
                                             <InputContainer>
                                                 <InputType>비밀번호</InputType>
@@ -326,7 +409,7 @@ export default function SingUp() {
                                     </SignupContainer>
 
                                     <Button onClick={handleButtonClick}>
-                                        <SignupText>회원가입 하기</SignupText>
+                                        <SignupText>{loading ? 'Loading...' : '회원가입 하기'}</SignupText>
                                     </Button>
                                 </Frame>
                             </FormContainer>

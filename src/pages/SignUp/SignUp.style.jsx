@@ -241,3 +241,24 @@ export const UserTypeButton = styled.button`
     line-height: 140%; /* 22.4px */
     letter-spacing: -0.32px;
 `;
+
+export const OkButton = styled.button`
+    display: flex;
+    padding: 6px 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--Spacing-2, 6px);
+    border-radius: 3px;
+    background: var(--Color-Main-primary, #65bd83);
+`;
+
+export const OkbuttonLayer = styled.div`
+    color: #fff;
+    font-family: Pretendard;
+    font-size: var(--Text-size-3, 14px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: 140%; /* 19.6px */
+    letter-spacing: -0.28px;
+    white-space: nowrap;
+`;
