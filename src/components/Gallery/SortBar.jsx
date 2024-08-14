@@ -13,18 +13,18 @@ const SortBar = ({ sort, setSort }) => {
     return (
         <SortContainer>
             <SortButton onClick={() => setIsOpen(!isOpen)}>
-                {sort === 'viewCount' && '조회순'}
-                {sort === 'highPrice' && '높은가격순'}
-                {sort === 'lowPrice' && '낮은가격순'}
-                {sort === 'popularity' && '인기순'}
+                {sort === 0 && '조회순'}
+                {sort === 1 && '낮은가격순'}
+                {sort === 2 && '높은가격순'}
+                {sort === 3 && '인기순'}
                 <FaCaretDown style={{ marginLeft: '5px' }} />
             </SortButton>
             {isOpen && (
                 <SortDropdown>
-                    <SortOption onClick={() => handleSortChange('viewCount')}>조회순</SortOption>
-                    <SortOption onClick={() => handleSortChange('highPrice')}>높은가격순</SortOption>
-                    <SortOption onClick={() => handleSortChange('lowPrice')}>낮은가격순</SortOption>
-                    <SortOption onClick={() => handleSortChange('popularity')}>인기순</SortOption>
+                    <SortOption onClick={() => handleSortChange(0)}>조회순</SortOption>
+                    <SortOption onClick={() => handleSortChange(1)}>낮은가격순</SortOption>
+                    <SortOption onClick={() => handleSortChange(2)}>높은가격순</SortOption>
+                    <SortOption onClick={() => handleSortChange(3)}>인기순</SortOption>
                 </SortDropdown>
             )}
         </SortContainer>

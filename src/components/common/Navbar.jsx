@@ -12,23 +12,46 @@ const categories = [
     },
     {
         category: '의류',
-        subcategories: ['상의', '하의', '악세서리', '아우터', '이너웨어'],
+        subcategories: [
+            { name: '상의', id: 6 },
+            { name: '하의', id: 7 },
+            { name: '악세서리', id: 8 },
+            { name: '아우터', id: 9 },
+            { name: '이너웨어', id: 10 },
+        ],
     },
     {
         category: '생활용품',
-        subcategories: ['청소용품', '주방용품', '욕실'],
+        subcategories: [
+            { name: '청소용품', id: 11 },
+            { name: '주방용품', id: 12 },
+            { name: '욕실', id: 13 },
+        ],
     },
     {
         category: '인테리어',
-        subcategories: ['홈데코', '디자인', '책', '음반', '조명'],
+        subcategories: [
+            { name: '홈데코', id: 14 },
+            { name: '디자인', id: 15 },
+            { name: '책', id: 16 },
+            { name: '음반', id: 17 },
+            { name: '조명', id: 18 },
+        ],
     },
     {
         category: '식품',
-        subcategories: ['가공식품', '음료', '신선식품'],
+        subcategories: [
+            { name: '가공식품', id: 19 },
+            { name: '음료', id: 20 },
+            { name: '신선식품', id: 21 },
+        ],
     },
     {
         category: '레저',
-        subcategories: ['스포츠용품', '캠핑용품'],
+        subcategories: [
+            { name: '스포츠용품', id: 22 },
+            { name: '캠핑용품', id: 23 },
+        ],
     },
 ];
 
@@ -45,8 +68,8 @@ const community = [
 
 export default function Navbar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const { cartCount } = useContext(CartContext); // cartCount를 Context에서 받아옴
-    const [dropdownVisible, setDropdownVisible] = useState(''); // 드롭다운 메뉴 가시성 상태
+    const { cartCount } = useContext(CartContext);
+    const [dropdownVisible, setDropdownVisible] = useState('');
     const navigate = useNavigate();
 
     const handleAuthClick = () => {
@@ -112,7 +135,9 @@ export default function Navbar() {
                                         <SubcategoryList>
                                             {category.subcategories.map((subcategory, subIndex) => (
                                                 <SubcategoryItem key={subIndex}>
-                                                    <Link to={`/${subcategory}`}>{subcategory}</Link>
+                                                    <Link to={`/gallery?category=${subcategory.id}`}>
+                                                        {subcategory.name}
+                                                    </Link>
                                                 </SubcategoryItem>
                                             ))}
                                         </SubcategoryList>
@@ -309,7 +334,7 @@ const Button = styled.button`
     cursor: pointer;
     border-radius: 5px;
     background: #65bd83;
-    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    white-space: nowrap;
 `;
 
 const CartIconContainer = styled.div`

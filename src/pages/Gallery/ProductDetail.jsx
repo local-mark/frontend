@@ -5,390 +5,68 @@ import { FaChevronRight, FaChevronLeft, FaStar, FaTimes } from 'react-icons/fa';
 import BrandContainer from '../../components/Gallery/BrandContainer';
 import ProductContent from '../../components/Gallery/ProductContent';
 import { CartContext } from '../../store/CartContext';
-
-import mockup1 from '../../assets/image/Gallery/mockup_1.svg';
-import mockup2 from '../../assets/image/Gallery/mockup_2.svg';
-import mockup3 from '../../assets/image/Gallery/mockup_3.svg';
-import mockup4 from '../../assets/image/Gallery/mockup_4.svg';
-
-const mockProducts = [
-    {
-        isSuccess: true,
-        code: 2000,
-        message: 'SUCCESS!',
-        result: {
-            product: {
-                product_id: 1,
-                brand_id: 1,
-                product_name: '상의1',
-                brand_name: '푸른',
-                price: 12000,
-                discount_rate: 30,
-                delivery_fee: 3000,
-                description: '따스한 ~~ ',
-                star_avg: 3.5,
-                review_cnt: 2,
-            },
-            options: [
-                {
-                    opt_comb_id: 1,
-                    option_type: {
-                        색상: '초록',
-                        사이즈: 'S',
-                    },
-                    stock: 10,
-                },
-                {
-                    opt_comb_id: 2,
-                    option_type: {
-                        색상: '초록',
-                        사이즈: 'M',
-                    },
-                    stock: 5,
-                },
-                {
-                    opt_comb_id: 3,
-                    option_type: {
-                        색상: '노랑',
-                        사이즈: 'S',
-                    },
-                    stock: 3,
-                },
-                {
-                    opt_comb_id: 4,
-                    option_type: {
-                        색상: '노랑',
-                        사이즈: 'M',
-                    },
-                    stock: 15,
-                },
-            ],
-            images: [mockup1, mockup2, mockup3],
-        },
-    },
-    {
-        isSuccess: true,
-        code: 2000,
-        message: 'SUCCESS!',
-        result: {
-            product: {
-                product_id: 2,
-                brand_id: 2,
-                product_name: '상의2',
-                brand_name: '하얀',
-                price: 8000,
-                discount_rate: 20,
-                delivery_fee: 2500,
-                description: '편안한 ~~ ',
-                star_avg: 4.0,
-                review_cnt: 15,
-            },
-            options: [
-                {
-                    opt_comb_id: 5,
-                    option_type: {
-                        색상: '파랑',
-                        사이즈: 'S',
-                    },
-                    stock: 20,
-                },
-                {
-                    opt_comb_id: 6,
-                    option_type: {
-                        색상: '파랑',
-                        사이즈: 'M',
-                    },
-                    stock: 10,
-                },
-                {
-                    opt_comb_id: 7,
-                    option_type: {
-                        색상: '빨강',
-                        사이즈: 'S',
-                    },
-                    stock: 8,
-                },
-                {
-                    opt_comb_id: 8,
-                    option_type: {
-                        색상: '빨강',
-                        사이즈: 'M',
-                    },
-                    stock: 12,
-                },
-            ],
-            images: [mockup2, mockup3, mockup4],
-        },
-    },
-    {
-        isSuccess: true,
-        code: 2000,
-        message: 'SUCCESS!',
-        result: {
-            product: {
-                product_id: 3,
-                brand_id: 1,
-                product_name: '상의3',
-                brand_name: '푸른',
-                price: 15000,
-                discount_rate: 25,
-                delivery_fee: 3000,
-                description: '포근한 ~~ ',
-                star_avg: 4.3,
-                review_cnt: 5,
-            },
-            options: [
-                {
-                    opt_comb_id: 9,
-                    option_type: {
-                        색상: '초록',
-                        사이즈: 'L',
-                    },
-                    stock: 7,
-                },
-                {
-                    opt_comb_id: 10,
-                    option_type: {
-                        색상: '파랑',
-                        사이즈: 'L',
-                    },
-                    stock: 5,
-                },
-            ],
-            images: [mockup1, mockup4, mockup2],
-        },
-    },
-    {
-        isSuccess: true,
-        code: 2000,
-        message: 'SUCCESS!',
-        result: {
-            product: {
-                product_id: 4,
-                brand_id: 3,
-                product_name: '상의4',
-                brand_name: '편안',
-                price: 60000,
-                discount_rate: 10,
-                delivery_fee: 5000,
-                description: '폭신한 ~~ ',
-                star_avg: 4.7,
-                review_cnt: 25,
-            },
-            options: [
-                {
-                    opt_comb_id: 11,
-                    option_type: {
-                        색상: '회색',
-                        사이즈: 'Queen',
-                    },
-                    stock: 3,
-                },
-                {
-                    opt_comb_id: 12,
-                    option_type: {
-                        색상: '회색',
-                        사이즈: 'King',
-                    },
-                    stock: 2,
-                },
-            ],
-            images: [mockup3, mockup1, mockup4],
-        },
-    },
-    {
-        isSuccess: true,
-        code: 2000,
-        message: 'SUCCESS!',
-        result: {
-            product: {
-                product_id: 5,
-                brand_id: 2,
-                product_name: '상의5',
-                brand_name: '하얀',
-                price: 25000,
-                discount_rate: 15,
-                delivery_fee: 3500,
-                description: '아늑한 ~~ ',
-                star_avg: 3.9,
-                review_cnt: 30,
-            },
-            options: [
-                {
-                    opt_comb_id: 13,
-                    option_type: {
-                        색상: '베이지',
-                        사이즈: 'S',
-                    },
-                    stock: 25,
-                },
-                {
-                    opt_comb_id: 14,
-                    option_type: {
-                        색상: '베이지',
-                        사이즈: 'L',
-                    },
-                    stock: 15,
-                },
-            ],
-            images: [mockup4, mockup2, mockup1],
-        },
-    },
-    {
-        isSuccess: true,
-        code: 2000,
-        message: 'SUCCESS!',
-        result: {
-            product: {
-                product_id: 6,
-                brand_id: 3,
-                product_name: '상의6',
-                brand_name: '편안',
-                price: 40000,
-                discount_rate: 20,
-                delivery_fee: 4000,
-                description: '따뜻한 ~~ ',
-                star_avg: 4.6,
-                review_cnt: 10,
-            },
-            options: [
-                {
-                    opt_comb_id: 15,
-                    option_type: {
-                        색상: '회색',
-                        사이즈: 'Medium',
-                    },
-                    stock: 6,
-                },
-                {
-                    opt_comb_id: 16,
-                    option_type: {
-                        색상: '회색',
-                        사이즈: 'Large',
-                    },
-                    stock: 4,
-                },
-            ],
-            images: [mockup3, mockup4, mockup2],
-        },
-    },
-    {
-        isSuccess: true,
-        code: 2000,
-        message: 'SUCCESS!',
-        result: {
-            product: {
-                product_id: 7,
-                brand_id: 1,
-                product_name: '상의7',
-                brand_name: '푸른',
-                price: 100000,
-                discount_rate: 5,
-                delivery_fee: 7000,
-                description: '편안한 ~~ ',
-                star_avg: 4.8,
-                review_cnt: 50,
-            },
-            options: [
-                {
-                    opt_comb_id: 17,
-                    option_type: {
-                        색상: '화이트',
-                        사이즈: 'Single',
-                    },
-                    stock: 4,
-                },
-                {
-                    opt_comb_id: 18,
-                    option_type: {
-                        색상: '화이트',
-                        사이즈: 'Double',
-                    },
-                    stock: 6,
-                },
-            ],
-            images: [mockup2, mockup1, mockup4],
-        },
-    },
-    {
-        isSuccess: true,
-        code: 2000,
-        message: 'SUCCESS!',
-        result: {
-            product: {
-                product_id: 8,
-                brand_id: 2,
-                product_name: '상의8',
-                brand_name: '하얀',
-                price: 50000,
-                discount_rate: 25,
-                delivery_fee: 5000,
-                description: '실용적인 ~~ ',
-                star_avg: 4.2,
-                review_cnt: 18,
-            },
-            options: [
-                {
-                    opt_comb_id: 19,
-                    option_type: {
-                        색상: '갈색',
-                        사이즈: '120cm',
-                    },
-                    stock: 10,
-                },
-                {
-                    opt_comb_id: 20,
-                    option_type: {
-                        색상: '갈색',
-                        사이즈: '150cm',
-                    },
-                    stock: 5,
-                },
-            ],
-            images: [mockup1, mockup3, mockup2],
-        },
-    },
-];
+import { fetchData } from '../../services/api';
 
 const ProductDetail = () => {
     const { productId } = useParams();
-    const productData = mockProducts.find((p) => p.result.product.product_id === Number(productId));
-
-    if (!productData) {
-        return <div>Product not found</div>;
-    }
-
-    const product = productData.result.product;
     const { addToCart } = useContext(CartContext);
     const navigate = useNavigate();
 
+    // State variables
+    const [productData, setProductData] = useState(null);
     const [currentImage, setCurrentImage] = useState(0);
     const [selectedColor, setSelectedColor] = useState('');
     const [selectedSize, setSelectedSize] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [selectedOptions, setSelectedOptions] = useState([]);
 
-    const handleNextImage = () => {
-        setCurrentImage((prev) => (prev + 1) % productData.result.images.length);
-    };
+    // Fetch product data on component mount
+    useEffect(() => {
+        const loadProductData = async () => {
+            try {
+                const data = await fetchData(`/gallery/product/${productId}`);
+                setProductData(data.result);
+            } catch (error) {
+                console.error('제품 데이터를 불러오는 중 오류가 발생했습니다:', error);
+            }
+        };
+        loadProductData();
+    }, [productId]);
 
-    const handlePreviousImage = () => {
-        setCurrentImage((prev) => (prev - 1 + productData.result.images.length) % productData.result.images.length);
-    };
-
+    // Handle color and size selection
     useEffect(() => {
         if (selectedColor && selectedSize) {
             const option = `${selectedColor} - ${selectedSize}`;
             if (!selectedOptions.some((opt) => opt.option === option)) {
                 setSelectedOptions([
                     ...selectedOptions,
-                    { option, quantity, price: product.price, delivery_fee: product.delivery_fee },
+                    {
+                        option,
+                        quantity,
+                        price: productData.product.price,
+                        delivery_fee: productData.product.delivery_fee,
+                    },
                 ]);
                 setSelectedColor('');
                 setSelectedSize('');
             }
         }
-    }, [selectedColor, selectedSize]);
+    }, [selectedColor, selectedSize, selectedOptions, productData]);
+
+    if (!productData) {
+        return <div>Loading...</div>;
+    }
+
+    const product = productData.product;
+    const starAvg = parseFloat(product.star_avg); // 숫자로 변환
+
+    const handleNextImage = () => {
+        setCurrentImage((prev) => (prev + 1) % productData.images.length);
+    };
+
+    const handlePreviousImage = () => {
+        setCurrentImage((prev) => (prev - 1 + productData.images.length) % productData.images.length);
+    };
 
     const handleRemoveOption = (option) => {
         setSelectedOptions(selectedOptions.filter((opt) => opt.option !== option));
@@ -413,7 +91,7 @@ const ProductDetail = () => {
                 id: product.product_id,
                 brand_id: product.brand_id,
                 name: product.product_name,
-                image: productData.result.images[0],
+                image: productData.images[0],
                 price: opt.price,
                 option: opt.option,
                 quantity: opt.quantity,
@@ -437,7 +115,7 @@ const ProductDetail = () => {
                 id: product.product_id,
                 name: product.product_name,
                 brand_id: product.brand_id,
-                image: productData.result.images[0],
+                image: productData.images[0],
                 price: opt.price,
                 option: opt.option,
                 quantity: opt.quantity,
@@ -458,12 +136,12 @@ const ProductDetail = () => {
                         <ArrowButtonLeft onClick={handlePreviousImage}>
                             <FaChevronLeft />
                         </ArrowButtonLeft>
-                        <ProductImage src={productData.result.images[currentImage]} alt="제품 이미지" />
+                        <ProductImage src={productData.images[currentImage]} alt="제품 이미지" />
                         <ArrowButtonRight onClick={handleNextImage}>
                             <FaChevronRight />
                         </ArrowButtonRight>
                         <Pagination>
-                            {productData.result.images.map((_, index) => (
+                            {productData.images.map((_, index) => (
                                 <PageDot
                                     key={index}
                                     active={index === currentImage}
@@ -476,9 +154,9 @@ const ProductDetail = () => {
                         <ProductName>{product.product_name}</ProductName>
                         <Rating>
                             {Array.from({ length: 5 }, (_, index) => (
-                                <FaStar key={index} color={index < product.star_avg ? '#65BD83' : '#ddd'} />
+                                <FaStar key={index} color={index < starAvg ? '#65BD83' : '#ddd'} />
                             ))}
-                            <RatingValue>{product.star_avg.toFixed(1)}</RatingValue>
+                            <RatingValue>{starAvg.toFixed(1)}</RatingValue>
                             <ReviewLink href="#reviews">{product.review_cnt}개 리뷰 보기</ReviewLink>
                         </Rating>
                         <PriceContainer>
@@ -496,7 +174,7 @@ const ProductDetail = () => {
                         <OptionSelectContainer>
                             <OptionSelect value={selectedColor} onChange={(e) => setSelectedColor(e.target.value)}>
                                 <option>색상 선택</option>
-                                {[...new Set(productData.result.options.map((opt) => opt.option_type.색상))].map(
+                                {[...new Set(productData.options.map((opt) => opt.option_type.색상))].map(
                                     (color, index) => (
                                         <OptionItemStyled key={index} value={color}>
                                             {color}
@@ -508,7 +186,7 @@ const ProductDetail = () => {
                         <OptionSelectContainer>
                             <OptionSelect value={selectedSize} onChange={(e) => setSelectedSize(e.target.value)}>
                                 <option>사이즈 선택</option>
-                                {[...new Set(productData.result.options.map((opt) => opt.option_type.사이즈))].map(
+                                {[...new Set(productData.options.map((opt) => opt.option_type.사이즈))].map(
                                     (size, index) => (
                                         <OptionItemStyled key={index} value={size}>
                                             {size}
@@ -561,9 +239,9 @@ const ProductDetail = () => {
                 </Container>
             </Wrapper>
             <BrandWrapper>
-                <BrandContainer />
+                <BrandContainer brandId={product.brand_id} />
             </BrandWrapper>
-            <ProductContent images={productData.result.images} />
+            <ProductContent images={productData.images} />
         </>
     );
 };
@@ -574,7 +252,6 @@ const Wrapper = styled.div`
     flex-direction: row;
     justify-content: center;
 `;
-
 const BrandWrapper = styled.div`
     display: flex;
     flex-direction: column;

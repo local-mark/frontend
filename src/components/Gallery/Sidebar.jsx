@@ -5,32 +5,62 @@ import { FaChevronUp } from 'react-icons/fa';
 
 const categories = [
     {
+        id: null,
         category: '전체',
         link: '/gallery',
     },
     {
+        id: 6,
         category: '의류',
-        subcategories: ['상의', '하의', '악세서리', '아우터', '이너웨어'],
+        subcategories: [
+            { id: 6, name: '상의' },
+            { id: 7, name: '하의' },
+            { id: 8, name: '악세서리' },
+            { id: 9, name: '아우터' },
+            { id: 10, name: '이너웨어' },
+        ],
     },
     {
+        id: 11,
         category: '생활용품',
-        subcategories: ['청소용품', '주방용품', '욕실'],
+        subcategories: [
+            { id: 11, name: '청소용품' },
+            { id: 12, name: '주방용품' },
+            { id: 13, name: '욕실' },
+        ],
     },
     {
+        id: 14,
         category: '인테리어',
-        subcategories: ['홈데코', '디자인', '책', '음반', '조명'],
+        subcategories: [
+            { id: 14, name: '홈데코' },
+            { id: 15, name: '디자인' },
+            { id: 16, name: '책' },
+            { id: 17, name: '음반' },
+            { id: 18, name: '조명' },
+        ],
     },
     {
+        id: 19,
         category: '식품',
-        subcategories: ['가공식품', '음료', '신선식품'],
+        subcategories: [
+            { id: 18, name: '가공식품' },
+            { id: 20, name: '음료' },
+            { id: 21, name: '신선식품' },
+        ],
     },
     {
+        id: 22,
         category: '레저',
-        subcategories: ['스포츠용품', '캠핑용품'],
+        subcategories: [
+            { id: 22, name: '스포츠용품' },
+            { id: 23, name: '캠핑용품' },
+        ],
     },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ onCategorySelect }) => {
+    // onCategorySelect를 받아옵니다.
     const [openCategory, setOpenCategory] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(0);
     const navigate = useNavigate();
@@ -43,7 +73,7 @@ const Sidebar = () => {
             categories.forEach((category, index) => {
                 if (category.subcategories) {
                     category.subcategories.forEach((subcategory) => {
-                        if (location.pathname.includes(subcategory)) {
+                        if (location.pathname.includes(subcategory.name)) {
                             setOpenCategory(index);
                             setSelectedCategory(index);
                         }
@@ -56,6 +86,7 @@ const Sidebar = () => {
     const handleCategoryClick = (index) => {
         if (categories[index].link) {
             navigate(categories[index].link);
+            onCategorySelect(categories[index].id); // 선택된 카테고리 ID 전달
         } else {
             setOpenCategory(openCategory === index ? null : index);
         }
@@ -63,7 +94,8 @@ const Sidebar = () => {
 
     const handleSubcategoryClick = (index, subcategory) => {
         setSelectedCategory(index);
-        navigate(`/${subcategory}`);
+        onCategorySelect(subcategory.id); // 서브카테고리의 ID를 전달
+        navigate(`/gallery?category=${subcategory.id}`);
     };
 
     return (
@@ -87,12 +119,12 @@ const Sidebar = () => {
                                 {openCategory === index && (
                                     <SubcategoryList>
                                         {category.subcategories.map((subcategory) => (
-                                            <SubcategoryItem key={subcategory}>
+                                            <SubcategoryItem key={subcategory.id}>
                                                 <Link
                                                     onClick={() => handleSubcategoryClick(index, subcategory)}
-                                                    to={`/${subcategory}`}
+                                                    to={`/gallery?category=${subcategory.id}`}
                                                 >
-                                                    {subcategory}
+                                                    {subcategory.name}
                                                 </Link>
                                             </SubcategoryItem>
                                         ))}

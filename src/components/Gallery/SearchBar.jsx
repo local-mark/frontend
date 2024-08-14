@@ -1,18 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
-
-import mockup1 from '../../assets/image/Gallery/mockup_1.svg';
-import mockup2 from '../../assets/image/Gallery/mockup_2.svg';
-import mockup3 from '../../assets/image/Gallery/mockup_3.svg';
-import mockup4 from '../../assets/image/Gallery/mockup_4.svg';
-
-const mockSuggestions = [
-    { text: '상의1', image: mockup1 },
-    { text: '상의2', image: mockup2 },
-    { text: '하의1', image: mockup3 },
-    { text: '하의2', image: mockup4 },
-];
+import { fetchData } from '../../services/api';
 
 const SearchBar = ({ onSearch }) => {
     const [query, setQuery] = useState('');
@@ -21,19 +10,31 @@ const SearchBar = ({ onSearch }) => {
     const handleSearch = (e) => {
         e.preventDefault();
         onSearch(query);
+        setSuggestions([]); // 검색 후 제안 목록을 비웁니다.
     };
 
-    const handleInputChange = (e) => {
+    const handleInputChange = async (e) => {
         const value = e.target.value;
         setQuery(value);
-        const filteredSuggestions = mockSuggestions.filter((item) => item.text.includes(value));
-        setSuggestions(value ? filteredSuggestions : []);
+
+        if (value) {
+            try {
+                // API 요청을 통해 검색어에 대한 제안을 가져옵니다.
+                const params = { page: 1, keyword: value }; // 검색어를 포함하여 API 요청
+                const data = await fetchData('/gallery', params); // 전체 상품 데이터를 가져옵니다.
+                setSuggestions(data.result.products); // API에서 제안 목록을 받아와서 상태로 저장
+            } catch (error) {
+                console.error('검색 제안을 불러오는 중 오류가 발생했습니다:', error);
+            }
+        } else {
+            setSuggestions([]);
+        }
     };
 
     const handleSuggestionClick = (suggestion) => {
-        setQuery(suggestion.text);
-        setSuggestions([]);
-        onSearch(suggestion.text);
+        setQuery(suggestion.product_name); // 선택된 제안을 검색어로 설정
+        onSearch(suggestion.product_name); // 선택된 제안으로 검색을 실행
+        setSuggestions([]); // 제안 목록을 비웁니다.
     };
 
     return (
@@ -46,8 +47,8 @@ const SearchBar = ({ onSearch }) => {
                 <SuggestionsList>
                     {suggestions.map((suggestion, index) => (
                         <SuggestionItem key={index} onClick={() => handleSuggestionClick(suggestion)}>
-                            <SuggestionImage src={suggestion.image} alt={suggestion.text} />
-                            {suggestion.text}
+                            <SuggestionImage src={suggestion.thumbnail_url} alt={suggestion.product_name} />
+                            {suggestion.product_name}
                         </SuggestionItem>
                     ))}
                 </SuggestionsList>
@@ -90,7 +91,6 @@ const SuggestionsList = styled.ul`
     overflow-y: auto;
     background: #fff;
     border-radius: 10px;
-    background: var(--Color-Background-white, #fff);
     box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.08);
     border: 0.5px solid var(--Color-Gray-gray-500, #9e9e9e);
     z-index: 1000;
