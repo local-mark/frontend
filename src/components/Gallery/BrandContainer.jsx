@@ -1,23 +1,28 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import mockup1 from '../../assets/image/Gallery/mockup_1.svg';
+import { fetchData } from '../../services/api';
 
-const mockData = {
-    brand: [
-        {
-            brand_id: 1,
-            region_name: '지역명',
-            brand_name: '브랜드명',
-            description: '브랜드 소개',
-            brand_url: 'https://brand.com',
-            brand_image: mockup1,
-        },
-    ],
-};
-
-export default function BrandContainer() {
+export default function BrandContainer({ brandId }) {
     const navigate = useNavigate();
-    const brand = mockData.brand[0];
+    const [brand, setBrand] = useState(null);
+
+    useEffect(() => {
+        const loadBrandData = async () => {
+            try {
+                const data = await fetchData(`/brand/${brandId}`);
+                setBrand(data.result.brand);
+            } catch (error) {
+                console.error('브랜드 데이터를 불러오는 중 오류가 발생했습니다:', error);
+            }
+        };
+
+        loadBrandData();
+    }, [brandId]);
+
+    if (!brand) {
+        return <div>Loading...</div>;
+    }
 
     const handleBrandProfileClick = () => {
         navigate(`/brand/${brand.brand_id}/products`);
@@ -70,6 +75,8 @@ const Region = styled.div`
     padding: 4px var(--Text-size-2, 12px);
     justify-content: center;
     align-items: center;
+    width: 50px;
+
     border-radius: 5px;
     background: var(--Color-Main-primary, #65bd83);
     color: #fff;
