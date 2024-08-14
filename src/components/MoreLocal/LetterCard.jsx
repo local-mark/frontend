@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 
 import mork_1 from "../../assets/image/MoreLocal/soap.png";
 import mork_2 from "../../assets/image/MoreLocal/soap_2.png";
-
-const lettersPerPage = 6;
 
 const SampleLetters = [
     {
@@ -143,9 +140,6 @@ const PageButton = styled.button`
 `;
 
 const LetterCard = () => {
-    /* const totalPages = Math.ceil(SampleLetters.length / lettersPerPage);
-    const pageLetters = SampleLetters.slice((currentPage - 1) * lettersPerPage, currentPage * lettersPerPage); */
-
     return (
         <div>
             <CardGrid>
@@ -160,39 +154,8 @@ const LetterCard = () => {
                     </Card>
                 ))}
             </CardGrid>
-            {/* <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} /> */}
         </div>  
     );
 };
-
-/* const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            onPageChange(currentPage + 1);
-        }
-    };
-
-    const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            onPageChange(currentPage - 1);
-        }
-    };
-
-    return (
-        <PaginationContainer>
-            <PageButton onClick={handlePreviousPage} disabled={currentPage === 1}>
-                <FaChevronLeft />
-            </PageButton>
-            {[...Array(totalPages)].map((_, index) => (
-                <PageButton key={index + 1} onClick={() => onPageChange(index + 1)} active={index + 1 === currentPage}>
-                    {index + 1}
-                </PageButton>
-            ))}
-            <PageButton onClick={handleNextPage} disabled={currentPage === totalPages}>
-                <FaChevronRight />
-            </PageButton>
-        </PaginationContainer>
-    );
-}; */
 
 export default LetterCard;
