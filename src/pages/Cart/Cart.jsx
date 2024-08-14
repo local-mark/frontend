@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../../store/CartContext';
 
 const Cart = () => {
     const { cartItems, removeFromCart, updateCartItem } = useContext(CartContext);
     const [selectedItems, setSelectedItems] = useState([]);
+    const navigate = useNavigate();
 
     const handleSelectItem = (itemId, option) => {
         const itemKey = `${itemId}-${JSON.stringify(option)}`;
@@ -65,6 +67,10 @@ const Cart = () => {
 
     const formatOptionText = (option) => {
         return Object.values(option).filter((value) => value && value.trim());
+    };
+
+    const handlePayment = () => {
+        navigate('/payment');
     };
 
     return (
@@ -141,7 +147,7 @@ const Cart = () => {
                                 <SummaryValue>{calculateTotalOrderPrice().toLocaleString()}원</SummaryValue>
                             </SummaryItem>
                             <ButtonContainer>
-                                <OrderButton onClick={() => alert('주문이 완료되었습니다.')}>
+                                <OrderButton onClick={handlePayment}>
                                     {calculateTotalOrderPrice().toLocaleString()}원 결제하기
                                 </OrderButton>
                             </ButtonContainer>
@@ -385,11 +391,12 @@ const RemoveSelectedButton = styled.button`
     margin-left: 20px;
 `;
 
-const ButtonContainer = styled.button`
+const ButtonContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
 `;
+
 const OrderButton = styled.button`
     background-color: #65bd83;
     color: #fff;
