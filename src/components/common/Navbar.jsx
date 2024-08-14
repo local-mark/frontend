@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
+import { CartContext } from '../../store/CartContext';
 import logo from '../../assets/icon/Home/localmark_logo.svg';
 import cartIcon from '../../assets/icon/Home/cart_icon.svg';
 
@@ -44,7 +45,7 @@ const community = [
 
 export default function Navbar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [cartCount, setCartCount] = useState(0); // 카트에 담긴 갯수 상태
+    const { cartCount } = useContext(CartContext); // cartCount를 Context에서 받아옴
     const [dropdownVisible, setDropdownVisible] = useState(''); // 드롭다운 메뉴 가시성 상태
     const navigate = useNavigate();
 

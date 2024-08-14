@@ -100,7 +100,7 @@ export const InputContainer = styled.div`
 
 export const Input = styled.input`
     flex: 1 0 0;
-    color: var(--Color-Text-light1, #9e9e9e);
+    color: var(--Color-Text-light1, #222222);
 
     /* B4_M */
     font-family: Pretendard;
