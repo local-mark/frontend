@@ -93,10 +93,15 @@ export default CreaterCommunity;
 const CreaterCommunityContainer = styled.div`
     width: 100%;
     min-heigth: 1600px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 `;
 
 const CreaterCommunityNavbar = styled.div`
-    width: 100%;
+    width: 1200px;
     display: flex;
     text-align: center;
     flex-direction: column;
@@ -104,9 +109,20 @@ const CreaterCommunityNavbar = styled.div`
     align-items: center;
 `;
 const WriteButtonConatiner = styled.div`
-    width: 100%;
+    width: 1200px;
     max-width: 1200px;
     margin-left: auto;
+    display: flex;
+    flex-direction: row-reverse;
+`;
+
+const WriteButton = styled.button`
+    color: white;
+    background-color: #ff8162;
+    border: none;
+    width: 94px;
+    height: 41px;
+    border-radius: 5px;
 `;
 
 const CreaterCommunityTitle = styled.div`
@@ -153,12 +169,3 @@ const CreaterCommunityContentConatainer = styled.div`
     height: 600px;
 `;
 
-const WriteButton = styled.button`
-    color: white;
-    background-color: #ff8162;
-    border: none;
-    width: 94px;
-    height: 41px;
-    border-radius: 5px;
-    margin-left: auto;
-`;
