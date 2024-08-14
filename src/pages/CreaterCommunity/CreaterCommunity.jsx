@@ -81,7 +81,7 @@ const CreaterCommunity = ({ posts }) => {
                         }
                     />
                     <Route path="write" element={<Write />} />
-                    <Route path="*" element={<Navigate to="/creatercommunity/" />} />
+                    <Route path="*" element={<Navigate to="/creatercommunity/chat" />} />
                 </Routes>
             </CreaterCommunityContentConatainer>
         </CreaterCommunityContainer>

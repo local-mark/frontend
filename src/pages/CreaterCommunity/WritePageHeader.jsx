@@ -4,6 +4,8 @@ import imageIcon from "../../assets/image/CreaterCommunity/image_Button.png";
 import Bold from "../../assets/image/CreaterCommunity/Bold_Button.png";
 import Strikethrough from "../../assets/image/CreaterCommunity/strikethrough_Button.png";
 
+
+
 const WritePageHeader = ({ onImageClick, onCancelClick, onRegisterClick, fileInputRef, onFileChange }) => (
     <WritePageHeaderContainer>
         <WritePageLeftMenu>
