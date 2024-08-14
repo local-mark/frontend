@@ -66,11 +66,11 @@ const Main = styled.main`
 `;
 
 const LocalLetter = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  /* const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (page) => {
       setCurrentPage(page);
-  };
+  }; */
 
   return (
     <PageContainer>
@@ -86,7 +86,7 @@ const LocalLetter = () => {
         </Nav>
       </Header>
       <Main>
-        <LetterCard curruntPage={currentPage} onPageChange={handlePageChange} />
+        <LetterCard />
       </Main>
     </PageContainer>
   );

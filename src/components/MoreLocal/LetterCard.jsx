@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 
 import mork_1 from "../../assets/image/MoreLocal/soap.png";
 import mork_2 from "../../assets/image/MoreLocal/soap_2.png";
@@ -11,56 +12,56 @@ const SampleLetters = [
         letter_id: 7,
         category: "뉴스레터",
         title: "제목8",
-        thumbnail_url: {mork_1},
+        thumbnail_url: mork_1,
         created_at: "2024.08.02"
     },
     {
         letter_id: 6,
         category: "인터뷰",
         title: "제목7",
-        thumbnail_url: {mork_2},
+        thumbnail_url: mork_2,
         created_at: "2024.08.02"
     },
     {
         letter_id: 5,
         category: "뉴스레터",
         title: "제목6",
-        thumbnail_url: {mork_1},
+        thumbnail_url: mork_1,
         created_at: "2024.08.02"
     },
     {
         letter_id: 4,
         category: "인터뷰",
         title: "제목5",
-        thumbnail_url: {mork_2},
+        thumbnail_url: mork_2,
         created_at: "2024.08.02"
     },
     {
         letter_id: 3,
         category: "뉴스레터",
         title: "제목4",
-        thumbnail_url: {mork_1},
+        thumbnail_url: mork_1,
         created_at: "2024.08.02"
     },
     {
         letter_id: 2,
         category: "인터뷰",
         title: "제목3",
-        thumbnail_url: {mork_2},
+        thumbnail_url: mork_2,
         created_at: "2024.08.02"
     },
     {
         letter_id: 1,
         category: "뉴스레터",
         title: "제목2",
-        thumbnail_url: {mork_1},
+        thumbnail_url: mork_1,
         created_at: "2024.08.02"
     },
     {
         letter_id: 0,
         category: "인터뷰",
         title: "제목1",
-        thumbnail_url: {mork_2},
+        thumbnail_url: mork_2,
         created_at: "2024.08.02"
     }
 ];
@@ -119,19 +120,38 @@ const Date = styled.div`
   color: #999;
 `;
 
-const LetterCard = ({curruntPage, onPageChange}) => {
-    const [letters, setLetters] = useState([]);
-    const pageLetters = SampleLetters.slice((curruntPage - 1) * lettersPerPage, curruntPage * lettersPerPage);
-    setLetters(pageLetters);
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+`;
 
-    const totalPages = Math.ceil(SampleLetters.length / lettersPerPage);
+const PageButton = styled.button`
+  background: ${({ active }) => (active ? '#ff5722' : '#fff')};
+  color: ${({ active }) => (active ? '#fff' : '#000')};
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  margin: 0 4px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+`;
+
+const LetterCard = () => {
+    /* const totalPages = Math.ceil(SampleLetters.length / lettersPerPage);
+    const pageLetters = SampleLetters.slice((currentPage - 1) * lettersPerPage, currentPage * lettersPerPage); */
 
     return (
         <div>
             <CardGrid>
-                {letters.map((letter) => (
-                    <Card>
-                        <CardImage src={mork_1} alt='sample_1' />
+                {SampleLetters.map((letter) => (
+                    <Card key={letter.letter_id}>
+                        <CardImage src={letter.thumbnail_url} alt={letter.title} />
                         <CardContent>
                             <Category>{letter.category}</Category>
                             <CardTitle>{letter.title}</CardTitle>
@@ -140,12 +160,12 @@ const LetterCard = ({curruntPage, onPageChange}) => {
                     </Card>
                 ))}
             </CardGrid>
-            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
+            {/* <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} /> */}
         </div>  
     );
 };
 
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+/* const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     const handleNextPage = () => {
         if (currentPage < totalPages) {
             onPageChange(currentPage + 1);
@@ -173,7 +193,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             </PageButton>
         </PaginationContainer>
     );
-};
-
+}; */
 
 export default LetterCard;
