@@ -60,7 +60,6 @@ const categories = [
 ];
 
 const Sidebar = ({ onCategorySelect }) => {
-    // onCategorySelect를 받아옵니다.
     const [openCategory, setOpenCategory] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(0);
     const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../../store/CartContext';
 import logo from '../../assets/icon/Home/localmark_logo.svg';
 import cartIcon from '../../assets/icon/Home/cart_icon.svg';
@@ -92,25 +92,27 @@ export default function Navbar() {
         setDropdownVisible('');
     };
 
+    const handleSubcategoryClick = (subcategoryId) => {
+        navigate(`/gallery?category=${subcategoryId}`);
+    };
+
     return (
         <NavbarWrapper onMouseLeave={handleMouseLeave}>
             {!location.pathname.includes('/creatercommunity/write') && (
                 <NavbarContainer>
-                    <Link to="/">
-                        <Logo src={logo} alt="LocalMark Logo" />
-                    </Link>
+                    <Logo src={logo} alt="LocalMark Logo" onClick={() => navigate('/')} />
                     <Menu>
                         <MenuItem onMouseEnter={() => handleMouseEnter('gallery')}>
-                            <Link to="/gallery">제품 갤러리</Link>
+                            <span onClick={() => navigate('/gallery')}>제품 갤러리</span>
                         </MenuItem>
                         <MenuItem onMouseEnter={() => handleMouseEnter('local')}>
-                            <Link to="/localletter">more local</Link>
+                            <span onClick={() => navigate('/localletter')}>more local</span>
                         </MenuItem>
                         <MenuItem onMouseEnter={() => handleMouseEnter('creatercommunity')}>
-                            <Link to="/creatercommunity">크리에이터 커뮤니티</Link>
+                            <span onClick={() => navigate('/creatercommunity')}>크리에이터 커뮤니티</span>
                         </MenuItem>
                         <MenuItem>
-                            <Link to="/mypage">마이페이지</Link>
+                            <span onClick={() => navigate('/mypage')}>마이페이지</span>
                         </MenuItem>
                     </Menu>
                     <RightMenu>
@@ -129,15 +131,17 @@ export default function Navbar() {
                             {categories.map((category, index) => (
                                 <DropdownItem key={index}>
                                     <DropdownCategory>
-                                        <Link to={category.link || '#'}>{category.category}</Link>
+                                        <span onClick={() => category.link && navigate(category.link)}>
+                                            {category.category}
+                                        </span>
                                     </DropdownCategory>
                                     {category.subcategories && (
                                         <SubcategoryList>
                                             {category.subcategories.map((subcategory, subIndex) => (
                                                 <SubcategoryItem key={subIndex}>
-                                                    <Link to={`/gallery?category=${subcategory.id}`}>
+                                                    <span onClick={() => handleSubcategoryClick(subcategory.id)}>
                                                         {subcategory.name}
-                                                    </Link>
+                                                    </span>
                                                 </SubcategoryItem>
                                             ))}
                                         </SubcategoryList>
@@ -152,7 +156,7 @@ export default function Navbar() {
                         <DropdownMenuMoreLocal>
                             {moreLocal.map((item, index) => (
                                 <SubMenuItem key={index}>
-                                    <Link to={item.link}>{item.name}</Link>
+                                    <span onClick={() => navigate(item.link)}>{item.name}</span>
                                 </SubMenuItem>
                             ))}
                         </DropdownMenuMoreLocal>
@@ -163,7 +167,7 @@ export default function Navbar() {
                         <DropdownMenuCommunity>
                             {community.map((item, index) => (
                                 <SubMenuItem key={index}>
-                                    <Link to={item.link}>{item.name}</Link>
+                                    <span onClick={() => navigate(item.link)}>{item.name}</span>
                                 </SubMenuItem>
                             ))}
                         </DropdownMenuCommunity>
@@ -200,6 +204,7 @@ const Logo = styled.img`
     width: 190px;
     height: 100px;
     margin-left: 100px;
+    cursor: pointer;
 `;
 
 const Menu = styled.ul`
@@ -294,6 +299,7 @@ const SubcategoryList = styled.ul`
 
 const SubcategoryItem = styled.li`
     margin-bottom: 5px;
+    cursor: pointer;
     &:hover {
         color: #65bd83;
     }
@@ -302,6 +308,7 @@ const SubcategoryItem = styled.li`
 const SubMenuItem = styled.div`
     padding: 5px 0;
     font-weight: bold;
+    cursor: pointer;
     &:hover {
         color: #65bd83;
     }

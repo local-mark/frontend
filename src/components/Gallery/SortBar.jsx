@@ -32,10 +32,10 @@ const SortBar = ({ sort, setSort }) => {
 };
 
 const SortContainer = styled.div`
+    max-width: 1200px;
     display: flex;
     justify-content: flex-end;
     position: relative;
-    margin-right: 40px;
     margin-top: 10px;
 `;
 

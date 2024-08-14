@@ -12,7 +12,7 @@ export default function Payment() {
         zonecode: '',
     });
 
-    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('card');
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('kakaopay');
 
     // IMP (아임포트) 결제 스크립트를 동적으로 로드
     useEffect(() => {
@@ -120,16 +120,16 @@ export default function Payment() {
                     <SectionTitle>결제 정보</SectionTitle>
                     <PaymentMethodContainer>
                         <PaymentMethod
+                            selected={selectedPaymentMethod === 'kakaopay'}
+                            onClick={() => handlePaymentMethodChange('kakaopay')}
+                        >
+                            카카오페이
+                        </PaymentMethod>
+                        <PaymentMethod
                             selected={selectedPaymentMethod === 'card'}
                             onClick={() => handlePaymentMethodChange('card')}
                         >
                             카드
-                        </PaymentMethod>
-                        <PaymentMethod
-                            selected={selectedPaymentMethod === '휴대폰 결제'}
-                            onClick={() => handlePaymentMethodChange('휴대폰 결제')}
-                        >
-                            휴대폰 결제
                         </PaymentMethod>
                         <PaymentMethod
                             selected={selectedPaymentMethod === '가상계좌'}
