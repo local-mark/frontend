@@ -202,6 +202,7 @@ const PostDetail = ({ posts }) => {
 
 export default PostDetail;
 
+
 // Comment 컴포넌트 정의 (댓글 요소)
 const CommentComponent = ({ comment, index, replyInputVisible, toggleReplyInput, handleAddReply }) => (
     <CommentContainer>
