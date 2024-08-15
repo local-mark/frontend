@@ -109,7 +109,7 @@ export default function Landing() {
                     <div className='ImageBox'>
                         <img src={still_ma_spring} alt='brand_cover_1' />
                     </div>
-                    <div className='TextBox'>
+                    <div className='TextBox' id='left-padding'>
                         <div className='BrandNameBox'>
                             <p className='BrandName'>스틸마스프링</p>
                             <p className='BrandLocation'>세종특별자치시 조치원의 도예 공방</p>
@@ -129,7 +129,7 @@ export default function Landing() {
                     </div>
                 </div>
                 <div className='BrandCover'>
-                    <div className='TextBox'>
+                    <div className='TextBox' id='right-padding'>
                         <div className='BrandNameBox'>
                             <p className='BrandName'>순솝</p>
                             <p className='BrandLocation'>전라남도 순천시의 로컬 비누 브랜드</p>
@@ -333,6 +333,7 @@ const BrandCoverContainer = styled.div`
                 .Interview{
                     font-size: 1em;
                     align-self: flex-start;
+                    padding-bottom: 20px;
                 }
                 .InterviewSource{
                     font-size: 0.75em;
@@ -340,5 +341,13 @@ const BrandCoverContainer = styled.div`
                 }
             }
         }
-    }
+
+        #left-padding {
+            padding-left: 275px;
+        }
+
+        #right-padding {
+            padding-right: 275px;
+        }
+    }    
 `
