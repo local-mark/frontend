@@ -56,8 +56,8 @@ const categories = [
 ];
 
 const moreLocal = [
-    { name: '로컬레터', link: '/localletter' },
-    { name: '이벤트', link: '/events' },
+    { name: '로컬레터', link: '/morelocal/letters' },
+    { name: '이벤트', link: '/morelocal/events' },
 ];
 
 const community = [
@@ -106,7 +106,7 @@ export default function Navbar() {
                             <span onClick={() => navigate('/gallery')}>제품 갤러리</span>
                         </MenuItem>
                         <MenuItem onMouseEnter={() => handleMouseEnter('local')}>
-                            <span onClick={() => navigate('/localletter')}>more local</span>
+                            <span onClick={() => navigate('/morelocal/letters')}>more local</span>
                         </MenuItem>
                         <MenuItem onMouseEnter={() => handleMouseEnter('creatercommunity')}>
                             <span onClick={() => navigate('/creatercommunity')}>크리에이터 커뮤니티</span>

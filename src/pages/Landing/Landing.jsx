@@ -4,22 +4,12 @@ import styled from 'styled-components';
 
 import ImageOverlay from '../../components/Landing/ImageOverlay';
 
-// clear image, but size fixed.
 import first_background from '../../assets/image/Landing/first_background.png';
 import masanai from '../../assets/image/Landing/masanai.png';
 import dodari from '../../assets/image/Landing/dodari_visual_lab.png';
 import still_ma_spring from '../../assets/image/Landing/stillmaspring.png';
 import soonsoap_1 from '../../assets/image/Landing/soap.png';
 import soonsoap_2 from '../../assets/image/Landing/soap_2.png';
-
-/* // adjusted size, but bad image quality.
-import first_background from '../../assets/image/Landing/first_background.svg';
-import masanai from '../../assets/image/Landing/masanai.svg';
-import dodari from '../../assets/image/Landing/dodari_visual_lab.svg';
-import still_ma_spring from '../../assets/image/Landing/stillmaspring.svg';
-import soonsoap_1 from '../../assets/image/Landing/soap.svg';
-import soonsoap_2 from '../../assets/image/Landing/soap_2.svg';
- */
 
 export default function Landing() {
     return (
@@ -52,8 +42,10 @@ export default function Landing() {
                         </Link>
                     </div>
                     <div className='ImageBoxContainer'>
-                        <div className='ImageBox'>
-                            <img src={masanai} alt='masanai' />
+                        <div className='BrandBox'>
+                            <div className='ImageBox'>
+                                <img src={masanai} alt='masanai' />
+                            </div>
                             <div className='caption'>
                                 <p className='explain'>
                                     경상남도 마산의 로컬 패션 브랜드
@@ -63,8 +55,10 @@ export default function Landing() {
                                 </p>
                             </div>
                         </div>
-                        <div className='ImageBox'>
-                            <img src={dodari} alt='dodari' />
+                        <div className='BrandBox'>
+                            <div className='ImageBox'>
+                                <img src={dodari} alt='dodari' />
+                            </div>
                             <div className='caption'>
                                 <p className='explain'>
                                     부산 영도의 아웃도어 디자인 브랜드
@@ -74,8 +68,10 @@ export default function Landing() {
                                 </p>
                             </div>
                         </div>
-                        <div className='ImageBox'>
-                            <img src={soonsoap_1} alt='soonsoap' />
+                        <div className='BrandBox'>
+                            <div className='ImageBox'>
+                                <img src={soonsoap_1} alt='soonsoap' />
+                            </div>
                             <div className='caption'>
                                 <p className='explain'>
                                     전남 순천의 로컬 비누 브랜드
@@ -109,7 +105,7 @@ export default function Landing() {
                     <div className='ImageBox'>
                         <img src={still_ma_spring} alt='brand_cover_1' />
                     </div>
-                    <div className='TextBox'>
+                    <div className='TextBox' id='left-padding'>
                         <div className='BrandNameBox'>
                             <p className='BrandName'>스틸마스프링</p>
                             <p className='BrandLocation'>세종특별자치시 조치원의 도예 공방</p>
@@ -129,7 +125,7 @@ export default function Landing() {
                     </div>
                 </div>
                 <div className='BrandCover'>
-                    <div className='TextBox'>
+                    <div className='TextBox' id='right-padding'>
                         <div className='BrandNameBox'>
                             <p className='BrandName'>순솝</p>
                             <p className='BrandLocation'>전라남도 순천시의 로컬 비누 브랜드</p>
@@ -183,6 +179,7 @@ const CreatorContainer = styled.div`
         flex-direction: column;
         justify-content: space-between; 
         align-items: flex-start;
+        padding: 20px;
 
         button {
             background-color: #65BD83;
@@ -190,7 +187,7 @@ const CreatorContainer = styled.div`
             border: none;
             padding: 10px 40px;
             cursor: pointer;
-            font-size: 1.5em;
+            font-size: 1.25em;
             border-radius: 5px;
         }
     }
@@ -203,34 +200,49 @@ const CreatorContainer = styled.div`
     .ImageBoxContainer {
         display: flex;
         flex-direction: row;
-        flex: 0 0 75%;
+        flex: 1 1 75%;
         flex-wrap: wrap;
         width: 75%;
         align-content: space-around;
+        justify-content: space-between;
 
-        .ImageBox {
-            flex: 0 0 33%;
-            padding-bottom: 25%;
-            position: relative;
+        .BrandBox {
+            flex: 1 1 30%;
+            margin: 10px;
             display: flex;
             flex-direction: column;
 
-            img{
-                position: absolute;
-                top: 0;
-                left: 0;
+            aspect-ratio: 5/6; 
+            position: relative;
+
+            .ImageBox {
+                position: relative;
                 width: 100%;
-                height: 100%;
-                object-fit: cover;
+                padding-top: 100%;
+                position: relative;
+
+                img {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
             }
 
             .caption {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
                 .explain {
-                    color: blue;
+                    font-size: 1em;
                 }
 
                 .brandName {
-                    color: green;
+                    font-size: 1.25em;
+                    font-weight: bold;
                 }
             }
         }
@@ -288,7 +300,7 @@ const ConsumerContainer = styled.div`
         border: none;
         padding: 10px 40px;
         cursor: pointer;
-        font-size: 1.5em;
+        font-size: 1.25em;
         border-radius: 5px;
     }
 `;
@@ -333,6 +345,7 @@ const BrandCoverContainer = styled.div`
                 .Interview{
                     font-size: 1em;
                     align-self: flex-start;
+                    padding-bottom: 20px;
                 }
                 .InterviewSource{
                     font-size: 0.75em;
@@ -340,5 +353,13 @@ const BrandCoverContainer = styled.div`
                 }
             }
         }
-    }
+
+        #left-padding {
+            padding-left: 275px;
+        }
+
+        #right-padding {
+            padding-right: 275px;
+        }
+    }    
 `
