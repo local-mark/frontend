@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { CartContext } from '../../store/CartContext';
 import DaumPost from '../../components/Payment/DaumPost';
-
+import pinicon from '../../assets/icon/Payment/pin.svg';
 export default function Payment() {
     const { cartItems, calculateTotalOrderPrice } = useContext(CartContext);
 
@@ -147,6 +147,9 @@ export default function Payment() {
                 </ShippingInfo>
 
                 <OrderSummary>
+                    <IconWrapper>
+                        <Icon src={pinicon} alt="pin icon" />
+                    </IconWrapper>
                     {cartItems.map((item, index) => (
                         <ProductInfo key={index}>
                             <ProductImage src={item.image || 'default_image_path'} alt="상품 이미지" />
@@ -312,10 +315,26 @@ const PaymentMethod = styled.button`
 
 const OrderSummary = styled.div`
     width: 45%;
-    border: 1px solid #65bd83;
+    border-radius: 10px;
+    border: 2px solid var(--Color-Main-primary, #65bd83);
     padding: 20px;
     border-radius: 10px;
     background-color: #f9f9f9;
+    position: relative; /* Position relative to place the icon */
+    margin-top: 20px;
+`;
+
+const IconWrapper = styled.div`
+    position: absolute;
+    top: -10px; /* Adjust this value to control the vertical position */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 10px; /* Optional: Add padding if you want some space around the icon */
+`;
+
+const Icon = styled.img`
+    height: 26px;
+    width: 26px;
 `;
 
 const ProductInfo = styled.div`

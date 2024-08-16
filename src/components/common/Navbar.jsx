@@ -62,7 +62,7 @@ const moreLocal = [
 
 const community = [
     { name: '잡담', link: '/creatercommunity/chat' },
-    { name: '질문', link: '/creatercommunity/chat/posts/:id' },
+    { name: '질문', link: '/creatercommunity/questions' },
     { name: '정보공유', link: '/creatercommunity/info' },
 ];
 
