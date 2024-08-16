@@ -160,7 +160,7 @@ const Sidebar = ({ onCategorySelect }) => {
 const SidebarWrapper = styled.div`
     width: 250px;
     padding: 20px;
-    margin-left: 150px;
+    margin-left: 80px;
     margin-top: 30px;
 `;
 
