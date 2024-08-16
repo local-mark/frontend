@@ -44,7 +44,7 @@ const categories = [
         id: 19,
         category: '식품',
         subcategories: [
-            { id: 18, name: '가공식품' },
+            { id: 19, name: '가공식품' },
             { id: 20, name: '음료' },
             { id: 21, name: '신선식품' },
         ],
@@ -62,30 +62,41 @@ const categories = [
 const Sidebar = ({ onCategorySelect }) => {
     const [openCategory, setOpenCategory] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(0);
+    const [selectedSubcategory, setSelectedSubcategory] = useState(null);
     const navigate = useNavigate();
     const location = useLocation();
 
     useEffect(() => {
-        if (location.pathname === '/gallery') {
-            setOpenCategory(0);
-        } else {
+        const params = new URLSearchParams(location.search);
+        const categoryId = parseInt(params.get('category'), 10);
+
+        if (location.pathname === '/gallery' && !categoryId) {
+            setOpenCategory(null); // "전체" 카테고리의 하위 항목들을 열지 않음
+            setSelectedCategory(0); // "전체" 카테고리를 선택된 카테고리로 설정
+            setSelectedSubcategory(null); // 전체가 선택되었을 때는 서브카테고리 선택 해제
+        } else if (categoryId) {
             categories.forEach((category, index) => {
                 if (category.subcategories) {
-                    category.subcategories.forEach((subcategory) => {
-                        if (location.pathname.includes(subcategory.name)) {
-                            setOpenCategory(index);
-                            setSelectedCategory(index);
-                        }
-                    });
+                    const foundSubcategory = category.subcategories.find(
+                        (subcategory) => subcategory.id === categoryId
+                    );
+                    if (foundSubcategory) {
+                        setOpenCategory(index);
+                        setSelectedCategory(index);
+                        setSelectedSubcategory(foundSubcategory.id); // 현재 선택된 서브카테고리 ID 설정
+                        onCategorySelect(foundSubcategory.id);
+                    }
                 }
             });
         }
-    }, [location.pathname]);
+    }, [location.pathname, location.search]);
 
     const handleCategoryClick = (index) => {
         if (categories[index].link) {
             navigate(categories[index].link);
             onCategorySelect(categories[index].id); // 선택된 카테고리 ID 전달
+            setSelectedCategory(index); // 선택된 카테고리 상태 업데이트
+            setSelectedSubcategory(null); // 카테고리를 선택했을 때는 서브카테고리 선택 해제
         } else {
             setOpenCategory(openCategory === index ? null : index);
         }
@@ -93,6 +104,7 @@ const Sidebar = ({ onCategorySelect }) => {
 
     const handleSubcategoryClick = (index, subcategory) => {
         setSelectedCategory(index);
+        setSelectedSubcategory(subcategory.id); // 서브카테고리의 ID를 상태로 설정
         onCategorySelect(subcategory.id); // 서브카테고리의 ID를 전달
         navigate(`/gallery?category=${subcategory.id}`);
     };
@@ -119,12 +131,13 @@ const Sidebar = ({ onCategorySelect }) => {
                                     <SubcategoryList>
                                         {category.subcategories.map((subcategory) => (
                                             <SubcategoryItem key={subcategory.id}>
-                                                <Link
+                                                <SubcategoryLink
                                                     onClick={() => handleSubcategoryClick(index, subcategory)}
                                                     to={`/gallery?category=${subcategory.id}`}
+                                                    active={selectedSubcategory === subcategory.id}
                                                 >
                                                     {subcategory.name}
-                                                </Link>
+                                                </SubcategoryLink>
                                             </SubcategoryItem>
                                         ))}
                                     </SubcategoryList>
@@ -203,6 +216,15 @@ const SubcategoryList = styled.ul`
 
 const SubcategoryItem = styled.li`
     margin: 5px 0;
+`;
+
+const SubcategoryLink = styled(Link)`
+    color: ${(props) => (props.active ? '#65BD83' : '#000')};
+    font-family: Pretendard;
+    font-size: var(--Text-size-4, 16px);
+    &:hover {
+        color: #65bd83;
+    }
 `;
 
 export default Sidebar;

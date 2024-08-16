@@ -212,6 +212,7 @@ const Menu = styled.ul`
     list-style: none;
     gap: 40px;
     margin-left: -50px;
+    cursor: pointer;
 `;
 
 const MenuItem = styled.li`

@@ -160,7 +160,7 @@ const ProductDetail = () => {
                             <ReviewLink href="#reviews">{product.review_cnt}개 리뷰 보기</ReviewLink>
                         </Rating>
                         <PriceContainer>
-                            <Discount>{product.discount_rate}%</Discount>
+                            {product.discount_rate > 0 && <Discount>{product.discount_rate}%</Discount>}
                             <Price>{product.price.toLocaleString()}원</Price>
                         </PriceContainer>
                         <Divider />
@@ -241,7 +241,7 @@ const ProductDetail = () => {
             <BrandWrapper>
                 <BrandContainer brandId={product.brand_id} />
             </BrandWrapper>
-            <ProductContent images={productData.images} />
+            <ProductContent description={product.description} />
         </>
     );
 };
