@@ -283,7 +283,7 @@ const ArrowButtonLeft = styled.button`
     border: none;
     cursor: pointer;
     font-size: 24px;
-    color: #fff;
+    color: #d9d9d9;
 `;
 
 const ArrowButtonRight = styled.button`
@@ -294,7 +294,7 @@ const ArrowButtonRight = styled.button`
     background: transparent;
     cursor: pointer;
     font-size: 24px;
-    color: #fff;
+    color: #d9d9d9;
 `;
 
 const ProductImage = styled.img`
