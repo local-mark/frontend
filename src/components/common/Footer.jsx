@@ -19,10 +19,10 @@ export default function Footer() {
                         <StyledLink to="/gallery">제품 갤러리</StyledLink>
                     </Column>
                     <Column>
-                        <StyledLink to="/localletter">more local</StyledLink>
+                        <StyledLink to="/morelocal/letters">more local</StyledLink>
                         <SubMenu>
-                            <StyledLink to="/localletter">로컬레터</StyledLink>
-                            <StyledLink to="/events">이벤트</StyledLink>
+                            <StyledLink to="/morelocal/letters">로컬레터</StyledLink>
+                            <StyledLink to="/morelocal/events">이벤트</StyledLink>
                         </SubMenu>
                     </Column>
                     <Column>

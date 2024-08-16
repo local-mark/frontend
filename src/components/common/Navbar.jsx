@@ -56,8 +56,8 @@ const categories = [
 ];
 
 const moreLocal = [
-    { name: '로컬레터', link: '/localletter' },
-    { name: '이벤트', link: '/events' },
+    { name: '로컬레터', link: '/morelocal/letters' },
+    { name: '이벤트', link: '/morelocal/events' },
 ];
 
 const community = [
@@ -94,34 +94,32 @@ export default function Navbar() {
 
     return (
         <NavbarWrapper onMouseLeave={handleMouseLeave}>
-            {!location.pathname.includes('/creatercommunity/write') && (
-                <NavbarContainer>
-                    <Link to="/">
-                        <Logo src={logo} alt="LocalMark Logo" />
-                    </Link>
-                    <Menu>
-                        <MenuItem onMouseEnter={() => handleMouseEnter('gallery')}>
-                            <Link to="/gallery">제품 갤러리</Link>
-                        </MenuItem>
-                        <MenuItem onMouseEnter={() => handleMouseEnter('local')}>
-                            <Link to="/localletter">more local</Link>
-                        </MenuItem>
-                        <MenuItem onMouseEnter={() => handleMouseEnter('creatercommunity')}>
-                            <Link to="/creatercommunity">크리에이터 커뮤니티</Link>
-                        </MenuItem>
-                        <MenuItem>
-                            <Link to="/mypage">마이페이지</Link>
-                        </MenuItem>
-                    </Menu>
-                    <RightMenu>
-                        <CartIconContainer onClick={handleCartClick}>
-                            <Icon src={cartIcon} alt="Cart Icon" />
-                            {cartCount > 0 && <CartCount>{cartCount}</CartCount>}
-                        </CartIconContainer>
-                        <Button onClick={handleAuthClick}>{isLoggedIn ? '로그아웃' : '로그인'}</Button>
-                    </RightMenu>
-                </NavbarContainer>
-            )}
+            <NavbarContainer>
+                <Link to="/">
+                    <Logo src={logo} alt="LocalMark Logo" />
+                </Link>
+                <Menu>
+                    <MenuItem onMouseEnter={() => handleMouseEnter('gallery')}>
+                        <Link to="/gallery">제품 갤러리</Link>
+                    </MenuItem>
+                    <MenuItem onMouseEnter={() => handleMouseEnter('local')}>
+                        <Link to="/morelocal/letters">more local</Link>
+                    </MenuItem>
+                    <MenuItem onMouseEnter={() => handleMouseEnter('creatercommunity')}>
+                        <Link to="/creatercommunity">크리에이터 커뮤니티</Link>
+                    </MenuItem>
+                    <MenuItem>
+                        <Link to="/mypage">마이페이지</Link>
+                    </MenuItem>
+                </Menu>
+                <RightMenu>
+                    <CartIconContainer onClick={handleCartClick}>
+                        <Icon src={cartIcon} alt="Cart Icon" />
+                        {cartCount > 0 && <CartCount>{cartCount}</CartCount>}
+                    </CartIconContainer>
+                    <Button onClick={handleAuthClick}>{isLoggedIn ? '로그아웃' : '로그인'}</Button>
+                </RightMenu>
+            </NavbarContainer>
             <DropdownWrapper>
                 {dropdownVisible === 'gallery' && (
                     <DropdownMenuWrapper onMouseEnter={() => handleMouseEnter('gallery')}>
