@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-const ProductContent = ({ images }) => {
+const ProductContent = ({ description }) => {
     return (
         <DescriptionContainer>
-            {images.map((image, index) => (
+            {description.map((image, index) => (
                 <DescriptionImage key={index} src={image} alt={`설명 이미지 ${index + 1}`} />
             ))}
         </DescriptionContainer>

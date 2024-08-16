@@ -77,7 +77,7 @@ const Content = styled.div`
     flex: 1;
     padding: 20px;
     max-width: 1600px;
-    min-width: 1400px;
+    min-width: 1100px;
     width: 100%;
     box-sizing: border-box;
 `;

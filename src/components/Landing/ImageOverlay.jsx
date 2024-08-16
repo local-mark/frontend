@@ -2,8 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ImageContainer = styled.div`
+    display: flex;
     position: relative;
-    width: 100vw;
+    width: 100%;
+    min-width: 1500px;
     height: 87vh;
     overflow: hidden;
 `;

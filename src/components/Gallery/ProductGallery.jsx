@@ -64,7 +64,8 @@ const ProductItem = styled.div`
 `;
 
 const ProductImage = styled.img`
-    width: 100%;
+    width: auto;
+    height: 300px;
     object-fit: cover;
 `;
 
