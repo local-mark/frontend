@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { CartContext } from '../../store/CartContext';
-import DaumPost from '../../components/Payment/DaumPost'; // Import the DaumPost component
+import DaumPost from '../../components/Payment/DaumPost';
 
 export default function Payment() {
     const { cartItems, calculateTotalOrderPrice } = useContext(CartContext);
@@ -12,7 +12,22 @@ export default function Payment() {
         zonecode: '',
     });
 
-    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('카드'); // Default to '카드'
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('card');
+
+    // IMP (아임포트) 결제 스크립트를 동적으로 로드
+    useEffect(() => {
+        const jquery = document.createElement('script');
+        jquery.src = 'https://code.jquery.com/jquery-1.12.4.min.js';
+        const iamport = document.createElement('script');
+        iamport.src = 'https://cdn.iamport.kr/js/iamport.payment-1.1.7.js';
+        document.head.appendChild(jquery);
+        document.head.appendChild(iamport);
+
+        return () => {
+            document.head.removeChild(jquery);
+            document.head.removeChild(iamport);
+        };
+    }, []);
 
     const handleComplete = () => {
         setPopup(!popup);
@@ -22,8 +37,6 @@ export default function Payment() {
         setSelectedPaymentMethod(method);
     };
 
-    const totalProductPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toLocaleString();
-    // Calculate total delivery fee
     const calculateTotalDeliveryFee = () => {
         const brandShipping = new Set();
         return cartItems.reduce((sum, item) => {
@@ -35,10 +48,37 @@ export default function Payment() {
         }, 0);
     };
 
-    const totalDeliveryFee = calculateTotalDeliveryFee().toLocaleString();
+    const handlePayment = () => {
+        if (window.IMP) {
+            const { IMP } = window;
+            IMP.init('imp48720306'); // 가맹점 식별코드
 
-    // Calculate total order amount
-    const totalAmount = calculateTotalOrderPrice().toLocaleString();
+            const data = {
+                pg: 'kakaopay', // PG사
+                pay_method: selectedPaymentMethod, // 결제 수단
+                merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
+                name: '주문명: 결제테스트',
+                amount: calculateTotalOrderPrice(), // 결제 금액
+                buyer_email: 'buyer@example.com', // 구매자 이메일
+                buyer_name: '구매자이름', // 구매자 이름
+                buyer_tel: '010-1234-5678', // 구매자 전화번호
+                buyer_addr: addressForm.address, // 구매자 주소
+                buyer_postcode: addressForm.zonecode, // 구매자 우편번호
+            };
+
+            IMP.request_pay(data, (response) => {
+                const { success, error_msg } = response;
+                if (success) {
+                    alert('결제가 성공적으로 완료되었습니다.');
+                } else {
+                    alert(`결제 실패: ${error_msg}`);
+                }
+            });
+        } else {
+            console.error('IMP 객체를 초기화할 수 없습니다.');
+            alert('결제 모듈이 로드되지 않았습니다. 페이지를 새로고침 해주세요.');
+        }
+    };
 
     return (
         <PaymentWrapper>
@@ -77,12 +117,11 @@ export default function Payment() {
                         </PhoneInput>
                     </InputField>
 
-                    {/* Payment Method Section */}
                     <SectionTitle>결제 정보</SectionTitle>
                     <PaymentMethodContainer>
                         <PaymentMethod
-                            selected={selectedPaymentMethod === '카드'}
-                            onClick={() => handlePaymentMethodChange('카드')}
+                            selected={selectedPaymentMethod === 'card'}
+                            onClick={() => handlePaymentMethodChange('card')}
                         >
                             카드
                         </PaymentMethod>
@@ -125,15 +164,15 @@ export default function Payment() {
                     <OrderPrice>
                         <PriceDetail>
                             <Label>총 상품 금액</Label>
-                            <Value>{totalProductPrice}원</Value>
+                            <Value>{calculateTotalOrderPrice().toLocaleString()}원</Value>
                         </PriceDetail>
                         <PriceDetail>
                             <Label>배송비</Label>
-                            <Value>{totalDeliveryFee}원</Value>
+                            <Value>{calculateTotalDeliveryFee().toLocaleString()}원</Value>
                         </PriceDetail>
                         <TotalPriceDetail>
                             <Label>결제 금액</Label>
-                            <TotalValue>{totalAmount}원</TotalValue>
+                            <TotalValue>{calculateTotalOrderPrice().toLocaleString()}원</TotalValue>
                         </TotalPriceDetail>
                     </OrderPrice>
                     <Agreement>
@@ -154,7 +193,7 @@ export default function Payment() {
                             <span>결제대행 서비스 이용약관 (전문 보기)</span>
                         </AgreementItem>
                     </Agreement>
-                    <PayButton>결제하기</PayButton>
+                    <PayButton onClick={handlePayment}>결제하기</PayButton>
                 </OrderSummary>
             </PaymentContainer>
             {popup && <DaumPost address={addressForm} setAddress={setAddressForm} handleComplete={handleComplete} />}
@@ -196,8 +235,6 @@ const InputField = styled.div`
 
 const Label = styled.label`
     color: var(--Color-Text-primary, #222);
-
-    /* B1_SB */
     font-family: Pretendard;
     font-size: var(--Text-size-5, 18px);
     font-style: normal;
