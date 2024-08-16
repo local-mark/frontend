@@ -6,9 +6,11 @@ import SearchBar from '../../components/Gallery/SearchBar';
 import ProductGallery from '../../components/Gallery/ProductGallery';
 import SortBar from '../../components/Gallery/SortBar';
 import { fetchData } from '../../services/api';
+import { useSearchParams } from 'react-router-dom';
 
 const Gallery = () => {
-    const [category, setCategory] = useState(null);
+    const [searchParams] = useSearchParams();
+    const [category, setCategory] = useState(searchParams.get('category') || null);
     const [region, setRegion] = useState(null);
     const [query, setQuery] = useState('');
     const [sort, setSort] = useState(0);
@@ -40,6 +42,10 @@ const Gallery = () => {
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
+
+    useEffect(() => {
+        setCategory(searchParams.get('category') || null);
+    }, [searchParams]);
 
     return (
         <GalleryContainer>
