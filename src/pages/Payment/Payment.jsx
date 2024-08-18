@@ -1,20 +1,31 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../../store/CartContext';
 import DaumPost from '../../components/Payment/DaumPost';
 import pinicon from '../../assets/icon/Payment/pin.svg';
+
 export default function Payment() {
     const { cartItems, calculateTotalOrderPrice } = useContext(CartContext);
-
     const [popup, setPopup] = useState(false);
+    const navigate = useNavigate(); // Use useNavigate for navigation
+
     const [addressForm, setAddressForm] = useState({
         address: '',
         zonecode: '',
     });
-
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('kakaopay');
+    const [recipientName, setRecipientName] = useState('');
+    const [recipientContact, setRecipientContact] = useState(['', '', '']);
+    const [errors, setErrors] = useState({});
+    const [agreements, setAgreements] = useState({
+        allAgreed: false,
+        agree1: false,
+        agree2: false,
+        agree3: false,
+        agree4: false,
+    });
 
-    // IMP (아임포트) 결제 스크립트를 동적으로 로드
     useEffect(() => {
         const jquery = document.createElement('script');
         jquery.src = 'https://code.jquery.com/jquery-1.12.4.min.js';
@@ -48,7 +59,31 @@ export default function Payment() {
         }, 0);
     };
 
+    const validateForm = () => {
+        const newErrors = {};
+        if (!recipientName.trim()) {
+            newErrors.recipientName = '수령인을 입력하세요.';
+        }
+        if (!addressForm.address) {
+            newErrors.address = '배송지를 입력하세요.';
+        }
+        if (!recipientContact.every((num) => num.length > 0)) {
+            newErrors.contact = '연락처를 완성하세요.';
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handlePayment = () => {
+        if (!agreements.agree1 || !agreements.agree2 || !agreements.agree3 || !agreements.agree4) {
+            alert('결제 이용약관에 모두 동의해주세요.');
+            return;
+        }
+
+        if (!validateForm()) {
+            return;
+        }
+
         if (window.IMP) {
             const { IMP } = window;
             IMP.init('imp48720306'); // 가맹점 식별코드
@@ -60,8 +95,8 @@ export default function Payment() {
                 name: '주문명: 결제테스트',
                 amount: calculateTotalOrderPrice(), // 결제 금액
                 buyer_email: 'buyer@example.com', // 구매자 이메일
-                buyer_name: '구매자이름', // 구매자 이름
-                buyer_tel: '010-1234-5678', // 구매자 전화번호
+                buyer_name: recipientName, // 구매자 이름
+                buyer_tel: recipientContact.join('-'), // 구매자 전화번호
                 buyer_addr: addressForm.address, // 구매자 주소
                 buyer_postcode: addressForm.zonecode, // 구매자 우편번호
             };
@@ -69,7 +104,7 @@ export default function Payment() {
             IMP.request_pay(data, (response) => {
                 const { success, error_msg } = response;
                 if (success) {
-                    alert('결제가 성공적으로 완료되었습니다.');
+                    navigate('/payment-confirmation'); // Navigate to confirmation page after success
                 } else {
                     alert(`결제 실패: ${error_msg}`);
                 }
@@ -80,6 +115,35 @@ export default function Payment() {
         }
     };
 
+    const handleRecipientContactChange = (index, value) => {
+        const newContact = [...recipientContact];
+        newContact[index] = value;
+        setRecipientContact(newContact);
+    };
+
+    const handleAgreementChange = (name) => {
+        setAgreements((prev) => {
+            const updated = { ...prev, [name]: !prev[name] };
+
+            // 모든 동의 항목이 체크되었을 때, "모두 동의" 항목도 자동 체크
+            const allAgreed = updated.agree1 && updated.agree2 && updated.agree3 && updated.agree4;
+            return { ...updated, allAgreed };
+        });
+    };
+
+    const handleAllAgreeChange = () => {
+        setAgreements((prev) => {
+            const newValue = !prev.allAgreed;
+            return {
+                allAgreed: newValue,
+                agree1: newValue,
+                agree2: newValue,
+                agree3: newValue,
+                agree4: newValue,
+            };
+        });
+    };
+
     return (
         <PaymentWrapper>
             <PaymentContainer>
@@ -87,7 +151,13 @@ export default function Payment() {
                     <SectionTitle>배송 정보</SectionTitle>
                     <InputField>
                         <Label>수령인</Label>
-                        <Input type="text" placeholder="수령인 입력" />
+                        <Input
+                            type="text"
+                            placeholder="수령인 입력"
+                            value={recipientName}
+                            onChange={(e) => setRecipientName(e.target.value)}
+                        />
+                        {errors.recipientName && <ErrorText>{errors.recipientName}</ErrorText>}
                     </InputField>
                     <InputField>
                         <Label>배송지명</Label>
@@ -107,14 +177,36 @@ export default function Payment() {
                             marginBottom={12}
                         />
                         <Input type="text" placeholder="상세주소 입력" />
+                        {errors.address && <ErrorText>{errors.address}</ErrorText>}
                     </InputField>
                     <InputField>
                         <Label>배송 시 연락처</Label>
                         <PhoneInput>
-                            <Input type="text" placeholder="" />
-                            <Input type="text" placeholder="" />
-                            <Input type="text" placeholder="" />
+                            <Input
+                                type="text"
+                                maxLength="3"
+                                placeholder=""
+                                value={recipientContact[0]}
+                                onChange={(e) => handleRecipientContactChange(0, e.target.value)}
+                            />
+                            <Separator>-</Separator>
+                            <Input
+                                type="text"
+                                maxLength="4"
+                                placeholder=""
+                                value={recipientContact[1]}
+                                onChange={(e) => handleRecipientContactChange(1, e.target.value)}
+                            />
+                            <Separator>-</Separator>
+                            <Input
+                                type="text"
+                                maxLength="4"
+                                placeholder=""
+                                value={recipientContact[2]}
+                                onChange={(e) => handleRecipientContactChange(2, e.target.value)}
+                            />
                         </PhoneInput>
+                        {errors.contact && <ErrorText>{errors.contact}</ErrorText>}
                     </InputField>
 
                     <SectionTitle>결제 정보</SectionTitle>
@@ -180,19 +272,31 @@ export default function Payment() {
                     </OrderPrice>
                     <Agreement>
                         <AgreementItem>
-                            <input type="checkbox" />
+                            <input type="checkbox" checked={agreements.allAgreed} onChange={handleAllAgreeChange} />
                             <span>주문 내역을 확인하였으며, 아래 내용에 모두 동의합니다.</span>
                         </AgreementItem>
                         <AgreementItem>
-                            <input type="checkbox" />
+                            <input
+                                type="checkbox"
+                                checked={agreements.agree1}
+                                onChange={() => handleAgreementChange('agree1')}
+                            />
                             <span>개인정보 수집/이용 (전문 보기)</span>
                         </AgreementItem>
                         <AgreementItem>
-                            <input type="checkbox" />
+                            <input
+                                type="checkbox"
+                                checked={agreements.agree2}
+                                onChange={() => handleAgreementChange('agree2')}
+                            />
                             <span>개인정보 제3자 제공 동의 (전문 보기)</span>
                         </AgreementItem>
                         <AgreementItem>
-                            <input type="checkbox" />
+                            <input
+                                type="checkbox"
+                                checked={agreements.agree3}
+                                onChange={() => handleAgreementChange('agree3')}
+                            />
                             <span>결제대행 서비스 이용약관 (전문 보기)</span>
                         </AgreementItem>
                     </Agreement>
@@ -279,11 +383,18 @@ const Button = styled.button`
 
 const PhoneInput = styled.div`
     display: flex;
+    align-items: center;
 
     input {
         width: 30%;
         margin-right: 10px;
     }
+`;
+
+const Separator = styled.span`
+    margin-right: 5px;
+    margin-left: -2px;
+    font-weight: bold;
 `;
 
 const PaymentMethodContainer = styled.div`
@@ -450,4 +561,10 @@ const PayButton = styled.button`
     &:hover {
         background-color: #57a673;
     }
+`;
+
+const ErrorText = styled.div`
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
 `;
