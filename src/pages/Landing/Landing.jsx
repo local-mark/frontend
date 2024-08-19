@@ -169,7 +169,7 @@ const LandingContainer = styled.div`
     flex-direction: column;
     align-items: center;
     padding-bottom: 20px;
-    min-width: 1400px;
+    /* min-width: 1400px; */
     margin: 0 auto;
 
     .ContainerBox {
@@ -189,7 +189,7 @@ const ImageOverlay = styled.div`
     position: relative;
     top: 0px;
     width: 100%;
-    min-width: 1500px;
+    /* min-width: 1500px; */
     height: 87vh;
     overflow: hidden;
 `;

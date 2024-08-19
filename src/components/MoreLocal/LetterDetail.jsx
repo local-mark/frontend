@@ -15,7 +15,7 @@ const LetterContentContainer = styled.div``;
 
 const LetterDetail = ({letters}) => {
     const { id } = useParams();
-    const letter = letters.find(letter => letter.id === parseInt(id));
+    const letter = letters.find(letter => letter.letter_id === parseInt(id));
 
     if (!letter) {
         return <p>Local Letter not found.</p>
@@ -25,8 +25,8 @@ const LetterDetail = ({letters}) => {
         <div>
             <LetterTitleContainer>
                 <LetterTitleBackground></LetterTitleBackground>
-                <LetterTitle></LetterTitle>
-                <LetterDate></LetterDate>
+                <LetterTitle>{letter.title}</LetterTitle>
+                <LetterDate>{letter.created_at}</LetterDate>
             </LetterTitleContainer>
             <LetterContentContainer></LetterContentContainer>
         </div>
