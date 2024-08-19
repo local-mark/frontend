@@ -202,16 +202,16 @@ export default function SingUp() {
             loginData(body);
         } catch (error) {
             setLoading(false);
-            if (error.response && error.response.status === 400) {
+            if (error.response) {
                 const errorCode = error.response.data.code;
-                setClick(false);
 
                 //수정 필요
-                if (errorCode === 'USER4001') {
+                if (errorCode === 'USER4010') {
                     setIdMessage('이미 가입된 아이디입니다.');
-                } else if (errorCode === 'USER4002') {
+                } else if (errorCode === 'USER4012') {
                     setNicknameMessage('이미 있는 닉네임입니다.');
-                } else if (errorCode === 'USER4003') {
+                } else if (errorCode === 'USER4011') {
+                    setClick(false);
                     setEmailMessage('이미 가입된 이메일입니다.');
                 } else {
                     console.error('알 수 없는 에러 코드:', errorCode);
@@ -222,14 +222,13 @@ export default function SingUp() {
 
     const handleButtonClick = (e) => {
         e.preventDefault();
-        if (!click) {
-            setEmailMessage('이메일 인증을 진행해 주세요.');
-        }
 
-        if (btn && isChecked) {
+        if (btn && isChecked && click) {
             handleSignup(e);
         } else if (btn && !isChecked) {
             alert('이용약관에 동의해주세요.');
+        } else if (btn && !click) {
+            setEmailMessage('이메일 인증을 진행해 주세요.');
         } else {
             alert('모든 정보를 빠짐없이 입력해주세요.');
         }
@@ -313,7 +312,10 @@ export default function SingUp() {
                                                         type="email"
                                                         placeholder="ex) localmark@naver.com"
                                                         value={email}
-                                                        onChange={(e) => checkEmail(e.target.value.trim())}
+                                                        onChange={(e) => {
+                                                            checkEmail(e.target.value.trim());
+                                                            setClick(false);
+                                                        }}
                                                     ></Input>
                                                     <OkButton
                                                         onClick={handleClick}

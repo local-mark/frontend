@@ -148,6 +148,8 @@ export const Input = styled.input`
     gap: 10px;
     flex: 1 0 0;
     border: 0px;
+    width: 255px;
+    height: 22px;
 `;
 
 export const Cause = styled.div`
