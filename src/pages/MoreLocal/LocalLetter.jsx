@@ -1,7 +1,45 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import letters from "../../components/MoreLocal/LetterData";
 import LetterCard from "../../components/MoreLocal/LetterCard";
+
+const LocalLetter = () => {
+  const navigate = useNavigate();
+
+  const handleCardClick = (letterId) => {
+    navigate(`/morelocal/letters/${letterId}`);
+  };
+
+  return (
+    <PageContainer>
+      <Header>
+        <Logo>More Local</Logo>
+        <Nav>
+          <NavWrapper>
+            <NavLink to="/morelocal/letters" primary>
+              로컬 레터
+            </NavLink>
+          </NavWrapper>
+          <NavLink to="/morelocal/events">이벤트</NavLink>
+        </Nav>
+      </Header>
+      <LetterCardContainer>
+        {letters.map((letter) => (
+          <div key={letter.letterId}
+          className="letterCard"
+          onClick={() => handleCardClick(letter.letterId)}
+          >
+            <LetterTitle>{letter.title}</LetterTitle>
+            <img src={letter.imageUrl} alt={letter.title} />
+            {/* <p>{new Date(letter.createdAt).toLocaleDateString()}</p> */}
+            <p>{letter.createdAt}</p>
+          </div>
+        ))}
+      </LetterCardContainer>
+    </PageContainer>
+  );
+};
 
 const PageContainer = styled.div`
   display: flex;
@@ -61,29 +99,23 @@ const NavLink = styled(Link)`
   text-decoration: none;
 `;
 
-const Main = styled.main`
+/* const Main = styled.main`
   margin-top: 20px;
+`; */
+
+const LetterCardContainer = styled.div`
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  gap: 100px 24px;
+  flex-wrap: wrap;
+  margin: 0 auto;
 `;
 
-const LocalLetter = () => {
-  return (
-    <PageContainer>
-      <Header>
-        <Logo>More Local</Logo>
-        <Nav>
-          <NavWrapper>
-            <NavLink to="/morelocal/letters" primary>
-              로컬 레터
-            </NavLink>
-          </NavWrapper>
-          <NavLink to="/morelocal/events">이벤트</NavLink>
-        </Nav>
-      </Header>
-      <Main>
-        <LetterCard />
-      </Main>
-    </PageContainer>
-  );
-};
+const LetterTitle = styled.h3`
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+`;
 
 export default LocalLetter;
