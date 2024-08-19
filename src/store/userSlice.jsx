@@ -1,10 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import base64 from 'base-64';
 
 const initialState = {
     isLogin: false,
     value: {
-        token: '',
+        accessToken: '',
     },
 };
 
@@ -19,12 +18,22 @@ export const userSlice = createSlice({
             localStorage.setItem('accessToken', accessToken);
 
             const payload = accessToken.substring(accessToken.indexOf('.') + 1, accessToken.lastIndexOf('.'));
-            const decodingInfo = base64.decode(payload);
-            const decodingInfoJson = JSON.parse(decodingInfo);
-            console.log(decodingInfoJson);
+
+            // Base64 디코딩 후, UTF-8로 변환
+            const decodingInfo = JSON.parse(decodeURIComponent(escape(atob(payload))));
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('nickname', decodingInfo.nickname);
+            localStorage.setItem('id', decodingInfo.id);
+            localStorage.setItem('is_brand_registered', decodingInfo.is_brand_registered);
+            localStorage.setItem('type', decodingInfo.type);
+            console.log(decodingInfo.type);
+        },
+        logoutAction: (state) => {
+            Object.assign(state, initialState);
+            localStorage.clear();
         },
     },
 });
 
-export const { loginData, loginAction } = userSlice.actions;
+export const { loginData, loginAction, logoutAction } = userSlice.actions;
 export default userSlice.reducer;

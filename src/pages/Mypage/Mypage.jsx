@@ -33,6 +33,7 @@ import Modal from './Modal';
 export default function Mypage() {
     const [orders, setOrders] = useState([]);
     const [modal, setModal] = useState(false);
+    const nickname = localStorage.getItem('nickname');
 
     useEffect(() => {
         const storedOrders = JSON.parse(localStorage.getItem('recentOrders')) || [];
@@ -52,7 +53,7 @@ export default function Mypage() {
                 <MypageFrame>
                     <TopFrame>
                         <NicknameContainer>
-                            <div>닉네임님</div>
+                            <div>{nickname}님</div>
                             <Link to="userid">
                                 <DesignedIcons></DesignedIcons>
                             </Link>
