@@ -122,7 +122,7 @@ const LetterCard = () => {
         <div>
             <CardGrid>
                 {SampleLetters.map((letter) => (
-                    <Card key={letter.letter_id}>
+                    <Card key={letter.letterId}>
                         <CardImage src={letter.thumbnail_url} alt={letter.title} />
                         <CardContent>
                             <Category>{letter.category}</Category>

@@ -57,7 +57,6 @@ const Container = styled.div`
 const BrandProfile = styled.div`
     display: flex;
     align-items: center;
-    cursor: pointer;
 `;
 
 const ProfileImage = styled.img`
@@ -65,6 +64,7 @@ const ProfileImage = styled.img`
     height: 180px;
     background-color: #e0e0e0;
     margin-right: 20px;
+    cursor: pointer;
 `;
 
 const BrandInfo = styled.div`

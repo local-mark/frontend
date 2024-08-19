@@ -112,7 +112,7 @@ const BrandDescription = styled.div`
 `;
 
 const BrandImage = styled.img`
-    width: 510px;
-    height: 382px;
+    height: 315px;
+    width: auto;
     flex-shrink: 0;
 `;
