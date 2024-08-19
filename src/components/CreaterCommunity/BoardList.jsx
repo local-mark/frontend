@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
-const BoardList = ({ posts }) => {
+const BoardList = ({ title, posts }) => {
     if (!posts || posts.length === 0) {
         return <p>No posts available.</p>;
     }

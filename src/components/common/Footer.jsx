@@ -1,13 +1,14 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import logo from '../../assets/icon/Home/localmark_logo.svg'; // 로고 경로 수정
+import { Link, useNavigate } from 'react-router-dom';
+import logo from '../../assets/icon/Home/localmark_logo.svg';
 
 export default function Footer() {
+    const navigate = useNavigate();
     return (
         <FooterWrapper>
             <FooterContainer>
                 <LeftSection>
-                    <Logo src={logo} alt="LocalMark Logo" />
+                    <Logo src={logo} alt="LocalMark Logo" onClick={() => navigate('/')} />
                     <LinkRow>
                         <StyledLink to="/privacy">개인정보처리방침</StyledLink>
                         <StyledLink to="/terms">이용약관</StyledLink>
@@ -19,14 +20,19 @@ export default function Footer() {
                         <StyledLink to="/gallery">제품 갤러리</StyledLink>
                     </Column>
                     <Column>
-                        <StyledLink to="/localletter">more local</StyledLink>
+                        <StyledLink to="/morelocal/letters">more local</StyledLink>
                         <SubMenu>
-                            <StyledLink to="/localletter">로컬레터</StyledLink>
-                            <StyledLink to="/events">이벤트</StyledLink>
+                            <StyledLink to="/morelocal/letters">로컬레터</StyledLink>
+                            <StyledLink to="/morelocal/events">이벤트</StyledLink>
                         </SubMenu>
                     </Column>
                     <Column>
-                        <StyledLink to="/community">크리에이터 커뮤니티</StyledLink>
+                        <StyledLink to="/creatercommunity">크리에이터 커뮤니티</StyledLink>
+                        <SubMenu>
+                            <StyledLink to="creatercommunity/chat">잡담</StyledLink>
+                            <StyledLink to="creatercommunity/questions">질문</StyledLink>
+                            <StyledLink to="/creatercommunity/info">정보공유</StyledLink>
+                        </SubMenu>
                     </Column>
                     <Column>
                         <StyledLink to="/mypage">마이페이지</StyledLink>
@@ -99,6 +105,7 @@ const Column = styled.div`
 const Logo = styled.img`
     width: 190px;
     height: auto;
+    cursor: pointer;
 `;
 
 const Copyright = styled.div`
