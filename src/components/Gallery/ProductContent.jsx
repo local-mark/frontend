@@ -18,6 +18,7 @@ const DescriptionContainer = styled.div`
     background: #fff;
     padding: 20px;
     border-radius: 10px;
+    min-width: 1400px;
 `;
 
 const DescriptionImage = styled.img`

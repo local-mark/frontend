@@ -33,7 +33,6 @@ const Logo = styled.div`
     width: auto;
     height: 100px;
     margin-bottom: 30px;
-    cursor: pointer;
 `;
 
 const Message = styled.h2`

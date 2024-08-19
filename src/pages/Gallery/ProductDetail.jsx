@@ -251,6 +251,7 @@ const Wrapper = styled.div`
     margin-bottom: 30px;
     flex-direction: row;
     justify-content: center;
+    min-width: 1600px;
 `;
 const BrandWrapper = styled.div`
     display: flex;
