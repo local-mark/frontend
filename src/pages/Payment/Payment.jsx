@@ -8,7 +8,7 @@ import pinicon from '../../assets/icon/Payment/pin.svg';
 export default function Payment() {
     const { cartItems, calculateTotalOrderPrice } = useContext(CartContext);
     const [popup, setPopup] = useState(false);
-    const navigate = useNavigate(); // Use useNavigate for navigation
+    const navigate = useNavigate();
 
     const [addressForm, setAddressForm] = useState({
         address: '',
@@ -104,6 +104,20 @@ export default function Payment() {
             IMP.request_pay(data, (response) => {
                 const { success, error_msg } = response;
                 if (success) {
+                    const orderDetails = cartItems.map((item) => ({
+                        productId: item.id,
+                        date: new Date().toLocaleDateString('ko-KR'), // 'YYYY.MM.DD' 포맷으로 저장
+                        image: item.image,
+                        brand: item.brand_name,
+                        product: item.name,
+                        option: item.option,
+                        quantity: item.quantity,
+                        price: `${item.price.toLocaleString()} 원`,
+                    }));
+
+                    const storedOrders = JSON.parse(localStorage.getItem('recentOrders')) || [];
+                    localStorage.setItem('recentOrders', JSON.stringify([...storedOrders, ...orderDetails]));
+
                     navigate('/payment-confirmation'); // Navigate to confirmation page after success
                 } else {
                     alert(`결제 실패: ${error_msg}`);
