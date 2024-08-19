@@ -1,108 +1,37 @@
-// ProductBrand.jsx
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom'; // useParams를 사용하여 brandId를 가져옵니다.
 import SortBar from '../Gallery/SortBar';
-import mockup1 from '../../assets/image/Gallery/mockup_1.svg';
-import mockup2 from '../../assets/image/Gallery/mockup_2.svg';
-import mockup3 from '../../assets/image/Gallery/mockup_3.svg';
-import mockup4 from '../../assets/image/Gallery/mockup_4.svg';
-
-const productsPerPage = 12;
-
-const mockData = {
-    isSuccess: true,
-    code: 2000,
-    message: 'SUCCESS!',
-    result: {
-        products: [
-            {
-                product_id: 1,
-                subregion_name: '성수',
-                brand_name: '브랜드명',
-                product_name: '상품명',
-                discount_rate: 10,
-                price: 20000,
-                thumbnail_url: mockup1,
-            },
-            {
-                product_id: 2,
-                subregion_name: '성수',
-                brand_name: '브랜드명',
-                product_name: '상품명',
-                discount_rate: 5,
-                price: 25000,
-                thumbnail_url: mockup2,
-            },
-            {
-                product_id: 3,
-                subregion_name: '성수',
-                brand_name: '브랜드명',
-                product_name: '상품명',
-                discount_rate: 5,
-                price: 15000,
-                thumbnail_url: mockup3,
-            },
-            {
-                product_id: 4,
-                subregion_name: '성수',
-                brand_name: '브랜드명',
-                product_name: '상품명',
-                discount_rate: 10,
-                price: 30000,
-                thumbnail_url: mockup4,
-            },
-            {
-                product_id: 5,
-                subregion_name: '성수',
-                brand_name: '브랜드명',
-                product_name: '상품명',
-                discount_rate: 30,
-                price: 50000,
-                thumbnail_url: mockup1,
-            },
-            {
-                product_id: 6,
-                subregion_name: '성수',
-                brand_name: '브랜드명',
-                product_name: '상품명',
-                discount_rate: 40,
-                price: 35000,
-                thumbnail_url: mockup2,
-            },
-        ],
-        currentPage: 1,
-        totalPage: 3,
-    },
-};
+import { fetchData } from '../../services/api';
+import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 
 const ProductBrand = () => {
-    const [currentPage, setCurrentPage] = useState(mockData.result.currentPage);
+    const { brandId } = useParams();
+    const [currentPage, setCurrentPage] = useState(1);
     const [products, setProducts] = useState([]);
-    const [sort, setSort] = useState('viewCount');
+    const [sort, setSort] = useState(0); // 0: 조회순, 1: 가격 낮음, 2: 가격 높음, 3: 인기순
+    const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
 
     useEffect(() => {
-        let sortedProducts = [...mockData.result.products];
-        switch (sort) {
-            case 'highPrice':
-                sortedProducts.sort((a, b) => b.price - a.price);
-                break;
-            case 'lowPrice':
-                sortedProducts.sort((a, b) => a.price - b.price);
-                break;
-            case 'popularity':
-                sortedProducts.sort((a, b) => b.popularity - a.popularity);
-                break;
-            default:
-                sortedProducts.sort((a, b) => b.viewCount - a.viewCount);
-        }
-        const pageProducts = sortedProducts.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
-        setProducts(pageProducts);
-    }, [sort, currentPage]);
+        const loadProducts = async () => {
+            try {
+                const params = {
+                    page: currentPage,
+                    sort: sort || undefined,
+                };
+                const data = await fetchData(`/brand/${brandId}/products`, params);
+                setProducts(data.result.products);
+                setTotalPages(data.result.totalPage);
+            } catch (error) {
+                console.error('상품 데이터를 불러오는 중 오류가 발생했습니다:', error);
+            }
+        };
 
-    const totalPages = mockData.result.totalPage;
+        if (brandId) {
+            loadProducts();
+        }
+    }, [brandId, currentPage, sort]);
 
     const handleProductClick = (productId) => {
         navigate(`/gallery/product/${productId}`);
@@ -127,7 +56,7 @@ const ProductBrand = () => {
                                 {product.discount_rate ? (
                                     <>
                                         <ProductDiscount>{product.discount_rate}%</ProductDiscount>
-                                        {product.price.toLocaleString()}원
+                                        {(product.price * (1 - product.discount_rate / 100)).toLocaleString()}원
                                     </>
                                 ) : (
                                     <>{product.price.toLocaleString()}원</>
@@ -148,6 +77,7 @@ const GalleryWrapper = styled.div`
     max-width: 1200px;
     margin: 0 auto;
 `;
+
 const SortBarContainer = styled.div`
     display: flex;
     min-width: 1400px;
@@ -155,6 +85,7 @@ const SortBarContainer = styled.div`
     padding-top: 10px;
     align-self: flex-end;
 `;
+
 const GalleryContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -173,7 +104,8 @@ const ProductItem = styled.div`
 `;
 
 const ProductImage = styled.img`
-    width: 100%;
+    width: auto;
+    height: 250px;
     object-fit: cover;
 `;
 
@@ -202,7 +134,7 @@ const ProductRegion = styled.div`
     font-style: normal;
     font-weight: 500;
     line-height: 140%; /* 16.8px */
-    width: 50px;
+    width: auto;
 `;
 
 const ProductBrandName = styled.div`

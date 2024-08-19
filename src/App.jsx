@@ -18,6 +18,8 @@ import samplePosts from './pages/CreaterCommunity/samplePosts';
 import PostDetail from './components/CreaterCommunity/PostDetail';
 import Cart from './pages/Cart/Cart';
 import Payment from './pages/Payment/Payment';
+import BrandProfile from './pages/CreaterCommunity/BrandProfile';
+import PaymentConfirmation from './pages/Payment/PaymentConfirmation ';
 
 function App() {
     return (
@@ -42,6 +44,8 @@ function App() {
                 <Route path="/creatercommunity/chat/posts/:id" element={<PostDetail posts={samplePosts} />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/payment" element={<Payment />} />
+                <Route path="/brandprofile/:brandId/products" element={<BrandProfile />} />
+                <Route path="/payment-confirmation" element={<PaymentConfirmation />} />
             </Routes>
         </div>
     );

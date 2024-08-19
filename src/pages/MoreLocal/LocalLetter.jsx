@@ -5,8 +5,8 @@ import LetterCard from "../../components/MoreLocal/LetterCard";
 
 const PageContainer = styled.div`
   display: flex;
-  width: 100vw;
-  padding-bottom: 140px;
+  max-width: 100%;
+  padding: 100px;
   flex-direction: column;
   align-items: center;
   gap: 40px;
@@ -66,12 +66,6 @@ const Main = styled.main`
 `;
 
 const LocalLetter = () => {
-  /* const [currentPage, setCurrentPage] = useState(1);
-
-  const handlePageChange = (page) => {
-      setCurrentPage(page);
-  }; */
-
   return (
     <PageContainer>
       <Header>

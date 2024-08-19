@@ -1,197 +1,9 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import SortBar from './SortBar';
-import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 
-import mockup1 from '../../assets/image/Gallery/mockup_1.svg';
-import mockup2 from '../../assets/image/Gallery/mockup_2.svg';
-import mockup3 from '../../assets/image/Gallery/mockup_3.svg';
-import mockup4 from '../../assets/image/Gallery/mockup_4.svg';
-
-const productsPerPage = 12;
-
-const mockProducts = [
-    {
-        id: 1,
-        image: mockup1,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '성수',
-        discount_rate: 30,
-        price: 50000,
-    },
-    {
-        id: 2,
-        image: mockup2,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '제주',
-        discount_rate: 20,
-        price: 10000,
-    },
-    {
-        id: 3,
-        image: mockup3,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '성수',
-        discount_rate: 30,
-        price: 50000,
-    },
-    {
-        id: 4,
-        image: mockup4,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '종로',
-        discount_rate: 20,
-        price: 10000,
-    },
-    {
-        id: 5,
-        image: mockup1,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '성수',
-        discount_rate: 30,
-        price: 50000,
-    },
-    {
-        id: 6,
-        image: mockup2,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '제주',
-        discount_rate: 20,
-        price: 10000,
-    },
-    {
-        id: 7,
-        image: mockup3,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '제주',
-        discount_rate: 30,
-        price: 50000,
-    },
-    {
-        id: 8,
-        image: mockup4,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '성수',
-        discount_rate: 20,
-        price: 10000,
-    },
-    {
-        id: 9,
-        image: mockup1,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '제주',
-        discount_rate: 30,
-        price: 50000,
-    },
-    {
-        id: 10,
-        image: mockup2,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '성수',
-        discount_rate: 20,
-        price: 10000,
-    },
-    {
-        id: 11,
-        image: mockup3,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '제주',
-        discount_rate: 30,
-        price: 50000,
-    },
-    {
-        id: 12,
-        image: mockup4,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '제주',
-        discount_rate: 20,
-        price: 10000,
-    },
-    {
-        id: 13,
-        image: mockup4,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '성수',
-        discount_rate: 20,
-        price: 10000,
-    },
-    {
-        id: 14,
-        image: mockup1,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '제주',
-        discount_rate: 30,
-        price: 50000,
-    },
-    {
-        id: 15,
-        image: mockup2,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '성수',
-        discount_rate: 20,
-        price: 10000,
-    },
-    {
-        id: 16,
-        image: mockup3,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '제주',
-        discount_rate: 30,
-        price: 50000,
-    },
-    {
-        id: 17,
-        image: mockup4,
-        product_name: '제품명',
-        brand_name: '브랜드명',
-        region: '제주',
-        discount_rate: 20,
-        price: 10000,
-    },
-];
-
-const ProductGallery = ({ category, region, query, currentPage, onPageChange }) => {
-    const [products, setProducts] = useState([]);
-    const [sort, setSort] = useState('viewCount');
+const ProductGallery = ({ products, currentPage, totalPages, onPageChange }) => {
     const navigate = useNavigate();
-
-    useEffect(() => {
-        let sortedProducts = [...mockProducts];
-        switch (sort) {
-            case 'highPrice':
-                sortedProducts.sort((a, b) => b.price - a.price);
-                break;
-            case 'lowPrice':
-                sortedProducts.sort((a, b) => a.price - b.price);
-                break;
-            case 'popularity':
-                sortedProducts.sort((a, b) => b.popularity - a.popularity);
-                break;
-            default:
-                sortedProducts.sort((a, b) => b.viewCount - a.viewCount);
-        }
-        const pageProducts = sortedProducts.slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage);
-        setProducts(pageProducts);
-    }, [sort, category, region, query, currentPage]);
-
-    const totalPages = Math.ceil(mockProducts.length / productsPerPage);
 
     const handleProductClick = (productId) => {
         navigate(`/gallery/product/${productId}`);
@@ -199,14 +11,13 @@ const ProductGallery = ({ category, region, query, currentPage, onPageChange }) 
 
     return (
         <GalleryWrapper>
-            <SortBar sort={sort} setSort={setSort} />
             <GalleryContainer>
                 {products.map((product) => (
-                    <ProductItem key={product.id} onClick={() => handleProductClick(product.id)}>
-                        <ProductImage src={product.image} alt={product.product_name} />
+                    <ProductItem key={product.product_id} onClick={() => handleProductClick(product.product_id)}>
+                        <ProductImage src={product.thumbnail_url} alt={product.product_name} />
                         <ProductDetails>
                             <ProductHeader>
-                                <ProductRegion>{product.region}</ProductRegion>
+                                <ProductRegion>{product.subregion_name}</ProductRegion>
                                 <ProductBrand>{product.brand_name}</ProductBrand>
                             </ProductHeader>
                             <ProductName>{product.product_name}</ProductName>
@@ -214,7 +25,7 @@ const ProductGallery = ({ category, region, query, currentPage, onPageChange }) 
                                 {product.discount_rate ? (
                                     <>
                                         <ProductDiscount>{product.discount_rate}%</ProductDiscount>
-                                        {product.price.toLocaleString()}원
+                                        {(product.price * (1 - product.discount_rate / 100)).toLocaleString()}원
                                     </>
                                 ) : (
                                     <>{product.price.toLocaleString()}원</>
@@ -228,6 +39,7 @@ const ProductGallery = ({ category, region, query, currentPage, onPageChange }) 
         </GalleryWrapper>
     );
 };
+
 const GalleryWrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -252,7 +64,8 @@ const ProductItem = styled.div`
 `;
 
 const ProductImage = styled.img`
-    width: 100%;
+    width: auto;
+    height: 300px;
     object-fit: cover;
 `;
 
