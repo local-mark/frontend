@@ -2,8 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import ImageOverlay from '../../components/Landing/ImageOverlay';
-
 import first_background from '../../assets/image/Landing/first_background.png';
 import masanai from '../../assets/image/Landing/masanai.png';
 import dodari from '../../assets/image/Landing/dodari_visual_lab.png';
@@ -13,26 +11,32 @@ import soonsoap_2 from '../../assets/image/Landing/soap_2.png';
 import pin_icon from '../../assets/image/Landing/pin_icon.svg';
 
 export default function Landing() {
+    const scrollToNextSection = () => {
+        window.scrollTo({
+            top: window.innerHeight,
+            behavior: 'smooth',
+        });
+    };
+
     return (
         <LandingContainer>
-            <ImageOverlay
-                imageSrc={first_background}
-                contents={
-                    <div>
+            <ImageOverlay>
+                <OverlayImage src={first_background} alt="Overlay" />
+                <Overlay>
+                    <OverlayContent>
                         <h2>
-                            누구보다 특별한 당신에게 <br />
-                            <Highlight>로컬이라는 유니크함</Highlight>을 더하다
+                            누구보다 특별한 당신에게<br /><Highlight>로컬이라는 유니크함</Highlight>을 더하다
                         </h2>
                         <p>
-                            어디에서도 만나볼 수 없는 로컬 크리에이터들의 제품들을 <br />
-                            지금, 로컬마크에서 만나보세요.
+                            어디에서도 만나볼 수 없는 로컬 크리에이터들의 제품들을<br />지금, 로컬마크에서 만나보세요.
                         </p>
                         <Link to="/gallery">
                             <button>지금 바로 시작하기</button>
                         </Link>
-                    </div>
-                }
-            />
+                    </OverlayContent>
+                    <DownArrow onClick={scrollToNextSection} />
+                </Overlay>
+            </ImageOverlay>
             <div className="ContainerBox">
                 <CreatorContainer>
                     <div className="TextContainer">
@@ -177,6 +181,77 @@ const LandingContainer = styled.div`
         padding-left: 250px;
         padding-right: 250px;
         background: var(--Color-Gray-gray-50, #fafafa);
+    }
+`;
+
+const ImageOverlay = styled.div`
+    display: flex;
+    position: relative;
+    top: 0px;
+    width: 100%;
+    min-width: 1500px;
+    height: 87vh;
+    overflow: hidden;
+`;
+
+const OverlayImage = styled.img`
+    width: 100%;
+    height: auto;
+    position: absolute;
+`;
+
+const Overlay = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+`;
+
+const OverlayContent = styled.div`
+    text-align: left;
+    padding-top: 5%;
+    padding-left: 15%;
+    padding-right: 50%;
+
+    h2 {
+        color: white;
+        font-size: 2.5em;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    p {
+        color: white;
+        font-size: 1.25em;
+        margin-bottom: 20px;
+    }
+
+    button {
+        background-color: #65bd83;
+        color: white;
+        border: none;
+        padding: 10px 40px;
+        cursor: pointer;
+        font-size: 1.5em;
+        border-radius: 5px;
+    }
+`;
+
+const DownArrow = styled.div`
+    position: absolute;
+    bottom: 20px;
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 20px solid white;
+    cursor: pointer;
+
+    &:hover {
+        border-top: 25px solid #65bd83;
     }
 `;
 
