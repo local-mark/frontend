@@ -198,9 +198,6 @@ const OverlayImage = styled.img`
     width: 100%;
     height: auto;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 `;
 
 const Overlay = styled.div`
