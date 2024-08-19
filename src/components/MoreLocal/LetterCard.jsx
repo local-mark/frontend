@@ -65,11 +65,11 @@ const SampleLetters = [
 
 const CardGrid = styled.div`
   display: flex;
-  width: 100vw;
-  align-items: flex-start;
-  align-content: flex-start;
+  align-content: center;
+  justify-content: center;
   gap: 100px 24px;
   flex-wrap: wrap;
+  margin: 0 auto;
 `;
 
 const Card = styled.div`
@@ -84,7 +84,7 @@ const Card = styled.div`
 `;
 
 const CardImage = styled.img`
-  width: 30vw;
+  width: 100%;
   height: 45vh;
   object-fit: cover;
   border-top-left-radius: 10px;
@@ -115,28 +115,6 @@ const CardTitle = styled.h3`
 const Date = styled.div`
   font-size: 14px;
   color: #999;
-`;
-
-const PaginationContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-`;
-
-const PageButton = styled.button`
-  background: ${({ active }) => (active ? '#ff5722' : '#fff')};
-  color: ${({ active }) => (active ? '#fff' : '#000')};
-  border: 1px solid #ddd;
-  padding: 8px 16px;
-  margin: 0 4px;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
 `;
 
 const LetterCard = () => {
