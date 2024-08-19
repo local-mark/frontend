@@ -85,9 +85,6 @@ export default function Login() {
 
             const result = await axios.post('http://umc.localmark.store/auth/login', body);
 
-            // result.data 구조 확인
-            console.log('Login API Response:', result.data);
-
             // 로그인 성공 시 아이디 기억하기 설정
             if (rememberId) {
                 setCookie('rememberedId', id, { path: '/', maxAge: 7 * 24 * 60 * 60 }); // 쿠키 유효기간 7일

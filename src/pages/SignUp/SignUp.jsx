@@ -239,8 +239,10 @@ export default function SingUp() {
     };
 
     const handleClick = () => {
-        setClick(true);
-        setEmailMessage('');
+        if (email !== '' && emailCheck) {
+            setClick(true);
+            setEmailMessage('');
+        }
     };
 
     return (
