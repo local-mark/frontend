@@ -187,6 +187,7 @@ const LandingContainer = styled.div`
 const ImageOverlay = styled.div`
     display: flex;
     position: relative;
+    top: 0px;
     width: 100%;
     min-width: 1500px;
     height: 87vh;
@@ -210,7 +211,6 @@ const Overlay = styled.div`
     bottom: 0;
     display: flex;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0);
 `;
 
 const OverlayContent = styled.div`
