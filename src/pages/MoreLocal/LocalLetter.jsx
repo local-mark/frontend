@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { useNavigate, Link } from "react-router-dom";
-import letters from "../../components/MoreLocal/LetterData";
-import LetterCard from "../../components/MoreLocal/LetterCard";
+// src/pages/MoreLocal/LocalLetter.jsx
+import React from 'react';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import letters from '../../components/MoreLocal/LetterData';
 
 const LocalLetter = () => {
   const navigate = useNavigate();
@@ -26,15 +26,11 @@ const LocalLetter = () => {
       </Header>
       <LetterCardContainer>
         {letters.map((letter) => (
-          <div key={letter.letterId}
-          className="letterCard"
-          onClick={() => handleCardClick(letter.letterId)}
-          >
-            <LetterTitle>{letter.title}</LetterTitle>
-            <img src={letter.imageUrl} alt={letter.title} />
-            {/* <p>{new Date(letter.createdAt).toLocaleDateString()}</p> */}
-            <p>{letter.createdAt}</p>
-          </div>
+          <Card key={letter.letterId} onClick={() => handleCardClick(letter.letterId)}>
+            <Title>{letter.title}</Title>
+            <CardImage src={letter.imageUrl} alt={letter.title} />
+            <Date>{new Date(letter.createdAt).toLocaleDateString()}</Date>
+          </Card>
         ))}
       </LetterCardContainer>
     </PageContainer>
@@ -67,7 +63,7 @@ const Logo = styled.div`
   font-size: 40px;
   font-style: normal;
   font-weight: 600;
-  line-height: 140%; /* 56px */
+  line-height: 140%;
   letter-spacing: -0.8px;
   margin-top: 40px;
 `;
@@ -94,14 +90,10 @@ const NavLink = styled(Link)`
   font-size: var(--Text-size-6, 20px);
   font-style: normal;
   font-weight: 600;
-  line-height: 140%; /* 28px */
+  line-height: 140%;
   letter-spacing: -0.4px;
   text-decoration: none;
 `;
-
-/* const Main = styled.main`
-  margin-top: 20px;
-`; */
 
 const LetterCardContainer = styled.div`
   display: flex;
@@ -112,9 +104,35 @@ const LetterCardContainer = styled.div`
   margin: 0 auto;
 `;
 
-const LetterTitle = styled.h3`
+const Card = styled.div`
+  cursor: pointer;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: box-shadow 0.3s ease;
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+`;
+
+const Title = styled.h3`
   font-size: 20px;
   font-weight: bold;
+  margin: 0;
+`;
+
+const CardImage = styled.img`
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin-bottom: 8px;
+`;
+
+const Date = styled.p`
+  font-size: 14px;
+  color: #666;
   margin: 0;
 `;
 
