@@ -204,7 +204,9 @@ export default function SingUp() {
             setLoading(false);
             if (error.response && error.response.status === 400) {
                 const errorCode = error.response.data.code;
+                setClick(false);
 
+                //수정 필요
                 if (errorCode === 'USER4001') {
                     setIdMessage('이미 가입된 아이디입니다.');
                 } else if (errorCode === 'USER4002') {
@@ -281,7 +283,13 @@ export default function SingUp() {
                                         <Form>
                                             <InputContainer>
                                                 <InputType>닉네임</InputType>
-                                                <InputField>
+                                                <InputField
+                                                    style={{
+                                                        border: nicknameMessage
+                                                            ? '1px solid #FF616A'
+                                                            : '1px solid #757575',
+                                                    }}
+                                                >
                                                     <Input
                                                         type="text"
                                                         placeholder="닉네임"
@@ -294,7 +302,13 @@ export default function SingUp() {
                                             <InputContainer>
                                                 <InputType>이메일</InputType>
                                                 <Cause>인증에 사용할 이메일을 작성해 주세요.</Cause>
-                                                <InputField>
+                                                <InputField
+                                                    style={{
+                                                        border: emailMessage
+                                                            ? '1px solid #FF616A'
+                                                            : '1px solid #757575',
+                                                    }}
+                                                >
                                                     <Input
                                                         type="email"
                                                         placeholder="ex) localmark@naver.com"
@@ -304,10 +318,10 @@ export default function SingUp() {
                                                     <OkButton
                                                         onClick={handleClick}
                                                         style={{
-                                                            background: click ? '#00000014' : 'null',
+                                                            background: click ? '#00000014' : '#65BD83',
                                                         }}
                                                     >
-                                                        <OkbuttonLayer style={{ color: click ? '#9E9E9E' : 'null' }}>
+                                                        <OkbuttonLayer style={{ color: click ? '#9E9E9E' : '#FFFFFF' }}>
                                                             {click ? '인증 완료' : '인증 요청'}
                                                         </OkbuttonLayer>
                                                     </OkButton>
@@ -316,7 +330,11 @@ export default function SingUp() {
                                             </InputContainer>
                                             <InputContainer>
                                                 <InputType>아이디</InputType>
-                                                <InputField>
+                                                <InputField
+                                                    style={{
+                                                        border: idMessage ? '1px solid #FF616A' : '1px solid #757575',
+                                                    }}
+                                                >
                                                     <Input
                                                         type="text"
                                                         placeholder="아이디"
