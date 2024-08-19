@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import { FaStar } from 'react-icons/fa';
 
 export const ModalBackground = styled.div`
-    position: fixed; /* 추가 */
-    top: 0; /* 추가 */
-    left: 0; /* 추가 */
+    position: fixed;
+    top: 0;
+    left: 0;
     bottom: 0;
-    z-index: 1000; /* 추가 */
+    z-index: 1000;
     display: flex;
     width: 100%;
     height: 100%;
@@ -17,7 +17,7 @@ export const ModalBackground = styled.div`
     flex-shrink: 0;
     background: rgba(0, 0, 0, 0.16);
     backdrop-filter: blur(4px);
-    overflow-y: auto; /* 추가: 내용이 넘칠 경우 스크롤 추가 */
+    overflow-y: auto;
 `;
 
 export const Review = styled.div`
@@ -58,6 +58,8 @@ export const ImgFrame = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
 `;
 
 export const MainTextFrame = styled.div`
@@ -87,12 +89,15 @@ export const Rating = styled.div`
     align-items: center;
     gap: var(--Spacing-3, 8px);
     align-self: stretch;
+    width: 100%; /* 추가 */
 `;
 
 export const DesignedIcon = styled(FaStar)`
     width: 46px;
     height: 46px;
     fill: var(--Color-Gray-gray-300, #e0e0e0);
+    cursor: pointer;
+    transition: fill 0.2s ease-in-out; /* 추가 */
 `;
 
 export const ImgWrapper = styled.div`
@@ -156,7 +161,7 @@ export const MainText = styled.div`
     flex: 1 0 0;
 `;
 
-export const MaintextInput = styled.input`
+export const MaintextInput = styled.textarea`
     height: 280px;
     align-self: stretch;
     color: var(--Color-Text-secondary, #616161);
@@ -168,6 +173,7 @@ export const MaintextInput = styled.input`
     letter-spacing: -0.4px;
     text-align: left;
     border: none;
+    resize: none; /* 사용자가 크기를 조절할 수 없도록 함 */
 `;
 
 export const LetterNum = styled.div`
@@ -210,4 +216,33 @@ export const ButtonLayer = styled.div`
     font-weight: 600;
     line-height: 140%; /* 30.8px */
     letter-spacing: -0.44px;
+`;
+
+export const UploadedImage = styled.img`
+    width: 380px;
+    height: 380px;
+    object-fit: cover;
+    border-radius: 5px;
+`;
+
+export const ImageContainer = styled.div`
+    position: relative;
+    margin: 10px; /* 이미지 간 간격을 위해 추가 */
+`;
+
+export const DeleteButton = styled.button`
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #ff5a5a;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
 `;

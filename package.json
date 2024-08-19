@@ -12,6 +12,7 @@
     },
     "dependencies": {
         "@reduxjs/toolkit": "^2.2.7",
+        "@tosspayments/payment-widget-sdk": "^0.11.1",
         "axios": "^1.7.3",
         "base-64": "^1.0.0",
         "react": "^18.3.1",
