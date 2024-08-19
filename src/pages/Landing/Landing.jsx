@@ -15,20 +15,20 @@ export default function Landing() {
     return (
         <LandingContainer>
             <ImageOverlay
-                    imageSrc={first_background}
-                    contents={
-                      <div>
+                imageSrc={first_background}
+                contents={
+                    <div>
                         <h2>
-                            누구보다 특별한 당신에게 <br /><Highlight>로컬이라는 유니크함</Highlight>을 더하다
+                            누구보다 특별한 당신에게<br /><Highlight>로컬이라는 유니크함</Highlight>을 더하다
                         </h2>
                         <p>
-                            어디에서도 만나볼 수 없는 로컬 크리에이터들의 제품들을 <br />지금, 로컬마크에서 만나보세요.
+                            어디에서도 만나볼 수 없는 로컬 크리에이터들의 제품들을<br />지금, 로컬마크에서 만나보세요.
                         </p>
                         <Link to='/gallery'>
                             <button>지금 바로 시작하기</button>
                         </Link>
-                      </div>
-                    }
+                    </div>
+                }
             />
             <div className='ContainerBox'>
                 <CreatorContainer>
