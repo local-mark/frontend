@@ -25,10 +25,14 @@ export default function Landing() {
                 <Overlay>
                     <OverlayContent>
                         <h2>
-                            누구보다 특별한 당신에게<br /><Highlight>로컬이라는 유니크함</Highlight>을 더하다
+                            누구보다 특별한 당신에게
+                            <br />
+                            <Highlight>로컬이라는 유니크함</Highlight>을 더하다
                         </h2>
                         <p>
-                            어디에서도 만나볼 수 없는 로컬 크리에이터들의 제품들을<br />지금, 로컬마크에서 만나보세요.
+                            어디에서도 만나볼 수 없는 로컬 크리에이터들의 제품들을
+                            <br />
+                            지금, 로컬마크에서 만나보세요.
                         </p>
                         <Link to="/gallery">
                             <button>지금 바로 시작하기</button>
@@ -242,7 +246,8 @@ const OverlayContent = styled.div`
 
 const DownArrow = styled.div`
     position: absolute;
-    bottom: 20px;
+    bottom: 50px;
+    margin-bottom: 10px;
     width: 0;
     height: 0;
     border-left: 20px solid transparent;
