@@ -23,14 +23,28 @@ import {
     Price,
     Line2,
     ReviewButton,
+    NothingOrder,
+    DeleteButton,
 } from './Mypage.style';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from './Modal';
 
 export default function Mypage() {
-    const [item, setItem] = useState([0, 1, 2, 3]);
+    const [orders, setOrders] = useState([]);
     const [modal, setModal] = useState(false);
+
+    useEffect(() => {
+        const storedOrders = JSON.parse(localStorage.getItem('recentOrders')) || [];
+        setOrders(storedOrders);
+    }, []);
+
+    // 주문 내역 삭제 함수
+    const handleDeleteOrder = (index) => {
+        const updatedOrders = orders.filter((_, i) => i !== index); // 선택한 주문을 제외한 나머지 목록으로 업데이트
+        setOrders(updatedOrders); // 상태 업데이트
+        localStorage.setItem('recentOrders', JSON.stringify(updatedOrders)); // localStorage 업데이트
+    };
 
     return (
         <div>
@@ -55,28 +69,34 @@ export default function Mypage() {
                         </RecentorderContainer>
                     </TopFrame>
                     <BottomFrame>
-                        {item.map((a, i) => {
-                            return (
-                                <OrderContainer>
+                        {orders.length > 0 ? (
+                            orders.map((order, i) => (
+                                <OrderContainer key={i}>
                                     <OrderFrame>
                                         <DesignedIcons3></DesignedIcons3>
-                                        <div>2024. XX. XX.</div>
+                                        <div>{order.date}</div>
+                                        <DeleteButton>
+                                            <button onClick={() => handleDeleteOrder(i)}>삭제</button>{' '}
+                                        </DeleteButton>{' '}
+                                        {/* 삭제 버튼 추가 */}
                                     </OrderFrame>
                                     <ProductInfo>
                                         <ProductFrame>
-                                            <Img></Img>
+                                            <Link to={`/gallery/product/${order.productId}`}>
+                                                <Img style={{ backgroundImage: `url(${order.image})` }}></Img>
+                                            </Link>
                                             <DetailFrame>
-                                                <div>브랜드명</div>
+                                                <Link to={`/gallery/product/${order.productId}`}>
+                                                    <div>{order.brand}</div>
+                                                </Link>
                                                 <DetailFrame2>
-                                                    <div>제품명</div>
+                                                    <Link to={`/gallery/product/${order.productId}`}>
+                                                        <div>{order.product}</div>
+                                                    </Link>
                                                     <DetailFrame3>
-                                                        <Option>
-                                                            <div>옵션 1</div>
-                                                            <Line2></Line2>
-                                                            <div>옵션 2</div>
-                                                        </Option>
-                                                        <div>수량 1개</div>
-                                                        <Price>10,000 원</Price>
+                                                        <Option>{order.option.split('-').join(' | ')}</Option>
+                                                        <div style={{ marginTop: '3px' }}>수량 {order.quantity}개</div>
+                                                        <Price>{order.price}</Price>
                                                     </DetailFrame3>
                                                 </DetailFrame2>
                                             </DetailFrame>
@@ -84,8 +104,12 @@ export default function Mypage() {
                                         <ReviewButton onClick={() => setModal(true)}>리뷰 작성</ReviewButton>
                                     </ProductInfo>
                                 </OrderContainer>
-                            );
-                        })}
+                            ))
+                        ) : (
+                            <NothingOrder>
+                                <div>회원님의 주문 내역이 없습니다.</div>
+                            </NothingOrder>
+                        )}
                     </BottomFrame>
                 </MypageFrame>
             </MypageSection>
