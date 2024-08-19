@@ -19,6 +19,8 @@ const Write = () => {
         setSelectedCategory(event.target.value);
     };
 
+    const contentRef = useRef(null);
+
     const handleRegisterClick = async () => {
         const formData = new FormData();
         formData.append("userId", 1); // 실제 사용자 ID를 여기에 설정
@@ -74,6 +76,19 @@ const Write = () => {
         }
     };
 
+    const handleBoldClick = () => {
+        const textarea = contentRef.current;
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+
+        if (start === end) return; // 텍스트 선택이 없을 때는 아무 동작도 하지 않음
+
+        const selectedText = content.substring(start, end);
+        const boldText = `**${selectedText}**`;
+
+        setContent(content.slice(0, start) + boldText + content.slice(end));
+    };
+
     return (
         <WritePageContainer>
             <WritePageHeader
@@ -82,6 +97,7 @@ const Write = () => {
                 onRegisterClick={handleRegisterClick}
                 fileInputRef={fileInputRef}
                 onFileChange={handleFileChange}
+                onBoldClick={handleBoldClick}
             />
             <WriteForm
                 selectedCategory={selectedCategory}
@@ -91,6 +107,7 @@ const Write = () => {
                 content={content}
                 onContentChange={handleContentChange}
                 imagePreview={imagePreview}
+                contentRef={contentRef}
             />
         </WritePageContainer>
     );

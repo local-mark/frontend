@@ -92,7 +92,7 @@ export default CreaterCommunity;
 
 const CreaterCommunityContainer = styled.div`
     width: 100%;
-    min-heigth: 1600px;
+    min-heigth: 2400px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -111,9 +111,11 @@ const CreaterCommunityNavbar = styled.div`
 const WriteButtonConatiner = styled.div`
     width: 1200px;
     max-width: 1200px;
+    height: 41px;
     margin-left: auto;
     display: flex;
     flex-direction: row-reverse;
+    margin-bottom: 30px;
 `;
 
 const WriteButton = styled.button`
@@ -166,6 +168,6 @@ const CreaterCommunityContentConatainer = styled.div`
     align-items: center;
     flex-direction: column;
     width: 100%;
-    height: 600px;
+    height: 100%;
 `;
 

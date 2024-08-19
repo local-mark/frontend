@@ -169,30 +169,30 @@ const PostDetail = ({ posts }) => {
                     최신 업데이트된 글
                 </RecentUpdateContent>
                 <RecentUpdateContentContainer>
-                    <RecentUpdateWarpp>
+                    <RecentUpdateWrapper>
                         <ContentImg src={Profile} alt="임시이미지" />
                         로컬 크레이에이티브 2024 행사 다녀왔어요~!
-                    </RecentUpdateWarpp>
-                    <RecentUpdateWarpp>
+                    </RecentUpdateWrapper>
+                    <RecentUpdateWrapper>
                         <ContentImg src={Profile} alt="임시이미지" />
                         로컬 크레이에이티브 2024 행사 다녀왔어요~!
-                    </RecentUpdateWarpp>
-                    <RecentUpdateWarpp>
+                    </RecentUpdateWrapper>
+                    <RecentUpdateWrapper>
                         <ContentImg src={Profile} alt="임시이미지" />
                         로컬 크레이에이티브 2024 행사 다녀왔어요~!
-                    </RecentUpdateWarpp>
-                    <RecentUpdateWarpp>
+                    </RecentUpdateWrapper>
+                    <RecentUpdateWrapper>
                         <ContentImg src={Profile} alt="임시이미지" />
                         로컬 크레이에이티브 2024 행사 다녀왔어요~!
-                    </RecentUpdateWarpp>
-                    <RecentUpdateWarpp>
+                    </RecentUpdateWrapper>
+                    <RecentUpdateWrapper>
                         <ContentImg src={Profile} alt="임시이미지" />
                         로컬 크레이에이티브 2024 행사 다녀왔어요~!
-                    </RecentUpdateWarpp>
-                    <RecentUpdateWarpp>
+                    </RecentUpdateWrapper>
+                    <RecentUpdateWrapper>
                         <ContentImg src={Profile} alt="임시이미지" />
                         로컬 크레이에이티브 2024 행사 다녀왔어요~!
-                    </RecentUpdateWarpp>
+                    </RecentUpdateWrapper>
                 </RecentUpdateContentContainer>
 
             </RecentUpdateContainer>
@@ -582,7 +582,7 @@ const RecentUpdateContentContainer = styled.div`
     gap: 10px;
 `
 
-const RecentUpdateWarpp = styled.div`
+const RecentUpdateWrapper = styled.div`
     width: 384px;
     height: 329px;
     font-size: 18px;
