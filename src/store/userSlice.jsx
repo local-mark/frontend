@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import base64 from 'base-64';
 
 const initialState = {
     isLogin: false,
@@ -12,10 +13,15 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         loginAction: (state, action) => {
-            const { token } = action.payload.result;
-            state.value.token = token;
+            const { accessToken } = action.payload.result;
+            state.value.token = accessToken;
             state.isLogin = true;
-            localStorage.setItem('accessToken', token);
+            localStorage.setItem('accessToken', accessToken);
+
+            const payload = accessToken.substring(accessToken.indexOf('.') + 1, accessToken.lastIndexOf('.'));
+            const decodingInfo = base64.decode(payload);
+            const decodingInfoJson = JSON.parse(decodingInfo);
+            console.log(decodingInfoJson);
         },
     },
 });
