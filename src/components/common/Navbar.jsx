@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../../store/CartContext';
 import logo from '../../assets/icon/Home/localmark_logo.svg';
 import cartIcon from '../../assets/icon/Home/cart_icon.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutAction } from '../../store/userSlice';
 
 const categories = [
     {
@@ -67,15 +69,18 @@ const community = [
 ];
 
 export default function Navbar() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const isLoggedIn = useSelector((state) => state.user.isLogin);
     const { cartCount } = useContext(CartContext);
     const [dropdownVisible, setDropdownVisible] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const type = localStorage.getItem('type');
 
     const handleAuthClick = () => {
-        if (isLoggedIn) {
-            setIsLoggedIn(false);
+        if (!isLoggedIn) {
+            navigate('/login');
         } else {
+            dispatch(logoutAction());
             navigate('/login');
         }
     };
@@ -112,7 +117,17 @@ export default function Navbar() {
                             <span onClick={() => navigate('/creatercommunity')}>크리에이터 커뮤니티</span>
                         </MenuItem>
                         <MenuItem>
-                            <span onClick={() => navigate('/mypage')}>마이페이지</span>
+                            <span
+                                onClick={() => {
+                                    if (type === 'CREATOR') {
+                                        navigate('/brandmanage');
+                                    } else if (type === 'GENERAL') {
+                                        navigate('/mypage');
+                                    } else navigate('/login');
+                                }}
+                            >
+                                마이페이지
+                            </span>
                         </MenuItem>
                     </Menu>
                     <RightMenu>
