@@ -27,6 +27,7 @@ export default function Payment() {
     });
 
     useEffect(() => {
+        // jQuery 및 iamport 스크립트 추가
         const jquery = document.createElement('script');
         jquery.src = 'https://code.jquery.com/jquery-1.12.4.min.js';
         const iamport = document.createElement('script');
@@ -34,9 +35,14 @@ export default function Payment() {
         document.head.appendChild(jquery);
         document.head.appendChild(iamport);
 
+        const tossPayments = document.createElement('script');
+        tossPayments.src = 'https://js.tosspayments.com/v1/payment-widget';
+        document.head.appendChild(tossPayments);
+
         return () => {
             document.head.removeChild(jquery);
             document.head.removeChild(iamport);
+            document.head.removeChild(tossPayments);
         };
     }, []);
 
@@ -88,10 +94,14 @@ export default function Payment() {
             const { IMP } = window;
             IMP.init('imp48720306'); // 가맹점 식별코드
 
+            const pg = selectedPaymentMethod === 'tosspay' ? 'tosspay' : selectedPaymentMethod;
+
+            const customer_uid = `customer_${new Date().getTime()}`; // 고유한 customer_uid 생성
+
             const data = {
-                pg: 'kakaopay', // PG사
+                pg: pg, // PG사
                 pay_method: selectedPaymentMethod, // 결제 수단
-                merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
+                merchant_uid: `${new Date().getTime()}`, // 주문번호
                 name: '주문명: 결제테스트',
                 amount: calculateTotalOrderPrice(), // 결제 금액
                 buyer_email: 'buyer@example.com', // 구매자 이메일
@@ -99,13 +109,15 @@ export default function Payment() {
                 buyer_tel: recipientContact.join('-'), // 구매자 전화번호
                 buyer_addr: addressForm.address, // 구매자 주소
                 buyer_postcode: addressForm.zonecode, // 구매자 우편번호
+                customer_uid: customer_uid,
+                m_redirect_url: 'http://localhost:5173/payment/payment-confirmation', // 결제 완료 후 리디렉션 될 URL
             };
 
             IMP.request_pay(data, (response) => {
-                const { success, error_msg } = response;
-                if (success) {
+                if (response.success) {
                     const orderDetails = cartItems.map((item) => ({
                         productId: item.id,
+                        orderId: response.merchant_uid,
                         date: new Date().toLocaleDateString('ko-KR'), // 'YYYY.MM.DD' 포맷으로 저장
                         image: item.image,
                         brand: item.brand_name,
@@ -118,9 +130,9 @@ export default function Payment() {
                     const storedOrders = JSON.parse(localStorage.getItem('recentOrders')) || [];
                     localStorage.setItem('recentOrders', JSON.stringify([...storedOrders, ...orderDetails]));
 
-                    navigate('/payment-confirmation'); // Navigate to confirmation page after success
+                    navigate('/payment-confirmation');
                 } else {
-                    alert(`결제 실패: ${error_msg}`);
+                    alert(`결제 실패: ${response.error_msg}`);
                 }
             });
         } else {
@@ -232,16 +244,16 @@ export default function Payment() {
                             카카오페이
                         </PaymentMethod>
                         <PaymentMethod
+                            selected={selectedPaymentMethod === 'tosspay'}
+                            onClick={() => handlePaymentMethodChange('tosspay')}
+                        >
+                            토스페이
+                        </PaymentMethod>
+                        <PaymentMethod
                             selected={selectedPaymentMethod === 'card'}
                             onClick={() => handlePaymentMethodChange('card')}
                         >
                             카드
-                        </PaymentMethod>
-                        <PaymentMethod
-                            selected={selectedPaymentMethod === '가상계좌'}
-                            onClick={() => handlePaymentMethodChange('가상계좌')}
-                        >
-                            가상계좌
                         </PaymentMethod>
                         <PaymentMethod
                             selected={selectedPaymentMethod === '무통장입금'}
@@ -321,7 +333,6 @@ export default function Payment() {
         </PaymentWrapper>
     );
 }
-
 const PaymentWrapper = styled.div`
     display: flex;
     justify-content: center;

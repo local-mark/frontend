@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import Modal from './Modal';
 import {
     BottomFrame,
     DesignedIcons,
@@ -26,13 +29,11 @@ import {
     NothingOrder,
     DeleteButton,
 } from './Mypage.style';
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Modal from './Modal';
 
 export default function Mypage() {
     const [orders, setOrders] = useState([]);
     const [modal, setModal] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState(null); // To store the selected order for review
     const nickname = localStorage.getItem('nickname');
 
     useEffect(() => {
@@ -45,6 +46,11 @@ export default function Mypage() {
         const updatedOrders = orders.filter((_, i) => i !== index); // 선택한 주문을 제외한 나머지 목록으로 업데이트
         setOrders(updatedOrders); // 상태 업데이트
         localStorage.setItem('recentOrders', JSON.stringify(updatedOrders)); // localStorage 업데이트
+    };
+
+    const openReviewModal = (order) => {
+        setSelectedOrder(order);
+        setModal(true);
     };
 
     return (
@@ -102,7 +108,7 @@ export default function Mypage() {
                                                 </DetailFrame2>
                                             </DetailFrame>
                                         </ProductFrame>
-                                        <ReviewButton onClick={() => setModal(true)}>리뷰 작성</ReviewButton>
+                                        <ReviewButton onClick={() => openReviewModal(order)}>리뷰 작성</ReviewButton>
                                     </ProductInfo>
                                 </OrderContainer>
                             ))
@@ -114,7 +120,7 @@ export default function Mypage() {
                     </BottomFrame>
                 </MypageFrame>
             </MypageSection>
-            {modal ? <Modal setModal={setModal}></Modal> : null}
+            {modal && <Modal setModal={setModal} orderDetails={selectedOrder} />}
         </div>
     );
 }
