@@ -1,10 +1,46 @@
-import React from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import LetterCard from "../../components/MoreLocal/LetterCard";
+import React from 'react';
+import { NavLink as RouterNavLink, useNavigate } from 'react-router-dom';
+import letters from '../../components/MoreLocal/LetterData';
+import styled from 'styled-components';
+
+const LocalLetter = () => {
+  const navigate = useNavigate();
+
+  const handleCardClick = (letterId) => {
+    navigate(`/morelocal/letters/${letterId}`);
+  };
+
+  return (
+    <PageContainer>
+      <Header>
+        <Logo>More Local</Logo>
+        <Nav>
+          <NavWrapper>
+            <StyledNavLink to="/morelocal/letters" primary>
+              로컬 레터
+            </StyledNavLink>
+          </NavWrapper>
+          <RouterNavLink to="/morelocal/events">이벤트</RouterNavLink>
+        </Nav>
+      </Header>
+      <LetterCardContainer>
+        {letters.map((letter) => (
+          <Card key={letter.letterId} className="letter-card" onClick={() => handleCardClick(letter.letterId)}>
+            <CardImage src={letter.imageUrl} alt={letter.title} />
+            <CardInfo>
+              <Title>{letter.title}</Title>
+              <Date>{letter.createdAt}</Date>
+            </CardInfo>
+          </Card>
+        ))}
+      </LetterCardContainer>
+    </PageContainer>
+  );
+};
 
 const PageContainer = styled.div`
   display: flex;
+  width: 100vw;
   max-width: 100%;
   padding: 100px;
   flex-direction: column;
@@ -29,7 +65,7 @@ const Logo = styled.div`
   font-size: 40px;
   font-style: normal;
   font-weight: 600;
-  line-height: 140%; /* 56px */
+  line-height: 140%;
   letter-spacing: -0.8px;
   margin-top: 40px;
 `;
@@ -49,41 +85,64 @@ const NavWrapper = styled.nav`
   border-bottom: 4px solid var(--Color-Main-primary, #65bd83);
 `;
 
-const NavLink = styled(Link)`
+const StyledNavLink = styled(RouterNavLink)`
   color: ${(props) =>
     props.primary ? "var(--Color-Main-primary, #65bd83)" : "#000"};
   font-family: Pretendard;
   font-size: var(--Text-size-6, 20px);
   font-style: normal;
   font-weight: 600;
-  line-height: 140%; /* 28px */
+  line-height: 140%;
   letter-spacing: -0.4px;
   text-decoration: none;
 `;
 
-const Main = styled.main`
-  margin-top: 20px;
+const LetterCardContainer = styled.div`
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  gap: 100px 24px;
+  flex-wrap: wrap;
+  margin: 0 auto;
 `;
 
-const LocalLetter = () => {
-  return (
-    <PageContainer>
-      <Header>
-        <Logo>More Local</Logo>
-        <Nav>
-          <NavWrapper>
-            <NavLink to="/morelocal/letters" primary>
-              로컬 레터
-            </NavLink>
-          </NavWrapper>
-          <NavLink to="/morelocal/events">이벤트</NavLink>
-        </Nav>
-      </Header>
-      <Main>
-        <LetterCard />
-      </Main>
-    </PageContainer>
-  );
-};
+const Card = styled.div`
+  cursor: pointer;
+  padding-bottom: 16px;
+  margin: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: box-shadow 0.3s ease;
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+`;
+
+const CardImage = styled.img`
+  width: 30vw;
+  height: auto;
+  object-fit: cover;
+  margin-bottom: 8px;
+`;
+
+const CardInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+const Title = styled.h3`
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 16px;
+`;
+
+const Date = styled.p`
+  font-size: 14px;
+  color: #666;
+  margin-left: 16px;
+`;
 
 export default LocalLetter;
