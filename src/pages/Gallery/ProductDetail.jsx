@@ -173,7 +173,7 @@ const ProductDetail = () => {
                         <Divider />
                         <OptionSelectContainer>
                             <OptionSelect value={selectedColor} onChange={(e) => setSelectedColor(e.target.value)}>
-                                <option>색상 선택</option>
+                                <option>옵션 1</option>
                                 {[...new Set(productData.options.map((opt) => opt.option_type.색상))].map(
                                     (color, index) => (
                                         <OptionItemStyled key={index} value={color}>
@@ -185,7 +185,7 @@ const ProductDetail = () => {
                         </OptionSelectContainer>
                         <OptionSelectContainer>
                             <OptionSelect value={selectedSize} onChange={(e) => setSelectedSize(e.target.value)}>
-                                <option>사이즈 선택</option>
+                                <option>옵션 2</option>
                                 {[...new Set(productData.options.map((opt) => opt.option_type.사이즈))].map(
                                     (size, index) => (
                                         <OptionItemStyled key={index} value={size}>
