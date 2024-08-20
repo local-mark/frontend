@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { MdArrowDropDown } from 'react-icons/md';
+import { IoSettingsOutline } from 'react-icons/io5';
 
 export const BrandManageSection = styled.div`
     display: flex;
-    width: 1920px;
+    width: 100%;
     padding: 100px 200px;
     flex-direction: column;
     justify-content: center;
@@ -15,32 +16,33 @@ export const BrandManageFrame = styled.div`
     display: flex;
     width: 1200px;
     flex-direction: column;
-    align-items: flex-start;
-    gap: var(--Spacing-12, 80px);
+    align-items: center;
+    gap: var(--Text-size-6, 20px);
 `;
 
 export const TopFrame = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 40px;
     align-self: stretch;
 `;
 
 export const BottomFrame = styled.div`
     display: flex;
-    width: 652px;
+    width: 1200px;
     flex-direction: column;
     align-items: flex-start;
-    gap: 40px;
+    gap: var(--Spacing-12, 80px);
 `;
 
 export const TitleFrame = styled.div`
     display: flex;
-    width: 1200px;
-    justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
+    gap: var(--Spacing-4, 16px);
     color: var(--Color-Text-primary, #222);
+
+    /* T1_SB */
     font-family: Pretendard;
     font-size: var(--Text-size-10, 32px);
     font-style: normal;
@@ -49,10 +51,39 @@ export const TitleFrame = styled.div`
     letter-spacing: -0.64px;
 `;
 
-export const ContentFrame = styled.div`
+export const SubtitleFrame = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    gap: var(--Spacing-3, 8px);
+    align-self: stretch;
+
+    hr {
+        width: 1200px;
+        height: 1px;
+        background: var(--Color-Gray-gray-400, #bdbdbd);
+    }
+`;
+
+export const Subtitle = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    align-self: stretch;
+    color: var(--Color-Text-primary, #222);
+
+    /* T3_SB */
+    font-family: Pretendard;
+    font-size: var(--Text-size-8, 24px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: 140%; /* 33.6px */
+    letter-spacing: -0.48px;
+`;
+
+export const ContentFrame = styled.div`
+    display: flex;
+    flex-direction: column;
     gap: 30px;
     align-self: stretch;
 
@@ -100,6 +131,7 @@ export const Sort = styled.div`
     font-weight: 400;
     line-height: 140%; /* 18.2px */
     letter-spacing: 0.26px;
+    margin-left: auto;
 `;
 
 export const SubTitleFrame = styled.div`
@@ -225,4 +257,54 @@ export const SortElement = styled.div`
     font-weight: 400;
     line-height: 150%; /* 19.5px */
     letter-spacing: -0.26px;
+`;
+
+export const DesignedIcons2 = styled(IoSettingsOutline)`
+    width: var(--Text-size-9, 28px);
+    height: var(--Text-size-9, 28px);
+    cursor: pointer;
+`;
+
+export const NotFrame = styled.div`
+    display: flex;
+    width: 384px;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+    color: var(--Color-Text-secondary, #616161);
+    text-align: center;
+    font-family: Pretendard;
+    font-size: var(--Text-size-8, 24px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%; /* 33.6px */
+    letter-spacing: -0.48px;
+`;
+
+export const NotButton = styled.button`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 3px;
+    background: var(--Color-Main-primary, #65bd83);
+`;
+
+export const NotButtonLayer = styled.div`
+    display: flex;
+    padding: 16px 151px;
+    justify-content: center;
+    align-items: center;
+    gap: var(--Spacing-2, 6px);
+    align-self: stretch;
+    border-radius: 1px;
+    color: #fff;
+    font-family: Pretendard;
+    font-size: var(--Text-size-7, 22px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: 140%; /* 30.8px */
+    letter-spacing: -0.44px;
+    white-space: nowrap;
 `;

@@ -27,6 +27,7 @@ export const userSlice = createSlice({
             localStorage.setItem('is_brand_registered', decodingInfo.is_brand_registered);
             localStorage.setItem('type', decodingInfo.type);
             console.log(decodingInfo.type);
+            console.log(decodingInfo.is_brand_registered);
         },
         logoutAction: (state) => {
             Object.assign(state, initialState);

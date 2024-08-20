@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import {
     DesignedIcons,
     DownFrame,
@@ -15,6 +16,7 @@ import {
 } from './BrandRegist.style';
 
 export default function BrandRegist() {
+    const navigate = useNavigate();
     return (
         <div>
             <RegistSection>
@@ -87,7 +89,13 @@ export default function BrandRegist() {
                         </FormFrame>
                         <ButtonFrame>
                             <Button>
-                                <StateLayer>다음에 신청하기</StateLayer>
+                                <StateLayer
+                                    onClick={() => {
+                                        navigate('/');
+                                    }}
+                                >
+                                    다음에 신청하기
+                                </StateLayer>
                             </Button>
                             <Button style={{ backgroundColor: '#65BD83' }}>
                                 <StateLayer style={{ color: '#FFF' }}>브랜드 신청하기</StateLayer>
