@@ -4,7 +4,9 @@ import Login from './pages/Login/Login';
 import SingUp from './pages/SignUp/SignUp';
 import Gallery from './pages/Gallery/Gallery';
 import LocalLetter from './pages/MoreLocal/LocalLetter';
+import LetterDetail from './pages/MoreLocal/LetterDetail';
 import Events from './pages/MoreLocal/Events';
+import EventDetail from './pages/MoreLocal/EventDetail';
 import ProductDetail from './pages/Gallery/ProductDetail';
 import Mypage from './pages/Mypage/Mypage';
 import MypageEdit from './pages/MypageEdit/MypageEdit';
@@ -31,7 +33,9 @@ function App() {
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/gallery/product/:productId" element={<ProductDetail />} />
                 <Route path="/morelocal/letters" element={<LocalLetter />} />
+                <Route path="/morelocal/letters/:letterId" element={<LetterDetail />} />
                 <Route path="/morelocal/events" element={<Events />} />
+                <Route path="/morelocal/events/:eventId" element={<EventDetail />} />
                 <Route path="/mypage" element={<Mypage />} />
                 <Route path="/mypage/userid" element={<MypageEdit />} />
                 <Route path="/mypage/userid/newpassword" element={<NewPassword />} />
