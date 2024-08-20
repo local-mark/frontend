@@ -83,7 +83,7 @@ export default function Login() {
                 password: password,
             };
 
-            const result = await axios.post('http://umc.localmark.store/auth/login', body);
+            const result = await axios.post('https://umc.localmark.store/auth/login', body);
 
             // 로그인 성공 시 아이디 기억하기 설정
             if (rememberId) {
