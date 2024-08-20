@@ -181,6 +181,13 @@ export default function SingUp() {
         }
     }, [nicknameCheck, emailCheck, idCheck, passwordCheck, password2Check]);
 
+    // password가 변경될 때 password2의 유효성을 다시 확인하도록 추가
+    useEffect(() => {
+        if (password2 !== '') {
+            checkPassword2(password2);
+        }
+    }, [password]);
+
     const handleSignup = async (e) => {
         e.preventDefault();
 
@@ -210,6 +217,8 @@ export default function SingUp() {
                     setIdMessage('이미 가입된 아이디입니다.');
                 } else if (errorCode === 'USER4012') {
                     setNicknameMessage('이미 있는 닉네임입니다.');
+                } else if (errorCode === 'USER4015') {
+                    setEmailMessage('이메일 인증이 완료되지 않았습니다.');
                 } else if (errorCode === 'USER4011') {
                     setClick(false);
                     setEmailMessage('이미 가입된 이메일입니다.');
@@ -238,10 +247,38 @@ export default function SingUp() {
         setIsChecked(e.target.checked);
     };
 
-    const handleClick = () => {
-        if (email !== '' && emailCheck) {
-            setClick(true);
-            setEmailMessage('');
+    const handleVerify = async (e) => {
+        e.preventDefault();
+
+        if (emailCheck && !click) {
+            try {
+                const body = {
+                    email: email,
+                };
+
+                await postData('/users/email-verification', body);
+                setClick(true);
+                setEmailMessage('');
+                console.log('메일 보내짐');
+            } catch (error) {
+                if (error.response) {
+                    const errorCode = error.response.data.code;
+
+                    //수정 필요
+                    if (errorCode === 'USER4011') {
+                        setClick(false);
+                        setEmailMessage('이미 존재하는 이메일입니다.');
+                    } else if (errorCode === 'USER4016') {
+                        setClick(false);
+                        setEmailMessage('이미 인증된 이메일입니다.');
+                    } else if (errorCode === 'USER4014') {
+                        setClick(false);
+                        setEmailMessage('만료된 이메일 토큰입니다.');
+                    } else {
+                        console.error('알 수 없는 에러 코드:', errorCode);
+                    }
+                }
+            }
         }
     };
 
@@ -320,13 +357,13 @@ export default function SingUp() {
                                                         }}
                                                     ></Input>
                                                     <OkButton
-                                                        onClick={handleClick}
+                                                        onClick={handleVerify}
                                                         style={{
                                                             background: click ? '#00000014' : '#65BD83',
                                                         }}
                                                     >
                                                         <OkbuttonLayer style={{ color: click ? '#9E9E9E' : '#FFFFFF' }}>
-                                                            {click ? '인증 완료' : '인증 요청'}
+                                                            {click ? '메일 전송' : '인증 요청'}
                                                         </OkbuttonLayer>
                                                     </OkButton>
                                                 </InputField>
@@ -371,7 +408,9 @@ export default function SingUp() {
                                                         type={showPassword ? 'text' : 'password'}
                                                         placeholder="비밀번호"
                                                         value={password}
-                                                        onChange={(e) => checkPassword(e.target.value.trim())}
+                                                        onChange={(e) => {
+                                                            checkPassword(e.target.value.trim());
+                                                        }}
                                                     ></Input>
                                                     {showPassword ? (
                                                         <StyledIcon2
@@ -407,7 +446,9 @@ export default function SingUp() {
                                                         type={showPassword2 ? 'text' : 'password'}
                                                         placeholder="비밀번호 확인"
                                                         value={password2}
-                                                        onChange={(e) => checkPassword2(e.target.value.trim())}
+                                                        onChange={(e) => {
+                                                            checkPassword2(e.target.value.trim());
+                                                        }}
                                                     ></Input>
                                                     {showPassword2 ? (
                                                         <StyledIcon2
