@@ -101,7 +101,7 @@ export default function Payment() {
             const data = {
                 pg: pg, // PG사
                 pay_method: selectedPaymentMethod, // 결제 수단
-                merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
+                merchant_uid: `${new Date().getTime()}`, // 주문번호
                 name: '주문명: 결제테스트',
                 amount: calculateTotalOrderPrice(), // 결제 금액
                 buyer_email: 'buyer@example.com', // 구매자 이메일
@@ -117,6 +117,7 @@ export default function Payment() {
                 if (response.success) {
                     const orderDetails = cartItems.map((item) => ({
                         productId: item.id,
+                        orderId: response.merchant_uid,
                         date: new Date().toLocaleDateString('ko-KR'), // 'YYYY.MM.DD' 포맷으로 저장
                         image: item.image,
                         brand: item.brand_name,
@@ -129,7 +130,6 @@ export default function Payment() {
                     const storedOrders = JSON.parse(localStorage.getItem('recentOrders')) || [];
                     localStorage.setItem('recentOrders', JSON.stringify([...storedOrders, ...orderDetails]));
 
-                    // 결제 성공 시 확인 페이지로 이동
                     navigate('/payment-confirmation');
                 } else {
                     alert(`결제 실패: ${response.error_msg}`);
