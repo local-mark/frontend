@@ -16,11 +16,11 @@ const LocalLetter = () => {
         <Logo>More Local</Logo>
         <Nav>
           <NavWrapper>
-            <StyledNavLink to="/morelocal/letters" primary>
+            <NavLink to="/morelocal/letters" primary>
               로컬 레터
-            </StyledNavLink>
+            </NavLink>
           </NavWrapper>
-          <RouterNavLink to="/morelocal/events">이벤트</RouterNavLink>
+          <NavLink to="/morelocal/events">이벤트</NavLink>
         </Nav>
       </Header>
       <LetterCardContainer>
@@ -86,7 +86,7 @@ const NavWrapper = styled.nav`
   border-bottom: 4px solid var(--Color-Main-primary, #65bd83);
 `;
 
-const StyledNavLink = styled(RouterNavLink)`
+const NavLink = styled(RouterNavLink)`
   color: ${(props) =>
     props.primary ? "var(--Color-Main-primary, #65bd83)" : "#000"};
   font-family: Pretendard;
