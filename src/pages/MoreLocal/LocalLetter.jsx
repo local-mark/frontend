@@ -16,11 +16,11 @@ const LocalLetter = () => {
         <Logo>More Local</Logo>
         <Nav>
           <NavWrapper>
-            <StyledNavLink to="/morelocal/letters" primary>
+            <NavLink to="/morelocal/letters" primary>
               로컬 레터
-            </StyledNavLink>
+            </NavLink>
           </NavWrapper>
-          <RouterNavLink to="/morelocal/events">이벤트</RouterNavLink>
+          <NavLink to="/morelocal/events">이벤트</NavLink>
         </Nav>
       </Header>
       <LetterCardContainer>
@@ -28,6 +28,7 @@ const LocalLetter = () => {
           <Card key={letter.letterId} className="letter-card" onClick={() => handleCardClick(letter.letterId)}>
             <CardImage src={letter.imageUrl} alt={letter.title} />
             <CardInfo>
+              <Type>{letter.type}</Type>
               <Title>{letter.title}</Title>
               <Date>{letter.createdAt}</Date>
             </CardInfo>
@@ -85,7 +86,7 @@ const NavWrapper = styled.nav`
   border-bottom: 4px solid var(--Color-Main-primary, #65bd83);
 `;
 
-const StyledNavLink = styled(RouterNavLink)`
+const NavLink = styled(RouterNavLink)`
   color: ${(props) =>
     props.primary ? "var(--Color-Main-primary, #65bd83)" : "#000"};
   font-family: Pretendard;
@@ -108,8 +109,8 @@ const LetterCardContainer = styled.div`
 
 const Card = styled.div`
   cursor: pointer;
-  padding-bottom: 16px;
-  margin: 20px;
+  padding-bottom: 10px;
+  margin: 10px;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -131,18 +132,25 @@ const CardInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-left: 16px;
+`;
+
+const Type = styled.div`
+  color: white;
+  background-color: #FF8162;
+  font-size: 1.25rem;
+  border-radius: 5px;
+  padding: 4px 8px;
 `;
 
 const Title = styled.h3`
   font-size: 20px;
   font-weight: bold;
-  margin-left: 16px;
 `;
 
 const Date = styled.p`
   font-size: 14px;
   color: #666;
-  margin-left: 16px;
 `;
 
 export default LocalLetter;

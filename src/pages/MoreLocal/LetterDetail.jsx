@@ -47,8 +47,8 @@ const LetterDetailContainer = styled.div`
 
 const LetterHead = styled.div`
   position: relative;
-  padding: 0;  /* padding을 없애고 이미지와 텍스트가 정확히 겹치도록 */
-  height: 30vh; /* 고정된 높이로 설정 */
+  padding: 0;
+  height: 30vh;
   overflow: hidden;
 `;
 
@@ -58,8 +58,8 @@ const TitleBackground = styled.img`
   left: 0;
   width: 100vw;
   height: 30vh;
-  object-fit: cover; /* 이미지가 컨테이너를 덮도록 */
-  z-index: 1; /* 이미지가 아래에 위치하도록 */
+  object-fit: cover;
+  z-index: 1;
 `;
 
 const LetterTitle = styled.h2`
@@ -68,8 +68,8 @@ const LetterTitle = styled.h2`
   left: 10%;
   font-size: 3rem;
   color: white;
-  z-index: 2; /* 이미지 위에 텍스트가 오도록 */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* 가독성을 위한 텍스트 그림자 */
+  z-index: 2;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 `;
 
 const Date = styled.p`
