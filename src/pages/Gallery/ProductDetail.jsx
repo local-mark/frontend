@@ -12,7 +12,6 @@ const ProductDetail = () => {
     const { addToCart } = useContext(CartContext);
     const navigate = useNavigate();
 
-    // State variables
     const [productData, setProductData] = useState(null);
     const [currentImage, setCurrentImage] = useState(0);
     const [selectedColor, setSelectedColor] = useState('');
@@ -20,7 +19,6 @@ const ProductDetail = () => {
     const [quantity, setQuantity] = useState(1);
     const [selectedOptions, setSelectedOptions] = useState([]);
 
-    // Fetch product data on component mount
     useEffect(() => {
         const loadProductData = async () => {
             try {
@@ -33,7 +31,6 @@ const ProductDetail = () => {
         loadProductData();
     }, [productId]);
 
-    // Handle color and size selection
     useEffect(() => {
         if (selectedColor && selectedSize) {
             const option = `${selectedColor} - ${selectedSize}`;

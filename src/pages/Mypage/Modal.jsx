@@ -38,6 +38,10 @@ export default function Modal({ setModal, orderDetails }) {
         }
     };
 
+    const handleImageDelete = (index) => {
+        setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    };
+
     const handleSubmit = async () => {
         if (!orderDetails) {
             console.error('orderDetails가 없습니다.');
@@ -45,8 +49,8 @@ export default function Modal({ setModal, orderDetails }) {
         }
 
         const reviewData = new FormData();
-        reviewData.append('product_id', orderDetails.productId);
-        reviewData.append('oi_id', parseInt(orderDetails.orderId, 10)); // oi_id를 정수로 변환
+        reviewData.append('productId', orderDetails.productId); // productId
+        reviewData.append('oiId', orderDetails.orderId); // oiId는 문자열
         reviewData.append('content', reviewText);
         reviewData.append('rating', starRating);
 
@@ -55,16 +59,12 @@ export default function Modal({ setModal, orderDetails }) {
         });
 
         try {
-            const response = await postData('/reviews', reviewData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data', // FormData 전송 시 올바른 헤더 설정
-                },
-            });
+            const response = await postData('/reviews?directory=reviews', reviewData);
             console.log('리뷰 제출 성공:', response);
-            setModal(false); // Close the modal after submission
+            setModal(false); // 제출 후 모달 닫기
         } catch (error) {
-            console.log(orderDetails.productId);
-            console.log(orderDetails.orderId);
+            console.log('productId:', orderDetails.productId);
+            console.log('oiId:', orderDetails.orderId);
             console.error('리뷰 제출 실패:', error.response || error);
         }
     };
