@@ -175,7 +175,7 @@ const LocalTag = styled.div`
   font-weight: bold;
 `;
 
-const MoreButton = styled.button`
+/* const MoreButton = styled.button`
   border-radius: 3px;
   border: 1px solid var(--Color-Main-primary, #65bd83);
   display: flex;
@@ -195,7 +195,7 @@ const MoreButton = styled.button`
   line-height: 140%;
   letter-spacing: -0.36px;
   margin-top: 100px;
-`;
+`; */
 
 const Events = () => {
   const navigate = useNavigate();
@@ -256,7 +256,7 @@ const Events = () => {
             </Card>
           ))}
         </CardGrid>
-        <MoreButton>+more</MoreButton>
+        {/* <MoreButton>+more</MoreButton> */}
       </Main>
     </PageContainer>
   );
