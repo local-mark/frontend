@@ -35,7 +35,7 @@ export default function ReviewDetailModal({ setModal, reviewData }) {
                                 </UploadedImage>
                             ))
                         ) : (
-                            <div>등록된 이미지가 없습니다.</div>
+                            <h1>등록된 이미지가 없습니다.</h1>
                         )}
                     </ImgFrame>
                     <MainTextFrame>

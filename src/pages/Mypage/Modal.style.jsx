@@ -57,6 +57,24 @@ export const ImgFrame = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    h1 {
+        color: var(--Color-Text-primary, #222);
+        font-family: Pretendard;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 140%; /* 33.6px */
+        letter-spacing: -0.48px;
+    }
+`;
+export const NoImage = styled.div`
+    color: var(--Color-Text-primary, #222);
+    font-family: Pretendard;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 140%; /* 33.6px */
+    letter-spacing: -0.48px;
 `;
 
 export const MainTextFrame = styled.div`

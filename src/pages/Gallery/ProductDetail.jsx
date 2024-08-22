@@ -7,19 +7,17 @@ import ProductContent from '../../components/Gallery/ProductContent';
 import { CartContext } from '../../store/CartContext';
 import { fetchData } from '../../services/api';
 import { useSelector } from 'react-redux';
+
 const ProductDetail = () => {
     const { productId } = useParams();
     const { addToCart } = useContext(CartContext);
     const navigate = useNavigate();
-
-    const isLogin = useSelector((state) => state.user.isLogin); // 로그인 상태를 가져옴
+    const isLogin = useSelector((state) => state.user.isLogin); // 로그인 상태 가져오기
 
     const [productData, setProductData] = useState(null);
     const [currentImage, setCurrentImage] = useState(0);
-    const [selectedColor, setSelectedColor] = useState('');
-    const [selectedSize, setSelectedSize] = useState('');
-    const [quantity, setQuantity] = useState(1);
     const [selectedOptions, setSelectedOptions] = useState([]);
+    const [optionSelections, setOptionSelections] = useState({});
 
     useEffect(() => {
         const loadProductData = async () => {
@@ -34,23 +32,36 @@ const ProductDetail = () => {
     }, [productId]);
 
     useEffect(() => {
-        if (selectedColor && selectedSize) {
-            const option = `${selectedColor} - ${selectedSize}`;
-            if (!selectedOptions.some((opt) => opt.option === option)) {
+        if (
+            productData &&
+            Object.keys(optionSelections).length === Object.keys(productData?.options[0]?.option_type || {}).length
+        ) {
+            const selectedOption = productData.options.find((opt) =>
+                Object.entries(opt.option_type).every(([key, value]) => optionSelections[key] === value)
+            );
+
+            if (
+                selectedOption &&
+                !selectedOptions.some(
+                    (opt) => JSON.stringify(opt.option) === JSON.stringify(selectedOption.option_type)
+                )
+            ) {
                 setSelectedOptions([
                     ...selectedOptions,
                     {
-                        option,
-                        quantity,
+                        option: selectedOption.option_type,
+                        quantity: 1,
                         price: productData.product.price,
                         delivery_fee: productData.product.delivery_fee,
                     },
                 ]);
-                setSelectedColor('');
-                setSelectedSize('');
             }
         }
-    }, [selectedColor, selectedSize, selectedOptions, productData]);
+    }, [optionSelections, selectedOptions, productData]);
+
+    const handleOptionChange = (key, value) => {
+        setOptionSelections((prev) => ({ ...prev, [key]: value }));
+    };
 
     if (!productData) {
         return <div>Loading...</div>;
@@ -68,7 +79,7 @@ const ProductDetail = () => {
     };
 
     const handleRemoveOption = (option) => {
-        setSelectedOptions(selectedOptions.filter((opt) => opt.option !== option));
+        setSelectedOptions(selectedOptions.filter((opt) => JSON.stringify(opt.option) !== JSON.stringify(option)));
     };
 
     const handleQuantityChange = (index, delta) => {
@@ -182,36 +193,31 @@ const ProductDetail = () => {
                             배송비 <a>{product.delivery_fee.toLocaleString()}원</a>
                         </ShippingFee>
                         <Divider />
-                        <OptionSelectContainer>
-                            <OptionSelect value={selectedColor} onChange={(e) => setSelectedColor(e.target.value)}>
-                                <option>옵션 1</option>
-                                {[...new Set(productData.options.map((opt) => opt.option_type.색상))].map(
-                                    (color, index) => (
-                                        <OptionItemStyled key={index} value={color}>
-                                            {color}
-                                        </OptionItemStyled>
-                                    )
-                                )}
-                            </OptionSelect>
-                        </OptionSelectContainer>
-                        <OptionSelectContainer>
-                            <OptionSelect value={selectedSize} onChange={(e) => setSelectedSize(e.target.value)}>
-                                <option>옵션 2</option>
-                                {[...new Set(productData.options.map((opt) => opt.option_type.사이즈))].map(
-                                    (size, index) => (
-                                        <OptionItemStyled key={index} value={size}>
-                                            {size}
-                                        </OptionItemStyled>
-                                    )
-                                )}
-                            </OptionSelect>
-                        </OptionSelectContainer>
+
+                        {Object.keys(productData.options[0].option_type).map((key, index) => (
+                            <OptionSelectContainer key={index}>
+                                <OptionSelect
+                                    value={optionSelections[key] || ''}
+                                    onChange={(e) => handleOptionChange(key, e.target.value)}
+                                >
+                                    <option>{`옵션 ${index + 1}`}</option>
+                                    {[...new Set(productData.options.map((opt) => opt.option_type[key]))].map(
+                                        (value, idx) => (
+                                            <OptionItemStyled key={idx} value={value}>
+                                                {value}
+                                            </OptionItemStyled>
+                                        )
+                                    )}
+                                </OptionSelect>
+                            </OptionSelectContainer>
+                        ))}
+
                         {selectedOptions.length > 0 && (
                             <SelectedOptionsContainer>
                                 {selectedOptions.map((opt, index) => (
-                                    <OptionItem key={opt.option}>
+                                    <OptionItem key={JSON.stringify(opt.option)}>
                                         <OptionRow>
-                                            <OptionText>{opt.option}</OptionText>
+                                            <OptionText>{Object.values(opt.option).join(' - ')}</OptionText>
                                             <RemoveButton onClick={() => handleRemoveOption(opt.option)}>
                                                 <FaTimes />
                                             </RemoveButton>
@@ -264,6 +270,7 @@ const Wrapper = styled.div`
     justify-content: center;
     min-width: 1600px;
 `;
+
 const BrandWrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -271,6 +278,7 @@ const BrandWrapper = styled.div`
     align-items: center;
     background: var(--Color-Background-light-gray, #fafafa);
 `;
+
 const Container = styled.div`
     display: flex;
     flex-direction: row;
@@ -341,7 +349,7 @@ const ProductName = styled.h1`
     font-size: var(--Text-size-10, 32px);
     font-style: normal;
     font-weight: 500;
-    line-height: 140%; /* 44.8px */
+    line-height: 140%;
     letter-spacing: -0.64px;
 `;
 
@@ -377,7 +385,7 @@ const Discount = styled.div`
     font-size: var(--Text-size-10, 32px);
     font-style: normal;
     font-weight: 700;
-    line-height: 140%; /* 44.8px */
+    line-height: 140%;
     letter-spacing: -0.64px;
     margin-right: 10px;
 `;
@@ -388,7 +396,7 @@ const Price = styled.div`
     font-size: var(--Text-size-10, 32px);
     font-style: normal;
     font-weight: 600;
-    line-height: 140%; /* 44.8px */
+    line-height: 140%;
     letter-spacing: -0.64px;
 `;
 
@@ -406,7 +414,7 @@ const ShippingInfo = styled.div`
     font-size: var(--Text-size-4, 16px);
     font-style: normal;
     font-weight: 500;
-    line-height: 140%; /* 22.4px */
+    line-height: 140%;
     letter-spacing: -0.32px;
     a {
         margin-left: 23px;
@@ -415,7 +423,7 @@ const ShippingInfo = styled.div`
         font-size: var(--Text-size-5, 18px);
         font-style: normal;
         font-weight: 600;
-        line-height: 140%; /* 25.2px */
+        line-height: 140%;
         letter-spacing: -0.36px;
     }
 `;
@@ -426,7 +434,7 @@ const ShippingFee = styled.div`
     font-size: var(--Text-size-4, 16px);
     font-style: normal;
     font-weight: 500;
-    line-height: 140%; /* 22.4px */
+    line-height: 140%;
     letter-spacing: -0.32px;
     a {
         margin-left: 40px;
@@ -435,7 +443,7 @@ const ShippingFee = styled.div`
         font-size: var(--Text-size-5, 18px);
         font-style: normal;
         font-weight: 600;
-        line-height: 140%; /* 25.2px */
+        line-height: 140%;
         letter-spacing: -0.36px;
     }
 `;
@@ -484,7 +492,7 @@ const SelectedOptionsContainer = styled.div`
     font-size: 18px;
     font-style: normal;
     font-weight: 500;
-    line-height: 140%; /* 25.2px */
+    line-height: 140%;
     letter-spacing: -0.36px;
     gap: 10px;
 `;
@@ -516,7 +524,7 @@ const OptionText = styled.div`
     font-size: 18px;
     font-style: normal;
     font-weight: 500;
-    line-height: 140%; /* 25.2px */
+    line-height: 140%;
     letter-spacing: -0.36px;
 `;
 
@@ -546,7 +554,7 @@ const QuantityValue = styled.div`
     font-size: 18px;
     font-style: normal;
     font-weight: 400;
-    line-height: 140%; /* 25.2px */
+    line-height: 140%;
     letter-spacing: -0.36px;
 `;
 
@@ -560,7 +568,7 @@ const OptionPrice = styled.div`
     font-size: var(--Text-size-7, 22px);
     font-style: normal;
     font-weight: 600;
-    line-height: 140%; /* 30.8px */
+    line-height: 140%;
     letter-spacing: -0.44px;
 `;
 
@@ -582,10 +590,8 @@ const TotalPrice = styled.div`
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
-    line-height: 140%; /* 39.2px */
+    line-height: 140%;
     letter-spacing: -0.56px;
-    a {
-    }
 `;
 
 const PriceDivider = styled.div`
@@ -612,7 +618,7 @@ const Button = styled.button`
     font-size: var(--Text-size-5, 18px);
     font-style: normal;
     font-weight: 600;
-    line-height: 140%; /* 25.2px */
+    line-height: 140%;
     letter-spacing: -0.36px;
 `;
 

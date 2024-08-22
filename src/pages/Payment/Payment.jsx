@@ -27,7 +27,6 @@ export default function Payment() {
     });
 
     useEffect(() => {
-        // jQuery 및 iamport 스크립트 추가
         const jquery = document.createElement('script');
         jquery.src = 'https://code.jquery.com/jquery-1.12.4.min.js';
         const iamport = document.createElement('script');
@@ -151,7 +150,6 @@ export default function Payment() {
         setAgreements((prev) => {
             const updated = { ...prev, [name]: !prev[name] };
 
-            // 모든 동의 항목이 체크되었을 때, "모두 동의" 항목도 자동 체크
             const allAgreed = updated.agree1 && updated.agree2 && updated.agree3 && updated.agree4;
             return { ...updated, allAgreed };
         });
@@ -274,9 +272,19 @@ export default function Payment() {
                             <ProductDetails>
                                 <ProductName>{item.name || '상품명'}</ProductName>
                                 <ProductOptions>
-                                    {item.option.split('-').map((opt, idx) => (
-                                        <Option key={idx}>{`옵션${idx + 1} - ${opt.trim()}`}</Option>
-                                    ))}
+                                    {Array.isArray(item.option)
+                                        ? item.option.map((opt, idx) => (
+                                              <Option key={idx}>{`옵션${idx + 1} - ${opt}`}</Option>
+                                          ))
+                                        : typeof item.option === 'string'
+                                          ? item.option
+                                                .split('-')
+                                                .map((opt, idx) => (
+                                                    <Option key={idx}>{`옵션${idx + 1} - ${opt.trim()}`}</Option>
+                                                ))
+                                          : Object.entries(item.option).map(([key, value], idx) => (
+                                                <Option key={idx}>{`${key} - ${value}`}</Option>
+                                            ))}
                                     <Option>{`수량 - ${item.quantity}`}</Option>
                                 </ProductOptions>
                             </ProductDetails>

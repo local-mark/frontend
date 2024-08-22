@@ -43,7 +43,6 @@ export default function Mypage() {
         setOrders(storedOrders);
     }, []);
 
-    // 주문 내역 삭제 함수
     const handleDeleteOrder = (index) => {
         const updatedOrders = orders.filter((_, i) => i !== index);
         setOrders(updatedOrders);
@@ -68,6 +67,19 @@ export default function Mypage() {
     const openReviewDetailModal = (order) => {
         setReviewData(order.reviewData);
         setReviewDetailModal(true);
+    };
+
+    const formatOptionText = (option) => {
+        if (typeof option === 'string') {
+            return option.split('-').join(' | ');
+        } else if (Array.isArray(option)) {
+            return option.join(' | ');
+        } else if (typeof option === 'object' && option !== null) {
+            return Object.entries(option)
+                .map(([key, value]) => `${key}: ${value}`)
+                .join(' | ');
+        }
+        return '';
     };
 
     return (
@@ -117,7 +129,7 @@ export default function Mypage() {
                                                         <div>{order.product}</div>
                                                     </Link>
                                                     <DetailFrame3>
-                                                        <Option>{order.option.split('-').join(' | ')}</Option>
+                                                        <Option>{formatOptionText(order.option)}</Option>
                                                         <div style={{ marginTop: '3px' }}>수량 {order.quantity}개</div>
                                                         <Price>{order.price}</Price>
                                                     </DetailFrame3>
@@ -125,7 +137,7 @@ export default function Mypage() {
                                             </DetailFrame>
                                         </ProductFrame>
                                         {order.reviewed ? (
-                                            <ReviewButton onClick={() => openReviewDetailModal(order)}>
+                                            <ReviewButton reviewed onClick={() => openReviewDetailModal(order)}>
                                                 리뷰 확인
                                             </ReviewButton>
                                         ) : (
