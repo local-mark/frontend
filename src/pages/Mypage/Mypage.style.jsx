@@ -258,7 +258,7 @@ export const ReviewButton = styled.button`
     align-items: center;
     gap: 10px;
     border-radius: 5px;
-    background: var(--Color-Main-primary, #65bd83);
+    background: ${(props) => (props.reviewed ? '#FF8162' : 'var(--Color-Main-primary, #65bd83)')};
     color: #fff;
     font-family: Pretendard;
     font-size: 20px;
