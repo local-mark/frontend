@@ -39,7 +39,9 @@ export default function BrandProfileBanner() {
                         <BrandDescription>{brand.description}</BrandDescription>
                     </BrandInfo>
                 </BrandProfile>
-                <BrandImage src={brand.brand_image} alt="브랜드 이미지" />
+                <ImageContainer>
+                    <BrandImage src={brand.brand_image} alt="브랜드 이미지" />
+                </ImageContainer>
             </Container>
         </Wrapper>
     );
@@ -110,9 +112,13 @@ const BrandDescription = styled.div`
     line-height: 140%; /* 28px */
     letter-spacing: -0.4px;
 `;
-
+const ImageContainer = styled.div`
+    height: 100%;
+    width: 300px;
+    flex-shrink: 0;
+`;
 const BrandImage = styled.img`
-    height: 315px;
-    width: auto;
+    height: 100%;
+    width: 100%;
     flex-shrink: 0;
 `;

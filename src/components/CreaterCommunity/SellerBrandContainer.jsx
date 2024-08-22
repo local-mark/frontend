@@ -61,7 +61,7 @@ const BrandProfile = styled.div`
 
 const ProfileImage = styled.img`
     width: 180px;
-    height: 180px;
+    height: atuo;
     background-color: #e0e0e0;
     margin-right: 20px;
     cursor: pointer;
