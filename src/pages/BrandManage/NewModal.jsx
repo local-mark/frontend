@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
     NewFrame,
     NewModalBackground,
@@ -11,8 +12,42 @@ import {
     ButtonLayer,
     Xbutton,
 } from './NewModal.style';
+import { postData } from '../../services/api';
 
 export default function NewModal(props) {
+    const [uploadedFile, setUploadedFile] = useState(null);
+    const [isFileUploaded, setIsFileUploaded] = useState(false);
+
+    const handleFileUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setUploadedFile(file);
+            setIsFileUploaded(true);
+        }
+    };
+
+    const handleButtonClick = async () => {
+        if (isFileUploaded && uploadedFile) {
+            const formData = new FormData();
+            formData.append('file', uploadedFile);
+
+            try {
+                const result = await postData('/products?directory=productfiles', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                alert('파일 업로드 성공');
+                console.log('파일 업로드 성공');
+                props.setNewModal(false);
+            } catch (error) {
+                console.log('파일 업로드 실패', error);
+            }
+        } else {
+            document.getElementById('fileInput').click();
+        }
+    };
+
     return (
         <div>
             <NewModalBackground>
@@ -82,9 +117,17 @@ export default function NewModal(props) {
                             입고하실 재고 수 등을 함께 논의해 봐요!
                         </div>
                     </BottomFrame>
-                    <Button>
-                        <ButtonLayer>파일 첨부하기</ButtonLayer>
+                    <div>{uploadedFile && uploadedFile.name}</div>
+                    <Button onClick={handleButtonClick}>
+                        <ButtonLayer>{isFileUploaded ? '상품 등록하기' : '파일 첨부하기'}</ButtonLayer>
                     </Button>
+                    <input
+                        type="file"
+                        id="fileInput"
+                        style={{ display: 'none' }}
+                        accept=".zip"
+                        onChange={handleFileUpload}
+                    />
                 </NewFrame>
             </NewModalBackground>
         </div>
