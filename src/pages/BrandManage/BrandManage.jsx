@@ -25,14 +25,38 @@ import {
 } from './BrandManage.style';
 import NewModal from './NewModal';
 import { useNavigate } from 'react-router-dom';
+import { fetchData } from '../../services/api';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 export default function BrandManage() {
-    const [order, setOrder] = useState([0, 1, 2, 3, 4, 5]);
+    const [order, setOrder] = useState([]);
     const [newModal, setNewModal] = useState(false);
     const nickname = localStorage.getItem('nickname');
     const is_brand_registered = localStorage.getItem('is_brand_registered');
-    console.log(is_brand_registered);
     const navigate = useNavigate();
+    const token = localStorage.getItem('accessToken');
+
+    useEffect(() => {
+        handleOrder();
+        console.log(order);
+    }, []);
+
+    const handleOrder = async (e) => {
+        try {
+            const result = await axios.get('https://umc.localmark.store/brand/creator/orders', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setOrder(result.data.result.orders); // data 키 추가
+        } catch (error) {
+            if (error.response) {
+                console.log('실패');
+                // Handle the error
+            }
+        }
+    };
     return (
         <div>
             <BrandManageSection>
@@ -79,17 +103,17 @@ export default function BrandManage() {
                                     {order.map((a, i) => {
                                         return (
                                             <tr>
-                                                <td>2024-05-17</td>
-                                                <td>1295939105</td>
-                                                <td>제품명</td>
-                                                <td>옵션명</td>
-                                                <td>1개</td>
-                                                <td>1,142,000원</td>
-                                                <td>윤시우</td>
-                                                <td>010-1234-5678</td>
-                                                <td>12345</td>
-                                                <td>경기도 평택시 서정로 67</td>
-                                                <td>1111동 222호</td>
+                                                <td>{order[i].order_date}</td>
+                                                <td>{order[i].order_num}</td>
+                                                <td>{order[i].product_name}</td>
+                                                <td>{order[i].options}</td>
+                                                <td>{order[i].quantity}개</td>
+                                                <td>{order[i].total_price}원</td>
+                                                <td>{order[i].receiver}</td>
+                                                <td>{order[i].phone}</td>
+                                                <td>{order[i].zip_code}</td>
+                                                <td>{order[i].address}</td>
+                                                <td>{order[i].spec_address}</td>
                                             </tr>
                                         );
                                     })}

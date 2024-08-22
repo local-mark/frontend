@@ -42,6 +42,7 @@ export const Img = styled.image`
     align-items: center;
     border: 0.5px solid var(--Color-Gray-gray-800, #424242);
     background: #fff;
+    cursor: pointer;
 `;
 
 export const DesignedIcons = styled(RiImageAddLine)`
