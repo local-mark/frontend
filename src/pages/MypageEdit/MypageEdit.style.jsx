@@ -75,6 +75,7 @@ export const ButtonLayer = styled.div`
     align-self: stretch;
     border-radius: 1px;
     color: #fff;
+    white-space: nowrap;
 
     /* B1_SB */
     font-family: Pretendard;
@@ -237,6 +238,7 @@ export const OkbuttonLayer = styled.div`
     gap: 10px;
     align-self: stretch;
     color: #fff;
+    white-space: nowrap;
 
     /* B9_M */
     font-family: Pretendard;
