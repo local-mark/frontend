@@ -102,6 +102,7 @@ export const ContentFrame = styled.div`
         font-weight: 400;
         line-height: 140%; /* 19.6px */
         letter-spacing: -0.28px;
+        white-space: nowrap;
     }
     th {
         padding: 15px; /* 셀 내부 패딩을 늘려 간격을 넓힙니다 */
@@ -113,6 +114,7 @@ export const ContentFrame = styled.div`
         font-weight: 600;
         line-height: 140%; /* 28px */
         letter-spacing: -0.4px;
+        white-space: nowrap;
     }
 `;
 

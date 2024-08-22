@@ -75,6 +75,7 @@ export default function Navbar() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const type = localStorage.getItem('type');
+    const token = localStorage.getItem('accessToken');
 
     const handleAuthClick = () => {
         if (!isLoggedIn) {
@@ -122,9 +123,9 @@ export default function Navbar() {
                         <MenuItem>
                             <span
                                 onClick={() => {
-                                    if (type === 'CREATOR') {
+                                    if (type === 'CREATOR' && token) {
                                         navigate('/brandmanage');
-                                    } else if (type === 'GENERAL') {
+                                    } else if (type === 'GENERAL' && token) {
                                         navigate('/mypage');
                                     } else navigate('/login');
                                 }}
