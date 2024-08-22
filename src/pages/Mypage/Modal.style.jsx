@@ -76,6 +76,7 @@ export const MainTextFrame = styled.div`
 export const Buttons = styled.div`
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 24px;
     height: 100%;
     width: 100%;
@@ -154,7 +155,7 @@ export const ReviewButton = styled.button`
 export const MainText = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     flex: 1 0 0;
 `;
 

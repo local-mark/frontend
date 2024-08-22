@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from './Modal';
+import ReviewDetailModal from './ReviewDetailModal';
 import {
     BottomFrame,
     DesignedIcons,
@@ -24,7 +25,6 @@ import {
     DetailFrame3,
     Option,
     Price,
-    Line2,
     ReviewButton,
     NothingOrder,
     DeleteButton,
@@ -33,7 +33,9 @@ import {
 export default function Mypage() {
     const [orders, setOrders] = useState([]);
     const [modal, setModal] = useState(false);
-    const [selectedOrder, setSelectedOrder] = useState(null); // To store the selected order for review
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const [reviewData, setReviewData] = useState(null);
+    const [reviewDetailModal, setReviewDetailModal] = useState(false);
     const nickname = localStorage.getItem('nickname');
 
     useEffect(() => {
@@ -43,14 +45,29 @@ export default function Mypage() {
 
     // 주문 내역 삭제 함수
     const handleDeleteOrder = (index) => {
-        const updatedOrders = orders.filter((_, i) => i !== index); // 선택한 주문을 제외한 나머지 목록으로 업데이트
-        setOrders(updatedOrders); // 상태 업데이트
-        localStorage.setItem('recentOrders', JSON.stringify(updatedOrders)); // localStorage 업데이트
+        const updatedOrders = orders.filter((_, i) => i !== index);
+        setOrders(updatedOrders);
+        localStorage.setItem('recentOrders', JSON.stringify(updatedOrders));
     };
 
     const openReviewModal = (order) => {
         setSelectedOrder(order);
         setModal(true);
+    };
+
+    const handleReviewSubmit = (review) => {
+        const updatedOrders = orders.map((order) =>
+            order.productId === review.productId ? { ...order, reviewed: true, reviewData: review } : order
+        );
+        setOrders(updatedOrders);
+        localStorage.setItem('recentOrders', JSON.stringify(updatedOrders));
+        setReviewData(review);
+        setModal(false);
+    };
+
+    const openReviewDetailModal = (order) => {
+        setReviewData(order.reviewData);
+        setReviewDetailModal(true);
     };
 
     return (
@@ -83,9 +100,8 @@ export default function Mypage() {
                                         <DesignedIcons3></DesignedIcons3>
                                         <div>{order.date}</div>
                                         <DeleteButton>
-                                            <button onClick={() => handleDeleteOrder(i)}>삭제</button>{' '}
-                                        </DeleteButton>{' '}
-                                        {/* 삭제 버튼 추가 */}
+                                            <button onClick={() => handleDeleteOrder(i)}>삭제</button>
+                                        </DeleteButton>
                                     </OrderFrame>
                                     <ProductInfo>
                                         <ProductFrame>
@@ -108,7 +124,15 @@ export default function Mypage() {
                                                 </DetailFrame2>
                                             </DetailFrame>
                                         </ProductFrame>
-                                        <ReviewButton onClick={() => openReviewModal(order)}>리뷰 작성</ReviewButton>
+                                        {order.reviewed ? (
+                                            <ReviewButton onClick={() => openReviewDetailModal(order)}>
+                                                리뷰 확인
+                                            </ReviewButton>
+                                        ) : (
+                                            <ReviewButton onClick={() => openReviewModal(order)}>
+                                                리뷰 작성
+                                            </ReviewButton>
+                                        )}
                                     </ProductInfo>
                                 </OrderContainer>
                             ))
@@ -120,7 +144,8 @@ export default function Mypage() {
                     </BottomFrame>
                 </MypageFrame>
             </MypageSection>
-            {modal && <Modal setModal={setModal} orderDetails={selectedOrder} />}
+            {modal && <Modal setModal={setModal} orderDetails={selectedOrder} onReviewSubmit={handleReviewSubmit} />}
+            {reviewDetailModal && <ReviewDetailModal setModal={setReviewDetailModal} reviewData={reviewData} />}
         </div>
     );
 }

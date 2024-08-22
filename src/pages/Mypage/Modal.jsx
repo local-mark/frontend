@@ -15,13 +15,12 @@ import {
     Rating,
     Review,
     ReviewButton,
-    SatisfyFrame,
     UploadedImage,
     DeleteButton,
+    SatisfyFrame,
 } from './Modal.style';
-import { postData } from '../../services/api';
 
-export default function Modal({ setModal, orderDetails }) {
+export default function Modal({ setModal, orderDetails, onReviewSubmit }) {
     const [starRating, setStarRating] = useState(0);
     const [images, setImages] = useState([]);
     const [reviewText, setReviewText] = useState('');
@@ -42,31 +41,16 @@ export default function Modal({ setModal, orderDetails }) {
         setImages((prevImages) => prevImages.filter((_, i) => i !== index));
     };
 
-    const handleSubmit = async () => {
-        if (!orderDetails) {
-            console.error('orderDetails가 없습니다.');
-            return;
-        }
+    const handleSubmit = () => {
+        const review = {
+            productId: orderDetails.productId,
+            orderId: orderDetails.orderId,
+            content: reviewText,
+            rating: starRating,
+            images: images.map((image) => URL.createObjectURL(image)),
+        };
 
-        const reviewData = new FormData();
-        reviewData.append('productId', orderDetails.productId); // productId
-        reviewData.append('oiId', orderDetails.orderId); // oiId는 문자열
-        reviewData.append('content', reviewText);
-        reviewData.append('rating', starRating);
-
-        images.forEach((image) => {
-            reviewData.append('image', image);
-        });
-
-        try {
-            const response = await postData('/reviews?directory=reviews', reviewData);
-            console.log('리뷰 제출 성공:', response);
-            setModal(false); // 제출 후 모달 닫기
-        } catch (error) {
-            console.log('productId:', orderDetails.productId);
-            console.log('oiId:', orderDetails.orderId);
-            console.error('리뷰 제출 실패:', error.response || error);
-        }
+        onReviewSubmit(review); // Pass the review data to the parent component
     };
 
     return (
