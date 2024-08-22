@@ -179,6 +179,7 @@ export const LoginText = styled.button`
     align-self: stretch;
     border-radius: 1px;
     color: #ffffff;
+    white-space: nowrap;
 `;
 
 export const SignupButton = styled.button`
@@ -200,6 +201,7 @@ export const SignupText = styled.button`
     align-self: stretch;
     border-radius: 1px;
     color: #65bd83;
+    white-space: nowrap;
 `;
 
 export const StyledIcon = styled(IoEye)`
