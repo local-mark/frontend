@@ -6,11 +6,13 @@ import BrandContainer from '../../components/Gallery/BrandContainer';
 import ProductContent from '../../components/Gallery/ProductContent';
 import { CartContext } from '../../store/CartContext';
 import { fetchData } from '../../services/api';
-
+import { useSelector } from 'react-redux';
 const ProductDetail = () => {
     const { productId } = useParams();
     const { addToCart } = useContext(CartContext);
     const navigate = useNavigate();
+
+    const isLogin = useSelector((state) => state.user.isLogin); // 로그인 상태를 가져옴
 
     const [productData, setProductData] = useState(null);
     const [currentImage, setCurrentImage] = useState(0);
@@ -78,6 +80,12 @@ const ProductDetail = () => {
     const totalOrderPrice = selectedOptions.reduce((sum, opt) => sum + opt.price * opt.quantity, 0);
 
     const handleAddToCart = () => {
+        if (!isLogin) {
+            alert('먼저 로그인을 해주세요.');
+            navigate('/login'); // 로그인되지 않은 경우 로그인 페이지로 리디렉션
+            return;
+        }
+
         if (selectedOptions.length === 0) {
             alert('선택한 상품이 없습니다.');
             return;
@@ -102,6 +110,12 @@ const ProductDetail = () => {
     };
 
     const handleBuyNow = () => {
+        if (!isLogin) {
+            alert('먼저 로그인을 해주세요.');
+            navigate('/login'); // 로그인되지 않은 경우 로그인 페이지로 리디렉션
+            return;
+        }
+
         if (selectedOptions.length === 0) {
             alert('선택한 상품이 없습니다.');
             return;
