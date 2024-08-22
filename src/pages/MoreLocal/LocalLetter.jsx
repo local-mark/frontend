@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink as RouterNavLink, useNavigate } from 'react-router-dom';
-import letters from '../../components/MoreLocal/LetterData';
 import styled from 'styled-components';
+import { fetchData } from '../../services/api'; // api.jsx에서 fetchData 함수를 가져옵니다.
 
 const LocalLetter = () => {
     const navigate = useNavigate();
+    const [letters, setLetters] = useState([]);
+
+    // API에서 데이터 가져오기
+    useEffect(() => {
+        const fetchLetters = async () => {
+            try {
+                const data = await fetchData('/morelocal/letters');
+                if (data.isSuccess) {
+                    setLetters(data.result.letters);
+                } else {
+                    console.error('Failed to fetch letters:', data.message);
+                }
+            } catch (error) {
+                console.error('Error fetching letters:', error);
+            }
+        };
+
+        fetchLetters();
+    }, []);
 
     const handleCardClick = (letterId) => {
         navigate(`/morelocal/letters/${letterId}`);
@@ -26,15 +45,15 @@ const LocalLetter = () => {
             <LetterCardContainer>
                 {letters.map((letter) => (
                     <Card
-                        key={letter.letterId}
+                        key={letter.letter_id}
                         className="letter-card"
-                        onClick={() => handleCardClick(letter.letterId)}
+                        onClick={() => handleCardClick(letter.letter_id)}
                     >
-                        <CardImage src={letter.imageUrl} alt={letter.title} />
+                        <CardImage src={letter.thumbnail_url} alt={letter.title} />
                         <CardInfo>
-                            <Type>{letter.type}</Type>
+                            <Type>{letter.category}</Type>
                             <Title>{letter.title}</Title>
-                            <Date>{letter.createdAt}</Date>
+                            <Date>{letter.created_at}</Date>
                         </CardInfo>
                     </Card>
                 ))}
@@ -45,13 +64,12 @@ const LocalLetter = () => {
 
 const PageContainer = styled.div`
     display: flex;
-    width: 100vw;
-    max-width: 100%;
+    width: 100%;
     padding: 100px;
+    min-width: 1400px;
     flex-direction: column;
     align-items: center;
     gap: 40px;
-    overflow-x: auto;
 `;
 
 const Header = styled.header`
@@ -72,7 +90,7 @@ const Logo = styled.div`
     font-weight: 600;
     line-height: 140%;
     letter-spacing: -0.8px;
-    margin-top: 40px;
+    margin-top: -100px;
 `;
 
 const Nav = styled.nav`
@@ -125,8 +143,8 @@ const Card = styled.div`
 `;
 
 const CardImage = styled.img`
-    width: 30vw;
-    height: auto;
+    width: 558px;
+    height: 441px;
     object-fit: cover;
     margin-bottom: 8px;
 `;
