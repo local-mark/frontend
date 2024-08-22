@@ -15,13 +15,12 @@ import {
     Rating,
     Review,
     ReviewButton,
-    SatisfyFrame,
     UploadedImage,
     DeleteButton,
+    SatisfyFrame,
 } from './Modal.style';
-import { postData } from '../../services/api';
 
-export default function Modal({ setModal, orderDetails }) {
+export default function Modal({ setModal, orderDetails, onReviewSubmit }) {
     const [starRating, setStarRating] = useState(0);
     const [images, setImages] = useState([]);
     const [reviewText, setReviewText] = useState('');
@@ -38,35 +37,20 @@ export default function Modal({ setModal, orderDetails }) {
         }
     };
 
-    const handleSubmit = async () => {
-        if (!orderDetails) {
-            console.error('orderDetails가 없습니다.');
-            return;
-        }
+    const handleImageDelete = (index) => {
+        setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    };
 
-        const reviewData = new FormData();
-        reviewData.append('product_id', orderDetails.productId);
-        reviewData.append('oi_id', parseInt(orderDetails.orderId, 10)); // oi_id를 정수로 변환
-        reviewData.append('content', reviewText);
-        reviewData.append('rating', starRating);
+    const handleSubmit = () => {
+        const review = {
+            productId: orderDetails.productId,
+            orderId: orderDetails.orderId,
+            content: reviewText,
+            rating: starRating,
+            images: images.map((image) => URL.createObjectURL(image)),
+        };
 
-        images.forEach((image) => {
-            reviewData.append('image', image);
-        });
-
-        try {
-            const response = await postData('/reviews', reviewData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data', // FormData 전송 시 올바른 헤더 설정
-                },
-            });
-            console.log('리뷰 제출 성공:', response);
-            setModal(false); // Close the modal after submission
-        } catch (error) {
-            console.log(orderDetails.productId);
-            console.log(orderDetails.orderId);
-            console.error('리뷰 제출 실패:', error.response || error);
-        }
+        onReviewSubmit(review); // Pass the review data to the parent component
     };
 
     return (
