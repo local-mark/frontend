@@ -146,4 +146,6 @@ export const Input = styled.input`
     gap: 10px;
     flex: 1 0 0;
     border: none;
+    width: 336px;
+    height: 22px;
 `;
