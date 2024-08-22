@@ -39,7 +39,7 @@ function App() {
                 {/* 라우팅 경로 재설정 필요*/}
                 <Route path="/creatercommunity/*" element={<CreaterCommunity />} />
                 <Route path="/creatercommunity/write" element={<Write />} />
-                <Route path="/creatercommunity/chat/posts/:id" element={<PostDetail posts={samplePosts} />} />
+                <Route path="/creatercommunity/:category/posts/post/:id" element={<PostDetail />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/payment" element={<Payment />} />
             </Routes>

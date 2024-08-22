@@ -1,32 +1,70 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PreviewImage from "../../assets/image/CreaterCommunity/profile.png";
 import LikeImage from "../../assets/image/CreaterCommunity/Vector.png";
 import CommentImage from "../../assets/image/CreaterCommunity/comment.png";
+import { fetchData } from "../../services/api"
 
+const BoardList = ({ title }) => {
+    const [posts, setPosts] = useState([]); // 게시글 데이터를 저장할 상태
+    const [loading, setLoading] = useState(true); // 로딩 상태
+    const [error, setError] = useState(null); // 에러 상태
 
-const BoardList = ({ title, posts }) => {
+    useEffect(() => {
+        const loadPosts = async () => {
+            try {
+                const data = await fetchData('/posts', { category: '질문', page: 1, limit: 10 });
+                setPosts(data.result.postData); // 서버에서 받은 게시글 데이터를 상태에 저장
+                setLoading(false);
+            } catch (err) {
+                console.error('Failed to fetch posts:', err);
+                setError(err);
+                setLoading(false);
+            }
+        };
+
+        loadPosts();
+    }, []);
+
+    if (error) return <p>Error: {error.message}</p>;
     if (!posts || posts.length === 0) {
         return <p>No posts available.</p>;
     }
+
+    const getCategoryPath = (category) => {
+        console.log("Category:", category);
+        switch (category) {
+            case '잡담':
+                return 'chat';
+            case '질문':
+                return 'questions';
+            case '정보공유':
+                return 'info';
+            default:
+                return 'chat'; // 기본 경로 설정
+        }
+    };
 
     return (
         <BoardContainer>
             <ul>
                 {posts.map((post) => (
-                    <BoardListContainer>
+                    <BoardListContainer key={post.postId}>
                         <BoardDetailContainer>
                             <BoardCategory>{title}</BoardCategory>
                             <BoardTitle>
-                                <StyledLink to={`/creatercommunity/chat/posts/${post.id}`}>{post.title}</StyledLink>
+                                <StyledLink to={`/creatercommunity/${getCategoryPath(post.category)}/posts/post/${post.postId}`}>{post.title}</StyledLink>
                             </BoardTitle>
                             <BoardContents>
-                                <StyledLink to={`/creatercommunity/chat/posts/${post.id}`}>{post.content}</StyledLink>
+                                <StyledLink to={`/creatercommunity/${getCategoryPath(post.category)}/posts/post/${post.postId}`}>{post.content}</StyledLink>
                             </BoardContents>
                         </BoardDetailContainer>
                         <BoardImagePreview>
-                            <BoardPreviewImage src={PreviewImage} alt="previewimage" />
+                            <BoardPreviewImage
+                                src={post.thumbnailFilename ? `https://your-image-url-path/${post.thumbnailFilename}` : PreviewImage}
+                                alt="previewimage"
+                            />
                         </BoardImagePreview>
                         <BoardLikeCommentContainer>
                             <BoardLikeCommentWrapper>
@@ -35,7 +73,7 @@ const BoardList = ({ title, posts }) => {
                                         <LikeImage1 src={LikeImage} alt="좋아요" />
                                     </LikeImageContainer>
                                     <LikeNum>
-                                        10
+                                        {post.likeNum}
                                     </LikeNum>
                                 </LikeContainer>
                                 <CommnetContainer>
@@ -43,7 +81,7 @@ const BoardList = ({ title, posts }) => {
                                         <CommentImage1 src={CommentImage} alt="댓글" />
                                     </CommentImageContainer>
                                     <CommentNum>
-                                        10
+                                        {post.commentNum}
                                     </CommentNum>
                                 </CommnetContainer>
                             </BoardLikeCommentWrapper>
