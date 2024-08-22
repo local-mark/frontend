@@ -183,7 +183,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 const PaginationContainer = styled.div`
     display: flex;
     margin-top: 16px;
-    margin-left: 480px;
+    margin-left: 440px;
 `;
 
 const PageButton = styled.button`
