@@ -1,24 +1,110 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { NavLink as RouterNavLink, useNavigate } from 'react-router-dom';
-import events from '../../components/MoreLocal/EventData';
+import { fetchData } from '../../services/api';
+
+const Events = () => {
+    const [events, setEvents] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const response = await fetchData('/morelocal/events');
+                if (response.isSuccess) {
+                    setEvents(response.result.events);
+                } else {
+                    console.error('Failed to fetch events:', response.message);
+                }
+            } catch (error) {
+                console.error('Error fetching events:', error);
+            }
+        };
+
+        fetchEvents();
+    }, []);
+
+    const handleCardClick = (eventId) => {
+        navigate(`/morelocal/events/${eventId}`);
+    };
+
+    const formatEventDate = (startDate, endDate) => {
+        const now = new Date();
+        const start = new Date(startDate + 'T00:00:00');
+        const end = new Date(endDate + 'T23:59:59');
+
+        if (now > end) {
+            return '완료됨';
+        }
+
+        if (now.getTime() === start.getTime()) {
+            return 'D-Day';
+        }
+
+        const timeDiff = end - now;
+        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+        return `D-${daysDiff}`;
+    };
+
+    return (
+        <PageContainer>
+            <Header>
+                <Logo>More Local</Logo>
+                <Nav>
+                    <NavLink to="/morelocal/letters">로컬 레터</NavLink>
+                    <NavWrapper>
+                        <NavLink to="/morelocal/events" primary>
+                            이벤트
+                        </NavLink>
+                    </NavWrapper>
+                </Nav>
+            </Header>
+            <Main>
+                <CardGrid>
+                    {events.map((event) => (
+                        <Card
+                            key={event.event_id}
+                            className="event-card"
+                            onClick={() => handleCardClick(event.event_id)}
+                        >
+                            <CardImage src={event.thumbnail_url} alt={event.title} />
+                            <CardContentWrapper>
+                                <CardContent>
+                                    <LocalTag>{event.subregion_name}</LocalTag>
+                                    <CardTitle>{event.title}</CardTitle>
+                                </CardContent>
+                                <DateWrapper>
+                                    <DDay>{formatEventDate(event.start_date, event.end_date)}</DDay>
+                                    <EventDate>
+                                        {event.start_date} ~ {event.end_date}
+                                    </EventDate>
+                                </DateWrapper>
+                            </CardContentWrapper>
+                        </Card>
+                    ))}
+                </CardGrid>
+            </Main>
+        </PageContainer>
+    );
+};
+
+export default Events;
 
 const PageContainer = styled.div`
     display: flex;
-    width: 100vw;
-    max-width: 100%;
+    width: 100%;
     padding: 100px;
+    min-width: 1400px;
     flex-direction: column;
     align-items: center;
     gap: 40px;
-    overflow-x: auto;
 `;
 
 const Header = styled.header`
     width: 100vw;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     gap: 16px;
     align-items: center;
     padding: 20px 0;
@@ -93,8 +179,8 @@ const Card = styled.div`
 `;
 
 const CardImage = styled.img`
-    width: 30vw;
-    height: auto;
+    width: 550px;
+    height: 441px;
     object-fit: cover;
     margin-bottom: 8px;
 `;
@@ -173,92 +259,3 @@ const LocalTag = styled.div`
     font-size: 14px;
     font-weight: bold;
 `;
-
-/* const MoreButton = styled.button`
-  border-radius: 3px;
-  border: 1px solid var(--Color-Main-primary, #65bd83);
-  display: flex;
-  width: 180px;
-  height: 54px;
-  padding: var(--Text-size-3, 14px) var(--Spacing-9, 56px);
-  justify-content: center;
-  align-items: center;
-  gap: var(--Spacing-3, 8px);
-  flex: 1 0 0;
-  align-self: block;
-  color: var(--Color-Main-primary, #65bd83);
-  font-family: Pretendard;
-  font-size: var(--Text-size-5, 18px);
-  font-style: normal;
-  font-weight: 600;
-  line-height: 140%;
-  letter-spacing: -0.36px;
-  margin-top: 100px;
-`; */
-
-const Events = () => {
-    const navigate = useNavigate();
-
-    const handleCardClick = (eventId) => {
-        navigate(`/morelocal/events/${eventId}`);
-    };
-
-    const formatEventDate = (startDate, endDate) => {
-        const now = new Date();
-        const start = new Date(startDate + 'T00:00:00');
-        const end = new Date(endDate + 'T23:59:59');
-
-        if (now > end) {
-            return '완료됨';
-        }
-
-        if (now.getTime() === start.getTime()) {
-            return 'D-Day';
-        }
-
-        const timeDiff = end - now;
-        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-
-        return `D-${daysDiff}`;
-    };
-
-    return (
-        <PageContainer>
-            <Header>
-                <Logo>More Local</Logo>
-                <Nav>
-                    <NavLink to="/morelocal/letters">로컬 레터</NavLink>
-                    <NavWrapper>
-                        <NavLink to="/morelocal/events" primary>
-                            이벤트
-                        </NavLink>
-                    </NavWrapper>
-                </Nav>
-            </Header>
-            <Main>
-                <CardGrid>
-                    {events.map((event) => (
-                        <Card key={event.eventId} className="event-card" onClick={() => handleCardClick(event.eventId)}>
-                            <CardImage src={event.imageUrl} alt={event.title} />
-                            <CardContentWrapper>
-                                <CardContent>
-                                    <LocalTag>{event.location}</LocalTag>
-                                    <CardTitle>{event.title}</CardTitle>
-                                </CardContent>
-                                <DateWrapper>
-                                    <DDay>{formatEventDate(event.startDate, event.endDate)}</DDay>
-                                    <EventDate>
-                                        {event.startDate} ~ {event.endDate}
-                                    </EventDate>
-                                </DateWrapper>
-                            </CardContentWrapper>
-                        </Card>
-                    ))}
-                </CardGrid>
-                {/* <MoreButton>+more</MoreButton> */}
-            </Main>
-        </PageContainer>
-    );
-};
-
-export default Events;
