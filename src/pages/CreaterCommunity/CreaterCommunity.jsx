@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Link, Navigate } from 'react-router-dom';
+import { Routes, Route, Link, Navigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import BoardList from '../../components/CreaterCommunity/BoardList';
 import Write from './Write';
-import samplePosts from './samplePosts';
 import { useLocation } from 'react-router-dom';
-import PageBar from '../../components/CreaterCommunity/PageBar';
 import { NavLink } from 'react-router-dom';
 import PostDetail from '../../components/CreaterCommunity/PostDetail';
-import { fetchData } from "../../services/api";
+import { fetchData } from '../../services/api';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const CreaterCommunity = () => {
+    const { category } = useParams(); // 카테고리 파라미터를 가져옴
     const [currentPage, setCurrentPage] = useState(1);
     const [posts, setPosts] = useState([]); // API로부터 받아올 게시글 데이터
     const [totalPages, setTotalPages] = useState(0); // 총 페이지 수
@@ -20,15 +20,13 @@ const CreaterCommunity = () => {
     const location = useLocation();
     const postsPerPage = 5;
 
-    const currentPosts = samplePosts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
-
     useEffect(() => {
         const loadPosts = async () => {
             try {
                 setLoading(true);
-                const data = await fetchData('/posts', { page: currentPage, limit: postsPerPage });
+                const data = await fetchData('/posts', { category, page: currentPage, limit: postsPerPage });
                 setPosts(data.result.postData);
-                setTotalPages(Math.ceil(data.result.totalCount / postsPerPage)); // 총 페이지 수 계산
+                setTotalPages(data.result.totalPage); // API에서 반환된 총 페이지 수 사용
                 setLoading(false);
             } catch (err) {
                 console.error('Failed to fetch posts:', err);
@@ -37,7 +35,7 @@ const CreaterCommunity = () => {
             }
         };
         loadPosts();
-    }, [currentPage]);
+    }, [category, currentPage]); // 카테고리와 페이지가 바뀔 때마다 데이터를 다시 불러옴
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -65,41 +63,16 @@ const CreaterCommunity = () => {
             )}
             <CreaterCommunityContentConatainer>
                 <Routes>
-                    <Route
-                        path="chat"
-                        element={
-                            <>
-                                <BoardList title="잡담" posts={posts} />
-                            </>
-                        }
-                    />
+                    <Route path="chat" element={<BoardList title="잡담" posts={posts} />} />
                     <Route path=":category/posts/post/:id" element={<PostDetail />} />
-                    <Route
-                        path="questions"
-                        element={
-                            <>
-                                <BoardList title="질문" posts={posts} />
-                            </>
-                        }
-                    />
-                    <Route
-                        path="info"
-                        element={
-                            <>
-                                <BoardList title="정보공유" posts={posts} />
-                            </>
-                        }
-                    />
+                    <Route path="questions" element={<BoardList title="질문" posts={posts} />} />
+                    <Route path="info" element={<BoardList title="정보공유" posts={posts} />} />
                     <Route path="write" element={<Write />} />
                     <Route path="*" element={<Navigate to="/creatercommunity/chat" />} />
                 </Routes>
-                <PageBarContainer>
-                    <PageBar
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        onPageChange={handlePageChange}
-                    />
-                </PageBarContainer>
+                <PaginationContainer>
+                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                </PaginationContainer>
             </CreaterCommunityContentConatainer>
         </CreaterCommunityContainer>
     );
@@ -107,9 +80,41 @@ const CreaterCommunity = () => {
 
 export default CreaterCommunity;
 
+// Pagination 컴포넌트
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            onPageChange(currentPage + 1);
+        }
+    };
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            onPageChange(currentPage - 1);
+        }
+    };
+
+    return (
+        <PaginationContainer>
+            <PageButton onClick={handlePreviousPage} disabled={currentPage === 1}>
+                <FaChevronLeft />
+            </PageButton>
+            {[...Array(totalPages)].map((_, index) => (
+                <PageButton key={index + 1} onClick={() => onPageChange(index + 1)} active={index + 1 === currentPage}>
+                    {index + 1}
+                </PageButton>
+            ))}
+            <PageButton onClick={handleNextPage} disabled={currentPage === totalPages}>
+                <FaChevronRight />
+            </PageButton>
+        </PaginationContainer>
+    );
+};
+
+// 스타일링 컴포넌트들
 const CreaterCommunityContainer = styled.div`
     width: 100%;
-    min-heigth: 2400px;
+    min-height: 2000px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -188,14 +193,20 @@ const CreaterCommunityContentConatainer = styled.div`
     height: 100%;
 `;
 
-const PageBarContainer = styled.div`
-
-    bottom: 0; 
-    width: 100%; 
+const PaginationContainer = styled.div`
     display: flex;
-    justify-content: center;
-    background-color: lightblue; /* 배경색을 임시로 변경 */
-    padding: 10px 0; 
-    z-index: 1000; 
+    margin-top: 16px;
 `;
 
+const PageButton = styled.button`
+    margin: 0 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: ${(props) => (props.active ? '#FF8162' : '#000')};
+    font-weight: ${(props) => (props.active ? 'bold' : 'normal')};
+    &:disabled {
+        opacity: 0.5;
+    }
+`;

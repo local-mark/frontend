@@ -1,12 +1,13 @@
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import PreviewImage from "../../assets/image/CreaterCommunity/profile.png";
-import LikeImage from "../../assets/image/CreaterCommunity/Vector.png";
-import CommentImage from "../../assets/image/CreaterCommunity/comment.png";
-import { fetchData } from "../../services/api"
+import PreviewImage from '../../assets/image/CreaterCommunity/profile.png';
+import LikeImage from '../../assets/image/CreaterCommunity/Vector.png';
+import CommentImage from '../../assets/image/CreaterCommunity/comment.png';
+import { fetchData } from '../../services/api';
 
 const BoardList = ({ title }) => {
+    const { category } = useParams(); // URL 파라미터로부터 카테고리 값을 가져옴
     const [posts, setPosts] = useState([]); // 게시글 데이터를 저장할 상태
     const [loading, setLoading] = useState(true); // 로딩 상태
     const [error, setError] = useState(null); // 에러 상태
@@ -14,7 +15,8 @@ const BoardList = ({ title }) => {
     useEffect(() => {
         const loadPosts = async () => {
             try {
-                const data = await fetchData('/posts', { category: '질문', page: 1, limit: 10 });
+                setLoading(true);
+                const data = await fetchData('/posts', { category: category, page: 1, limit: 10 });
                 setPosts(data.result.postData); // 서버에서 받은 게시글 데이터를 상태에 저장
                 setLoading(false);
             } catch (err) {
@@ -25,15 +27,15 @@ const BoardList = ({ title }) => {
         };
 
         loadPosts();
-    }, []);
+    }, [category]); // 카테고리가 바뀔 때마다 데이터를 다시 불러옴
 
+    if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
     if (!posts || posts.length === 0) {
         return <p>No posts available.</p>;
     }
 
     const getCategoryPath = (category) => {
-        console.log("Category:", category);
         switch (category) {
             case '잡담':
                 return 'chat';
@@ -54,15 +56,23 @@ const BoardList = ({ title }) => {
                         <BoardDetailContainer>
                             <BoardCategory>{title}</BoardCategory>
                             <BoardTitle>
-                                <StyledLink to={`/creatercommunity/${getCategoryPath(post.category)}/posts/post/${post.postId}`}>{post.title}</StyledLink>
+                                <StyledLink
+                                    to={`/creatercommunity/${getCategoryPath(post.category)}/posts/post/${post.postId}`}
+                                >
+                                    {post.title}
+                                </StyledLink>
                             </BoardTitle>
                             <BoardContents>
-                                <StyledLink to={`/creatercommunity/${getCategoryPath(post.category)}/posts/post/${post.postId}`}>{post.content}</StyledLink>
+                                <StyledLink
+                                    to={`/creatercommunity/${getCategoryPath(post.category)}/posts/post/${post.postId}`}
+                                >
+                                    {post.content}
+                                </StyledLink>
                             </BoardContents>
                         </BoardDetailContainer>
                         <BoardImagePreview>
                             <BoardPreviewImage
-                                src={post.thumbnailFilename ? `https://your-image-url-path/${post.thumbnailFilename}` : PreviewImage}
+                                src={post.thumbnailFilename ? `${post.thumbnailFilename}` : PreviewImage}
                                 alt="previewimage"
                             />
                         </BoardImagePreview>
@@ -72,17 +82,13 @@ const BoardList = ({ title }) => {
                                     <LikeImageContainer>
                                         <LikeImage1 src={LikeImage} alt="좋아요" />
                                     </LikeImageContainer>
-                                    <LikeNum>
-                                        {post.likeNum}
-                                    </LikeNum>
+                                    <LikeNum>{post.likeNum}</LikeNum>
                                 </LikeContainer>
                                 <CommnetContainer>
                                     <CommentImageContainer>
                                         <CommentImage1 src={CommentImage} alt="댓글" />
                                     </CommentImageContainer>
-                                    <CommentNum>
-                                        {post.commentNum}
-                                    </CommentNum>
+                                    <CommentNum>{post.commentNum}</CommentNum>
                                 </CommnetContainer>
                             </BoardLikeCommentWrapper>
                         </BoardLikeCommentContainer>
@@ -140,17 +146,17 @@ const BoardContents = styled.li`
 
 const BoardDetailContainer = styled.div`
     width: 918px;
-`
+`;
 
 const BoardImagePreview = styled.div`
     width: 282px;
     height: 212px;
-`
+`;
 
 const BoardPreviewImage = styled.img`
     width: 282px;
     height: 212px;
-`
+`;
 
 const BoardLikeCommentContainer = styled.div`
     width: 1200px;
@@ -159,45 +165,48 @@ const BoardLikeCommentContainer = styled.div`
     flex-direction: row;
     justify-content: flex-end;
     margin-top: 2px;
-`
+`;
 
 const LikeContainer = styled.div`
     width: 38px;
     height: 22px;
     display: flex;
-`
+`;
+
 const LikeImageContainer = styled.div`
     width: 22px;
     height: 22px;
-`
+`;
+
 const LikeImage1 = styled.img`
     width: 22px;
     height: 22px;
-`
+`;
 
 const LikeNum = styled.div`
     width: 16px;
     height: 22px;
-`
+`;
+
 const CommnetContainer = styled.div`
     width: 38px;
     height: 22px;
     display: flex;
-`
+`;
 
 const CommentImageContainer = styled.div`
     width: 22px;
     height: 22px;
-`
+`;
 
 const CommentImage1 = styled.img`
     width: 22px;
     height: 22px;
-`
+`;
 
 const CommentNum = styled.div`
     width: 16px;
-`
+`;
 
 const BoardLikeCommentWrapper = styled.div`
     width: 92px;
@@ -205,4 +214,4 @@ const BoardLikeCommentWrapper = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-`
+`;
