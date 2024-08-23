@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import BoardList from '../../components/CreaterCommunity/BoardList';
 import Write from './Write';
 import { useLocation } from 'react-router-dom';
+import PageBar from '../../components/CreaterCommunity/PageBar';
 import { NavLink } from 'react-router-dom';
 import PostDetail from '../../components/CreaterCommunity/PostDetail';
 import { fetchData } from '../../services/api';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const CreaterCommunity = () => {
     const { category } = useParams(); // 카테고리 파라미터를 가져옴
@@ -24,9 +24,9 @@ const CreaterCommunity = () => {
         const loadPosts = async () => {
             try {
                 setLoading(true);
-                const data = await fetchData('/posts', { category, page: currentPage, limit: postsPerPage });
+                const data = await fetchData('/posts', { category: category, page: currentPage, limit: postsPerPage });
                 setPosts(data.result.postData);
-                setTotalPages(data.result.totalPage); // API에서 반환된 총 페이지 수 사용
+                setTotalPages(Math.ceil(data.result.totalCount / postsPerPage)); // 총 페이지 수 계산
                 setLoading(false);
             } catch (err) {
                 console.error('Failed to fetch posts:', err);
@@ -70,9 +70,9 @@ const CreaterCommunity = () => {
                     <Route path="write" element={<Write />} />
                     <Route path="*" element={<Navigate to="/creatercommunity/chat" />} />
                 </Routes>
-                <PaginationContainer>
-                    <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-                </PaginationContainer>
+                <PageBarContainer>
+                    <PageBar currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                </PageBarContainer>
             </CreaterCommunityContentConatainer>
         </CreaterCommunityContainer>
     );
@@ -80,38 +80,6 @@ const CreaterCommunity = () => {
 
 export default CreaterCommunity;
 
-// Pagination 컴포넌트
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            onPageChange(currentPage + 1);
-        }
-    };
-
-    const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            onPageChange(currentPage - 1);
-        }
-    };
-
-    return (
-        <PaginationContainer>
-            <PageButton onClick={handlePreviousPage} disabled={currentPage === 1}>
-                <FaChevronLeft />
-            </PageButton>
-            {[...Array(totalPages)].map((_, index) => (
-                <PageButton key={index + 1} onClick={() => onPageChange(index + 1)} active={index + 1 === currentPage}>
-                    {index + 1}
-                </PageButton>
-            ))}
-            <PageButton onClick={handleNextPage} disabled={currentPage === totalPages}>
-                <FaChevronRight />
-            </PageButton>
-        </PaginationContainer>
-    );
-};
-
-// 스타일링 컴포넌트들
 const CreaterCommunityContainer = styled.div`
     width: 100%;
     min-height: 2000px;
@@ -193,20 +161,12 @@ const CreaterCommunityContentConatainer = styled.div`
     height: 100%;
 `;
 
-const PaginationContainer = styled.div`
+const PageBarContainer = styled.div`
+    bottom: 0;
+    width: 100%;
     display: flex;
-    margin-top: 16px;
-`;
-
-const PageButton = styled.button`
-    margin: 0 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
-    color: ${(props) => (props.active ? '#FF8162' : '#000')};
-    font-weight: ${(props) => (props.active ? 'bold' : 'normal')};
-    &:disabled {
-        opacity: 0.5;
-    }
+    justify-content: center;
+    background-color: lightblue; /* 배경색을 임시로 변경 */
+    padding: 10px 0;
+    z-index: 1000;
 `;
