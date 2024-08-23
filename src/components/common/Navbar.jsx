@@ -1,9 +1,11 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../../store/CartContext';
 import logo from '../../assets/icon/Home/localmark_logo.svg';
 import cartIcon from '../../assets/icon/Home/cart_icon.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutAction } from '../../store/userSlice';
 
 const categories = [
     {
@@ -12,55 +14,85 @@ const categories = [
     },
     {
         category: '의류',
-        subcategories: ['상의', '하의', '악세서리', '아우터', '이너웨어'],
+        subcategories: [
+            { name: '상의', id: 6 },
+            { name: '하의', id: 7 },
+            { name: '악세서리', id: 8 },
+            { name: '아우터', id: 9 },
+            { name: '이너웨어', id: 10 },
+        ],
     },
     {
         category: '생활용품',
-        subcategories: ['청소용품', '주방용품', '욕실'],
+        subcategories: [
+            { name: '청소용품', id: 11 },
+            { name: '주방용품', id: 12 },
+            { name: '욕실', id: 13 },
+        ],
     },
     {
         category: '인테리어',
-        subcategories: ['홈데코', '디자인', '책', '음반', '조명'],
+        subcategories: [
+            { name: '홈데코', id: 14 },
+            { name: '디자인', id: 15 },
+            { name: '책', id: 16 },
+            { name: '음반', id: 17 },
+            { name: '조명', id: 18 },
+        ],
     },
     {
         category: '식품',
-        subcategories: ['가공식품', '음료', '신선식품'],
+        subcategories: [
+            { name: '가공식품', id: 19 },
+            { name: '음료', id: 20 },
+            { name: '신선식품', id: 21 },
+        ],
     },
     {
         category: '레저',
-        subcategories: ['스포츠용품', '캠핑용품'],
+        subcategories: [
+            { name: '스포츠용품', id: 22 },
+            { name: '캠핑용품', id: 23 },
+        ],
     },
 ];
 
 const moreLocal = [
-    { name: '로컬레터', link: '/localletter' },
-    { name: '이벤트', link: '/events' },
+    { name: '로컬레터', link: '/morelocal/letters' },
+    { name: '이벤트', link: '/morelocal/events' },
 ];
 
 const community = [
     { name: '잡담', link: '/creatercommunity/chat' },
-    { name: '질문', link: '/creatercommunity/chat/posts/:id' },
+    { name: '질문', link: '/creatercommunity/questions' },
     { name: '정보공유', link: '/creatercommunity/info' },
 ];
 
 export default function Navbar() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const { cartCount } = useContext(CartContext); // cartCount를 Context에서 받아옴
-    const [dropdownVisible, setDropdownVisible] = useState(''); // 드롭다운 메뉴 가시성 상태
+    const isLoggedIn = useSelector((state) => state.user.isLogin);
+    const { cartCount } = useContext(CartContext);
+    const [dropdownVisible, setDropdownVisible] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const type = localStorage.getItem('type');
+    const token = localStorage.getItem('accessToken');
 
     const handleAuthClick = () => {
-        if (isLoggedIn) {
-            setIsLoggedIn(false);
+        if (!isLoggedIn) {
+            navigate('/login');
         } else {
+            dispatch(logoutAction());
             navigate('/login');
         }
     };
 
     const handleCartClick = () => {
-        navigate('/cart');
+        if (!isLoggedIn) {
+            navigate('/login');
+        } else {
+            navigate('/cart');
+        }
     };
-
     const handleMouseEnter = (menu) => {
         setDropdownVisible(menu);
     };
@@ -69,25 +101,37 @@ export default function Navbar() {
         setDropdownVisible('');
     };
 
+    const handleSubcategoryClick = (subcategoryId) => {
+        navigate(`/gallery?category=${subcategoryId}`);
+    };
+
     return (
         <NavbarWrapper onMouseLeave={handleMouseLeave}>
             {!location.pathname.includes('/creatercommunity/write') && (
                 <NavbarContainer>
-                    <Link to="/">
-                        <Logo src={logo} alt="LocalMark Logo" />
-                    </Link>
+                    <Logo src={logo} alt="LocalMark Logo" onClick={() => navigate('/')} />
                     <Menu>
                         <MenuItem onMouseEnter={() => handleMouseEnter('gallery')}>
-                            <Link to="/gallery">제품 갤러리</Link>
+                            <span onClick={() => navigate('/gallery')}>제품 갤러리</span>
                         </MenuItem>
                         <MenuItem onMouseEnter={() => handleMouseEnter('local')}>
-                            <Link to="/localletter">more local</Link>
+                            <span onClick={() => navigate('/morelocal/letters')}>more local</span>
                         </MenuItem>
                         <MenuItem onMouseEnter={() => handleMouseEnter('creatercommunity')}>
-                            <Link to="/creatercommunity">크리에이터 커뮤니티</Link>
+                            <span onClick={() => navigate('/creatercommunity')}>크리에이터 커뮤니티</span>
                         </MenuItem>
                         <MenuItem>
-                            <Link to="/mypage">마이페이지</Link>
+                            <span
+                                onClick={() => {
+                                    if (type === 'CREATOR' && token) {
+                                        navigate('/brandmanage');
+                                    } else if (type === 'GENERAL' && token) {
+                                        navigate('/mypage');
+                                    } else navigate('/login');
+                                }}
+                            >
+                                마이페이지
+                            </span>
                         </MenuItem>
                     </Menu>
                     <RightMenu>
@@ -106,13 +150,17 @@ export default function Navbar() {
                             {categories.map((category, index) => (
                                 <DropdownItem key={index}>
                                     <DropdownCategory>
-                                        <Link to={category.link || '#'}>{category.category}</Link>
+                                        <span onClick={() => category.link && navigate(category.link)}>
+                                            {category.category}
+                                        </span>
                                     </DropdownCategory>
                                     {category.subcategories && (
                                         <SubcategoryList>
                                             {category.subcategories.map((subcategory, subIndex) => (
                                                 <SubcategoryItem key={subIndex}>
-                                                    <Link to={`/${subcategory}`}>{subcategory}</Link>
+                                                    <span onClick={() => handleSubcategoryClick(subcategory.id)}>
+                                                        {subcategory.name}
+                                                    </span>
                                                 </SubcategoryItem>
                                             ))}
                                         </SubcategoryList>
@@ -127,7 +175,7 @@ export default function Navbar() {
                         <DropdownMenuMoreLocal>
                             {moreLocal.map((item, index) => (
                                 <SubMenuItem key={index}>
-                                    <Link to={item.link}>{item.name}</Link>
+                                    <span onClick={() => navigate(item.link)}>{item.name}</span>
                                 </SubMenuItem>
                             ))}
                         </DropdownMenuMoreLocal>
@@ -138,7 +186,7 @@ export default function Navbar() {
                         <DropdownMenuCommunity>
                             {community.map((item, index) => (
                                 <SubMenuItem key={index}>
-                                    <Link to={item.link}>{item.name}</Link>
+                                    <span onClick={() => navigate(item.link)}>{item.name}</span>
                                 </SubMenuItem>
                             ))}
                         </DropdownMenuCommunity>
@@ -175,6 +223,7 @@ const Logo = styled.img`
     width: 190px;
     height: 100px;
     margin-left: 100px;
+    cursor: pointer;
 `;
 
 const Menu = styled.ul`
@@ -182,6 +231,7 @@ const Menu = styled.ul`
     list-style: none;
     gap: 40px;
     margin-left: -50px;
+    cursor: pointer;
 `;
 
 const MenuItem = styled.li`
@@ -269,6 +319,7 @@ const SubcategoryList = styled.ul`
 
 const SubcategoryItem = styled.li`
     margin-bottom: 5px;
+    cursor: pointer;
     &:hover {
         color: #65bd83;
     }
@@ -277,6 +328,7 @@ const SubcategoryItem = styled.li`
 const SubMenuItem = styled.div`
     padding: 5px 0;
     font-weight: bold;
+    cursor: pointer;
     &:hover {
         color: #65bd83;
     }
@@ -309,7 +361,7 @@ const Button = styled.button`
     cursor: pointer;
     border-radius: 5px;
     background: #65bd83;
-    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    white-space: nowrap;
 `;
 
 const CartIconContainer = styled.div`

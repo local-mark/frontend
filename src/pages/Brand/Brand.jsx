@@ -1,4 +1,3 @@
-// Brand.jsx
 import React from 'react';
 import BrandProfileBanner from '../../components/Brand/BrandProfileBanner';
 import ProductBrand from '../../components/Brand/ProductBrand';

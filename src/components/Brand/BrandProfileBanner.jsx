@@ -1,23 +1,29 @@
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import mockup1 from '../../assets/image/Gallery/mockup_1.svg';
-
-const mockData = {
-    brand: [
-        {
-            brand_id: 1,
-            region_name: '성수',
-            brand_name: '브랜드명',
-            description: '브랜드 소개',
-            brand_url: 'https://brand.com',
-            brand_image: mockup1,
-        },
-    ],
-};
+import { useNavigate, useParams } from 'react-router-dom';
+import { fetchData } from '../../services/api';
 
 export default function BrandProfileBanner() {
     const navigate = useNavigate();
-    const brand = mockData.brand[0];
+    const { brandId } = useParams(); // useParams로 brandId를 가져옵니다.
+    const [brand, setBrand] = useState(null);
+
+    useEffect(() => {
+        const loadBrandData = async () => {
+            try {
+                const data = await fetchData(`/brand/${brandId}`);
+                setBrand(data.result.brand);
+            } catch (error) {
+                console.error('브랜드 데이터를 불러오는 중 오류가 발생했습니다:', error);
+            }
+        };
+
+        loadBrandData();
+    }, [brandId]);
+
+    if (!brand) {
+        return <div>Loading...</div>;
+    }
 
     const handleBrandProfileClick = () => {
         navigate(`/brand/${brand.brand_id}/products`);
@@ -33,7 +39,9 @@ export default function BrandProfileBanner() {
                         <BrandDescription>{brand.description}</BrandDescription>
                     </BrandInfo>
                 </BrandProfile>
-                <BrandImage src={brand.brand_image} alt="브랜드 이미지" />
+                <ImageContainer>
+                    <BrandImage src={brand.brand_image} alt="브랜드 이미지" />
+                </ImageContainer>
             </Container>
         </Wrapper>
     );
@@ -104,9 +112,13 @@ const BrandDescription = styled.div`
     line-height: 140%; /* 28px */
     letter-spacing: -0.4px;
 `;
-
+const ImageContainer = styled.div`
+    height: 100%;
+    width: 300px;
+    flex-shrink: 0;
+`;
 const BrandImage = styled.img`
-    width: 510px;
-    height: 382px;
+    height: 100%;
+    width: 100%;
     flex-shrink: 0;
 `;

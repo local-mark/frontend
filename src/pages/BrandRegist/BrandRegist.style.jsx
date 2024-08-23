@@ -3,7 +3,7 @@ import { RiImageAddLine } from 'react-icons/ri';
 
 export const RegistSection = styled.div`
     display: flex;
-    width: 1920px;
+    width: 100%;
     padding: 100px 200px;
     flex-direction: column;
     justify-content: center;
@@ -42,6 +42,7 @@ export const Img = styled.image`
     align-items: center;
     border: 0.5px solid var(--Color-Gray-gray-800, #424242);
     background: #fff;
+    cursor: pointer;
 `;
 
 export const DesignedIcons = styled(RiImageAddLine)`

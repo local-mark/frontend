@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
     Button,
     ButtonLayer,
@@ -15,11 +15,43 @@ import {
     Rating,
     Review,
     ReviewButton,
+    UploadedImage,
+    DeleteButton,
     SatisfyFrame,
 } from './Modal.style';
 
-export default function Modal(props) {
-    const [star, setStar] = useState([0, 1, 2, 3, 4]);
+export default function Modal({ setModal, orderDetails, onReviewSubmit }) {
+    const [starRating, setStarRating] = useState(0);
+    const [images, setImages] = useState([]);
+    const [reviewText, setReviewText] = useState('');
+
+    const handleStarClick = (index) => {
+        setStarRating(index + 1);
+    };
+
+    const handleImageUpload = (event) => {
+        const files = event.target.files;
+        if (files && images.length < 2) {
+            const newImages = Array.from(files).slice(0, 2 - images.length);
+            setImages((prevImages) => [...prevImages, ...newImages]);
+        }
+    };
+
+    const handleImageDelete = (index) => {
+        setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    };
+
+    const handleSubmit = () => {
+        const review = {
+            productId: orderDetails.productId,
+            orderId: orderDetails.orderId,
+            content: reviewText,
+            rating: starRating,
+            images: images.map((image) => URL.createObjectURL(image)),
+        };
+
+        onReviewSubmit(review); // Pass the review data to the parent component
+    };
 
     return (
         <div>
@@ -28,31 +60,56 @@ export default function Modal(props) {
                     <SatisfyFrame>
                         <div>상품은 만족하셨나요?</div>
                         <Rating>
-                            {star.map((a, i) => {
-                                return <DesignedIcon></DesignedIcon>;
-                            })}
+                            {[...Array(5)].map((_, i) => (
+                                <DesignedIcon key={i} filled={i < starRating} onClick={() => handleStarClick(i)} />
+                            ))}
                         </Rating>
                     </SatisfyFrame>
                     <ImgFrame>
-                        <ImgWrapper>
-                            <ImgText>
-                                <div className="h1">사진을 끌어다 놓으세요</div>
-                                <div className="h2">2장까지 올릴 수 있어요.</div>
-                            </ImgText>
-                            <ReviewButton>PC에서 불러오기</ReviewButton>
-                        </ImgWrapper>
+                        {images.length === 0 && (
+                            <ImgWrapper>
+                                <ImgText>
+                                    <div className="h1">사진을 끌어다 놓으세요</div>
+                                    <div className="h2">2장까지 올릴 수 있어요.</div>
+                                </ImgText>
+                                <ReviewButton as="label">
+                                    PC에서 불러오기
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        multiple
+                                        style={{ display: 'none' }}
+                                        onChange={handleImageUpload}
+                                    />
+                                </ReviewButton>
+                            </ImgWrapper>
+                        )}
+                        {images.length > 0 && (
+                            <div style={{ display: 'flex', gap: '10px' }}>
+                                {images.map((src, index) => (
+                                    <UploadedImage key={index}>
+                                        <img src={URL.createObjectURL(src)} alt={`Uploaded ${index + 1}`} />
+                                        <DeleteButton onClick={() => handleImageDelete(index)}>x </DeleteButton>
+                                    </UploadedImage>
+                                ))}
+                            </div>
+                        )}
                     </ImgFrame>
                     <MainTextFrame>
                         <MainText>
-                            <MaintextInput placeholder="상품 리뷰를 작성해주세요."></MaintextInput>
-                            <LetterNum>0 / 500</LetterNum>
+                            <MaintextInput
+                                placeholder="상품 리뷰를 작성해주세요."
+                                value={reviewText}
+                                onChange={(e) => setReviewText(e.target.value)}
+                            />
+                            <LetterNum>{reviewText.length} / 500</LetterNum>
                         </MainText>
                     </MainTextFrame>
                     <Buttons>
-                        <Button onClick={() => props.setModal(false)}>
+                        <Button onClick={() => setModal(false)}>
                             <ButtonLayer>취소</ButtonLayer>
                         </Button>
-                        <Button style={{ backgroundColor: '#65bd83' }}>
+                        <Button style={{ backgroundColor: '#65bd83' }} onClick={handleSubmit}>
                             <ButtonLayer style={{ color: '#FFFFFF' }}>등록</ButtonLayer>
                         </Button>
                     </Buttons>

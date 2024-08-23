@@ -2,30 +2,30 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 const regions = [
-    '서울',
-    '부산',
-    '인천',
-    '대구',
-    '대전',
-    '광주',
-    '울산',
-    '세종',
-    '경기',
-    '충북',
-    '충남',
-    '전북',
-    '전남',
-    '경북',
-    '경남',
-    '강원',
-    '제주',
+    { id: 1, name: '서울' },
+    { id: 2, name: '부산' },
+    { id: 3, name: '인천' },
+    { id: 4, name: '대구' },
+    { id: 5, name: '대전' },
+    { id: 6, name: '광주' },
+    { id: 7, name: '울산' },
+    { id: 8, name: '세종' },
+    { id: 9, name: '경기' },
+    { id: 10, name: '충북' },
+    { id: 11, name: '충남' },
+    { id: 12, name: '전북' },
+    { id: 13, name: '전남' },
+    { id: 14, name: '경북' },
+    { id: 15, name: '경남' },
+    { id: 16, name: '강원' },
+    { id: 17, name: '제주' },
 ];
 
 const RegionFilter = ({ onRegionSelect }) => {
     const [selectedRegion, setSelectedRegion] = useState('');
 
     const handleRegionClick = (region) => {
-        const newRegion = selectedRegion === region ? '' : region;
+        const newRegion = selectedRegion === region.id ? '' : region.id;
         setSelectedRegion(newRegion);
         onRegionSelect(newRegion);
     };
@@ -34,11 +34,11 @@ const RegionFilter = ({ onRegionSelect }) => {
         <RegionFilterContainer>
             {regions.map((region) => (
                 <RegionButton
-                    key={region}
+                    key={region.id}
                     onClick={() => handleRegionClick(region)}
-                    selected={selectedRegion === region}
+                    selected={selectedRegion === region.id}
                 >
-                    {region}
+                    {region.name}
                 </RegionButton>
             ))}
         </RegionFilterContainer>

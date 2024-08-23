@@ -198,3 +198,4 @@ const PageBarContainer = styled.div`
     padding: 10px 0; 
     z-index: 1000; 
 `;
+

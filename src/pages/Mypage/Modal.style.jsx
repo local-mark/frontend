@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import { FaStar } from 'react-icons/fa';
 
 export const ModalBackground = styled.div`
-    position: fixed; /* 추가 */
-    top: 0; /* 추가 */
-    left: 0; /* 추가 */
+    position: fixed;
+    top: 0;
+    left: 0;
     bottom: 0;
-    z-index: 1000; /* 추가 */
+    z-index: 1000;
     display: flex;
     width: 100%;
     height: 100%;
@@ -17,7 +17,7 @@ export const ModalBackground = styled.div`
     flex-shrink: 0;
     background: rgba(0, 0, 0, 0.16);
     backdrop-filter: blur(4px);
-    overflow-y: auto; /* 추가: 내용이 넘칠 경우 스크롤 추가 */
+    overflow-y: auto;
 `;
 
 export const Review = styled.div`
@@ -46,18 +46,35 @@ export const SatisfyFrame = styled.div`
     font-size: var(--Text-size-9, 28px);
     font-style: normal;
     font-weight: 500;
-    line-height: 140%; /* 39.2px */
+    line-height: 140%;
     letter-spacing: -0.56px;
 `;
 
 export const ImgFrame = styled.div`
-    width: 384px;
-    height: 384px;
+    height: auto;
     flex-shrink: 0;
     background: var(--Color-Gray-gray-100, #f5f5f5);
     display: flex;
     align-items: center;
     justify-content: center;
+    h1 {
+        color: var(--Color-Text-primary, #222);
+        font-family: Pretendard;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 140%; /* 33.6px */
+        letter-spacing: -0.48px;
+    }
+`;
+export const NoImage = styled.div`
+    color: var(--Color-Text-primary, #222);
+    font-family: Pretendard;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 140%; /* 33.6px */
+    letter-spacing: -0.48px;
 `;
 
 export const MainTextFrame = styled.div`
@@ -77,6 +94,7 @@ export const MainTextFrame = styled.div`
 export const Buttons = styled.div`
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 24px;
     height: 100%;
     width: 100%;
@@ -92,14 +110,17 @@ export const Rating = styled.div`
 export const DesignedIcon = styled(FaStar)`
     width: 46px;
     height: 46px;
-    fill: var(--Color-Gray-gray-300, #e0e0e0);
+    fill: ${(props) => (props.filled ? '#65BD83' : 'var(--Color-Gray-gray-300, #e0e0e0)')};
+    cursor: pointer;
 `;
 
 export const ImgWrapper = styled.div`
     display: flex;
-    width: 179px;
+    width: 384px;
+    height: 384px;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 40px;
 `;
 
@@ -115,7 +136,7 @@ export const ImgText = styled.div`
         font-size: var(--Text-size-6, 20px);
         font-style: normal;
         font-weight: 500;
-        line-height: 140%; /* 28px */
+        line-height: 140%;
         letter-spacing: -0.4px;
         white-space: nowrap;
     }
@@ -127,7 +148,7 @@ export const ImgText = styled.div`
         font-size: var(--Text-size-4, 16px);
         font-style: normal;
         font-weight: 400;
-        line-height: 140%; /* 22.4px */
+        line-height: 140%;
         letter-spacing: -0.32px;
     }
 `;
@@ -145,29 +166,30 @@ export const ReviewButton = styled.button`
     font-size: var(--Text-size-4, 16px);
     font-style: normal;
     font-weight: 600;
-    line-height: 140%; /* 22.4px */
+    line-height: 140%;
     letter-spacing: -0.32px;
 `;
 
 export const MainText = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     flex: 1 0 0;
 `;
 
-export const MaintextInput = styled.input`
+export const MaintextInput = styled.textarea`
     height: 280px;
-    align-self: stretch;
+    width: 100%;
     color: var(--Color-Text-secondary, #616161);
     font-family: Pretendard;
     font-size: var(--Text-size-6, 20px);
     font-style: normal;
     font-weight: 400;
-    line-height: 140%; /* 28px */
+    line-height: 140%;
     letter-spacing: -0.4px;
     text-align: left;
     border: none;
+    resize: none;
 `;
 
 export const LetterNum = styled.div`
@@ -181,7 +203,7 @@ export const LetterNum = styled.div`
     font-size: var(--Text-size-5, 18px);
     font-style: normal;
     font-weight: 500;
-    line-height: 140%; /* 25.2px */
+    line-height: 140%;
     letter-spacing: -0.36px;
 `;
 
@@ -208,6 +230,34 @@ export const ButtonLayer = styled.div`
     font-size: var(--Text-size-7, 22px);
     font-style: normal;
     font-weight: 600;
-    line-height: 140%; /* 30.8px */
+    line-height: 140%;
     letter-spacing: -0.44px;
+`;
+
+export const UploadedImage = styled.div`
+    position: relative;
+    width: 380px;
+    height: 380px;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+`;
+
+export const DeleteButton = styled.button`
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 `;

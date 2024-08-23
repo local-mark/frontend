@@ -3,6 +3,14 @@ import { IoSettingsOutline } from 'react-icons/io5';
 import { MdNavigateNext } from 'react-icons/md';
 import { FaMapPin } from 'react-icons/fa';
 
+export const Img = styled.div`
+    width: 180px;
+    height: 180px;
+    background-color: #d9d9d9;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+`;
 export const MypageSection = styled.div`
     display: flex;
     width: 100%;
@@ -155,12 +163,6 @@ export const ProductFrame = styled.div`
     gap: var(--Spacing-5, 24px);
 `;
 
-export const Img = styled.div`
-    width: 180px;
-    height: 180px;
-    background-color: #d9d9d9;
-`;
-
 export const DetailFrame = styled.div`
     display: flex;
     width: 588px;
@@ -256,7 +258,7 @@ export const ReviewButton = styled.button`
     align-items: center;
     gap: 10px;
     border-radius: 5px;
-    background: var(--Color-Main-primary, #65bd83);
+    background: ${(props) => (props.reviewed ? '#FF8162' : 'var(--Color-Main-primary, #65bd83)')};
     color: #fff;
     font-family: Pretendard;
     font-size: 20px;
@@ -264,4 +266,31 @@ export const ReviewButton = styled.button`
     font-weight: 600;
     line-height: 140%; /* 28px */
     letter-spacing: -0.4px;
+`;
+
+export const NothingOrder = styled.button`
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--Color-Text-primary, #222);
+    text-align: center;
+    font-family: Pretendard;
+    font-size: var(--Text-size-8, 20px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%; /* 33.6px */
+    letter-spacing: -0.48px;
+`;
+
+export const DeleteButton = styled.button`
+    color: var(--Color-Text-secondary, #616161);
+    padding: 0px;
+    margin-top: -1px;
+    font-size: var(--Text-size-3, 13px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: 140%; /* 25.2px */
+    letter-spacing: -0.36px;
 `;
