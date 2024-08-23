@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import BoardList from '../../components/CreaterCommunity/BoardList';
@@ -8,18 +8,43 @@ import { useLocation } from 'react-router-dom';
 import PageBar from '../../components/CreaterCommunity/PageBar';
 import { NavLink } from 'react-router-dom';
 import PostDetail from '../../components/CreaterCommunity/PostDetail';
+import { fetchData } from "../../services/api";
 
-const CreaterCommunity = ({ posts }) => {
+const CreaterCommunity = () => {
     const [currentPage, setCurrentPage] = useState(1);
+    const [posts, setPosts] = useState([]); // API로부터 받아올 게시글 데이터
+    const [totalPages, setTotalPages] = useState(0); // 총 페이지 수
+    const [loading, setLoading] = useState(true); // 로딩 상태
+    const [error, setError] = useState(null); // 에러 상태
+
     const location = useLocation();
     const postsPerPage = 5;
-    const totalPages = Math.ceil(samplePosts.length / postsPerPage);
 
     const currentPosts = samplePosts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
+
+    useEffect(() => {
+        const loadPosts = async () => {
+            try {
+                setLoading(true);
+                const data = await fetchData('/posts', { page: currentPage, limit: postsPerPage });
+                setPosts(data.result.postData);
+                setTotalPages(Math.ceil(data.result.totalCount / postsPerPage)); // 총 페이지 수 계산
+                setLoading(false);
+            } catch (err) {
+                console.error('Failed to fetch posts:', err);
+                setError(err);
+                setLoading(false);
+            }
+        };
+        loadPosts();
+    }, [currentPage]);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error.message}</p>;
 
     return (
         <CreaterCommunityContainer>
@@ -44,26 +69,16 @@ const CreaterCommunity = ({ posts }) => {
                         path="chat"
                         element={
                             <>
-                                <BoardList title="잡담" posts={currentPosts} />
-                                <PageBar
-                                    currentPage={currentPage}
-                                    totalPages={totalPages}
-                                    onPageChange={handlePageChange}
-                                />
+                                <BoardList title="잡담" posts={posts} />
                             </>
                         }
                     />
-                    <Route path="chat/posts/:id" element={<PostDetail posts={samplePosts} />} />
+                    <Route path=":category/posts/post/:id" element={<PostDetail />} />
                     <Route
                         path="questions"
                         element={
                             <>
-                                <BoardList title="질문" posts={currentPosts} />
-                                <PageBar
-                                    currentPage={currentPage}
-                                    totalPages={totalPages}
-                                    onPageChange={handlePageChange}
-                                />
+                                <BoardList title="질문" posts={posts} />
                             </>
                         }
                     />
@@ -71,18 +86,20 @@ const CreaterCommunity = ({ posts }) => {
                         path="info"
                         element={
                             <>
-                                <BoardList title="정보공유" posts={currentPosts} />
-                                <PageBar
-                                    currentPage={currentPage}
-                                    totalPages={totalPages}
-                                    onPageChange={handlePageChange}
-                                />
+                                <BoardList title="정보공유" posts={posts} />
                             </>
                         }
                     />
                     <Route path="write" element={<Write />} />
                     <Route path="*" element={<Navigate to="/creatercommunity/chat" />} />
                 </Routes>
+                <PageBarContainer>
+                    <PageBar
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                    />
+                </PageBarContainer>
             </CreaterCommunityContentConatainer>
         </CreaterCommunityContainer>
     );
@@ -92,7 +109,7 @@ export default CreaterCommunity;
 
 const CreaterCommunityContainer = styled.div`
     width: 100%;
-    min-heigth: 1600px;
+    min-heigth: 2400px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -111,9 +128,11 @@ const CreaterCommunityNavbar = styled.div`
 const WriteButtonConatiner = styled.div`
     width: 1200px;
     max-width: 1200px;
+    height: 41px;
     margin-left: auto;
     display: flex;
     flex-direction: row-reverse;
+    margin-bottom: 30px;
 `;
 
 const WriteButton = styled.button`
@@ -166,5 +185,17 @@ const CreaterCommunityContentConatainer = styled.div`
     align-items: center;
     flex-direction: column;
     width: 100%;
-    height: 600px;
+    height: 100%;
 `;
+
+const PageBarContainer = styled.div`
+
+    bottom: 0; 
+    width: 100%; 
+    display: flex;
+    justify-content: center;
+    background-color: lightblue; /* 배경색을 임시로 변경 */
+    padding: 10px 0; 
+    z-index: 1000; 
+`;
+

@@ -1,23 +1,50 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import Heart from '../../assets/image/CreaterCommunity/Vector.png';
-import Comment from '../../assets/image/CreaterCommunity/comment.png';
-import DownArrow from '../../assets/image/CreaterCommunity/downarrow.png';
-import ReplyMark from '../../assets/image/CreaterCommunity/replymark.png';
-import Profile from '../../assets/image/CreaterCommunity/profile.png';
-import BrandContainer from './SellerBrandContainer'; // BrandContainer import
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import Heart from "../../assets/image/CreaterCommunity/Vector.png";
+import Comment from "../../assets/image/CreaterCommunity/comment.png";
+import DownArrow from "../../assets/image/CreaterCommunity/downarrow.png";
+import ReplyMark from "../../assets/image/CreaterCommunity/replymark.png";
+import Profile from "../../assets/image/CreaterCommunity/profile.png";
+import { fetchData, postData } from "../../services/api"; // postData 함수 추가
 
-const PostDetail = ({ posts }) => {
-    const { id } = useParams();
-    const { brandId } = useParams();
-    const post = posts.find((post) => post.id === parseInt(id));
-    const [likes, setLikes] = useState(0);
+
+const PostDetail = () => {
+    const { id } = useParams();  // URL에서 postId 가져오기
+    const [post, setPost] = useState(null);  // 게시글 데이터를 저장할 상태
+    const [likes, setLikes] = useState(0);  // 초기 좋아요 수
+    const [liked, setLiked] = useState(false); // 좋아요 상태 추가 - 14번째 줄
     const [showComments, setShowComments] = useState(false);
-    const [newComment, setNewComment] = useState('');
-    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState(''); // 새로운 댓글 입력값
+    const [comments, setComments] = useState([]);  // 댓글 데이터를 처리할 상태
+
     const [replyInputVisible, setReplyInputVisible] = useState({});
+    const [loading, setLoading] = useState(true);  // 로딩 상태
+    const [error, setError] = useState(null);  // 에러 상태
+
+    useEffect(() => {
+        const fetchPostDetail = async () => {
+            try {
+                const response = await fetchData(`/posts/post/${id}`);  // 게시글 데이터 가져오기
+
+                if (response.isSuccess) {
+                    setPost(response.result);
+                    setLikes(response.result.likeNum || 0);  // 좋아요 수 설정
+                } else {
+                    console.error('Failed to fetch post data:', response.message);
+                    setError(new Error('Failed to fetch post data'));
+                }
+
+                setLoading(false);
+            } catch (err) {
+                console.error('Error fetching post data:', err);
+                setError(err);
+                setLoading(false);
+            }
+        };
+        fetchPostDetail();
+    }, [id]);
 
     const navigate = useNavigate();
 
@@ -25,25 +52,60 @@ const PostDetail = ({ posts }) => {
         navigate(-1); // 이전 페이지로 이동
     };
 
-    const handleLikeClick = () => {
-        setLikes(likes + 1);
+    const handleLikeClick = async () => { // 좋아요 로직 추가 - 46번째 줄
+        try {
+            if (liked) {
+                // 이미 좋아요가 눌린 상태라면 취소
+                const response = await postData(`/likes/${id}/posts`, { user_id: 1 });
+                if (response.isSuccess) {
+                    setLikes(likes - 1);
+                    setLiked(false);
+                }
+            } else {
+                // 좋아요 추가
+                const response = await postData(`/likes/${id}/posts`, { user_id: 1 });
+                if (response.isSuccess) {
+                    setLikes(likes + 1);
+                    setLiked(true);
+                }
+            }
+        } catch (error) {
+            console.error('Error updating like status:', error);
+        }
     };
 
     const handleNewCommentChange = (event) => {
-        setNewComment(event.target.value);
+        setNewComment(event.target.value); // 입력된 댓글 값 업데이트
     };
 
-    const handleAddComment = () => {
-        if (newComment.trim() !== '') {
+    const handleAddComment = async () => {
+        if (newComment.trim() !== "") {
             const newCommentData = {
-                text: newComment,
-                author: 'BrandName',
-                date: new Date().toLocaleDateString(),
-                time: new Date().toLocaleTimeString(),
-                replies: [],
+                userId: 1, // 임시로 설정된 사용자 ID (실제 사용자 ID를 여기에 넣으세요)
+                parentId: null, // 부모 댓글이 없을 경우 null
+                content: newComment,
             };
-            setComments([...comments, newCommentData]);
-            setNewComment('');
+
+            try {
+                const response = await postData(`/comments/${id}/posts`, newCommentData); // API 호출
+
+                if (response.isSuccess) {
+                    // 새로운 댓글을 기존 댓글 리스트에 추가
+                    const addedComment = {
+                        ...newCommentData,
+                        id: response.result.insertId, // API 응답에서 받은 insertId 사용
+                        createdDate: new Date().toLocaleDateString(), // 현재 날짜
+                        children: [], // 대댓글 목록 초기화
+                    };
+                    setComments([...comments, addedComment]);
+                    setNewComment(""); // 입력 필드 초기화
+                } else {
+                    console.error("Failed to add comment:", response.message);
+                }
+            } catch (err) {
+                console.error("Error adding comment:", err);
+            }
+
         }
     };
 
@@ -54,16 +116,36 @@ const PostDetail = ({ posts }) => {
         }));
     };
 
-    const handleAddReply = (index, replyText) => {
-        const updatedComments = [...comments];
-        const replyData = {
-            text: replyText,
-            author: 'BrandName',
-            date: new Date().toLocaleDateString(),
-            time: new Date().toLocaleTimeString(),
-        };
-        updatedComments[index].replies.push(replyData);
-        setComments(updatedComments);
+    const handleAddReply = async (index, replyText) => {
+        if (replyText.trim() !== "") {
+            const replyData = {
+                userId: 1, // 임시로 설정된 사용자 ID (실제 사용자 ID를 여기에 넣으세요)
+                parentId: comments[index].id, // 부모 댓글의 ID 설정
+                content: replyText,
+            };
+
+            try {
+                const response = await postData(`/comments/${id}/posts`, replyData); // API 호출
+
+                if (response.isSuccess) {
+                    // 새로운 대댓글을 해당 부모 댓글의 대댓글 목록에 추가
+                    const addedReply = {
+                        ...replyData,
+                        id: response.result.insertId, // API 응답에서 받은 insertId 사용
+                        createdDate: new Date().toLocaleDateString(), // 현재 날짜
+                        children: [], // 대댓글의 자식 목록 초기화
+                    };
+                    const updatedComments = [...comments];
+                    updatedComments[index].children.push(addedReply); // 부모 댓글의 대댓글 목록에 추가
+                    setComments(updatedComments);
+                } else {
+                    console.error("Failed to add reply:", response.message);
+                }
+            } catch (err) {
+                console.error("Error adding reply:", err);
+            }
+        }
+
     };
 
     const toggleComments = () => {
@@ -83,23 +165,26 @@ const PostDetail = ({ posts }) => {
         }
     };
 
-    const categoryName = getCategoryName(post.category);
-
-    if (!post) {
-        return <p>Post not found.</p>;
-    }
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error.message}</p>;
 
     return (
         <PostDetailContainer>
             <PostDetailCategoryContainer>
-                <BoardCategory>{categoryName}</BoardCategory>
+                <BoardCategory>{post.category}</BoardCategory>
             </PostDetailCategoryContainer>
             <PostDetailTitleContainer>{post.title}</PostDetailTitleContainer>
             <PostDetailAuthorDateContainer>
-                <p>Author: {post.author}</p>
-                <p>Date: {post.date}</p>
+                <p>Author: {post.author.name}</p>
+                <img src={post.author.user_img_url} alt="Author profile" width={50} />
+                <p>Date: {post.createdAt}</p>
             </PostDetailAuthorDateContainer>
-            <PostDetailContentContainer>{post.content}</PostDetailContentContainer>
+            <PostDetailContentContainer>
+                {post.content}
+                {post.imagesData && post.imagesData.map((image, index) => (
+                    <PostImage key={index} src={`https://your-image-server-url/${image.filename}`} alt="Post Image" />
+                ))}
+            </PostDetailContentContainer>
             <ReturnButtonContainer>
                 <ReturnButton onClick={handleReturnClick}>&lt; 목록으로 돌아가기</ReturnButton>
             </ReturnButtonContainer>
@@ -109,15 +194,16 @@ const PostDetail = ({ posts }) => {
                 </Likebutton>
                 <CommentToggleButton onClick={toggleComments}>
                     <img src={Comment} alt="Comment" />
-                    10
+                    {comments.length}
                     <img src={DownArrow} alt="downarrow" />
                 </CommentToggleButton>
                 {showComments && (
                     <CommentsContainer>
-                        <CommentsNum>댓글 0</CommentsNum>
+                        <CommentsNum>댓글 {comments.length}</CommentsNum>
+
                         {comments.map((comment, index) => (
                             <CommentComponent
-                                key={index}
+                                key={comment.id}
                                 comment={comment}
                                 index={index}
                                 replyInputVisible={replyInputVisible}
@@ -131,44 +217,45 @@ const PostDetail = ({ posts }) => {
                                 value={newComment}
                                 onChange={handleNewCommentChange}
                             />
-                            <AddCommentButton onClick={handleAddComment}>등록</AddCommentButton>
+                            <AddCommentButton onClick={handleAddComment}>
+                                등록
+                            </AddCommentButton>
                         </NewCommentContainer>
                     </CommentsContainer>
                 )}
             </LikeCommentContainer>
             <AuthorContainer>
                 <AuthorWrapper>
-                    {/* BrandContainer에 brandId 전달 */}
                     <BrandContainer brandId={post.brandId} />
                 </AuthorWrapper>
             </AuthorContainer>
             <RecentUpdateContainer>
                 <RecentUpdateContent>최신 업데이트된 글</RecentUpdateContent>
                 <RecentUpdateContentContainer>
-                    <RecentUpdateWarpp>
+                    <RecentUpdateWrapper>
                         <ContentImg src={Profile} alt="임시이미지" />
                         로컬 크레이에이티브 2024 행사 다녀왔어요~!
-                    </RecentUpdateWarpp>
-                    <RecentUpdateWarpp>
+                    </RecentUpdateWrapper>
+                    <RecentUpdateWrapper>
                         <ContentImg src={Profile} alt="임시이미지" />
                         로컬 크레이에이티브 2024 행사 다녀왔어요~!
-                    </RecentUpdateWarpp>
-                    <RecentUpdateWarpp>
+                    </RecentUpdateWrapper>
+                    <RecentUpdateWrapper>
                         <ContentImg src={Profile} alt="임시이미지" />
                         로컬 크레이에이티브 2024 행사 다녀왔어요~!
-                    </RecentUpdateWarpp>
-                    <RecentUpdateWarpp>
+                    </RecentUpdateWrapper>
+                    <RecentUpdateWrapper>
                         <ContentImg src={Profile} alt="임시이미지" />
                         로컬 크레이에이티브 2024 행사 다녀왔어요~!
-                    </RecentUpdateWarpp>
-                    <RecentUpdateWarpp>
+                    </RecentUpdateWrapper>
+                    <RecentUpdateWrapper>
                         <ContentImg src={Profile} alt="임시이미지" />
                         로컬 크레이에이티브 2024 행사 다녀왔어요~!
-                    </RecentUpdateWarpp>
-                    <RecentUpdateWarpp>
+                    </RecentUpdateWrapper>
+                    <RecentUpdateWrapper>
                         <ContentImg src={Profile} alt="임시이미지" />
                         로컬 크레이에이티브 2024 행사 다녀왔어요~!
-                    </RecentUpdateWarpp>
+                    </RecentUpdateWrapper>
                 </RecentUpdateContentContainer>
             </RecentUpdateContainer>
         </PostDetailContainer>
@@ -555,7 +642,7 @@ const RecentUpdateContentContainer = styled.div`
     gap: 10px;
 `;
 
-const RecentUpdateWarpp = styled.div`
+const RecentUpdateWrapper = styled.div`
     width: 384px;
     height: 329px;
     font-size: 18px;
