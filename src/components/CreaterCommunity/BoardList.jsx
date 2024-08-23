@@ -16,7 +16,7 @@ const BoardList = ({ title }) => {
         const loadPosts = async () => {
             try {
                 setLoading(true);
-                const data = await fetchData('/posts', { category: category, page: 1, limit: 10 });
+                const data = await fetchData('/posts', { category, page: 1, limit: 10 });
                 setPosts(data.result.postData); // 서버에서 받은 게시글 데이터를 상태에 저장
                 setLoading(false);
             } catch (err) {
@@ -72,7 +72,7 @@ const BoardList = ({ title }) => {
                         </BoardDetailContainer>
                         <BoardImagePreview>
                             <BoardPreviewImage
-                                src={post.thumbnailFilename ? `${post.thumbnailFilename}` : PreviewImage}
+                                src={post.thumbnailFilename ? decodeURIComponent(post.thumbnailFilename) : PreviewImage}
                                 alt="previewimage"
                             />
                         </BoardImagePreview>
@@ -105,8 +105,8 @@ const BoardContainer = styled.div`
     width: 1200px;
     display: flex;
     flex-direction: column;
-    align-items = center;
-    min-height = 2400px;
+    align-items: center;
+    min-height: 2400px;
 `;
 
 const BoardCategory = styled.button`
@@ -121,8 +121,8 @@ const BoardCategory = styled.button`
 const BoardListContainer = styled.div`
     width: 1200px;
     display: flex;
-    justify-content = center;
-    align-items = center;
+    justify-content: center;
+    align-items: center;
     flex-direction: row;
     margin-top: 60px;
     flex-wrap: wrap;
@@ -130,7 +130,7 @@ const BoardListContainer = styled.div`
 
 const StyledLink = styled(Link)`
     text-decoration: none;
-    color black;
+    color: black;
 `;
 
 const BoardTitle = styled.li`
