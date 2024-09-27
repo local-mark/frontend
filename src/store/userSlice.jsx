@@ -2,12 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // 로컬 스토리지에서 초기 상태를 가져오기
 const accessToken = localStorage.getItem('accessToken');
-const isLogin = !!accessToken; // 토큰이 존재하면 로그인 상태로 간주
+const isLogin = accessToken; // 토큰이 존재하면 로그인 상태로 간주
 
 const initialState = {
-    isLogin: isLogin,
+    isLogin: false,
     value: {
-        accessToken: accessToken || '',
+        accessToken: '',
     },
 };
 

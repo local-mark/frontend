@@ -59,8 +59,8 @@ const BrandProfile = styled.div`
 `;
 
 const ProfileImage = styled.img`
-    width: 102px;
-    height: 102px;
+    width: 150px;
+    height: auto;
     background-color: #e0e0e0;
     margin-right: 10px;
 `;

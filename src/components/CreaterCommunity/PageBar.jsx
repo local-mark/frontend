@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 const PageBar = ({ currentPage, totalPages, onPageChange }) => {
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
-
     return (
         <PageBarContainer>
             {pageNumbers.map((number) => (

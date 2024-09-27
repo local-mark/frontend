@@ -87,9 +87,12 @@ export default function Navbar() {
     };
 
     const handleCartClick = () => {
-        navigate('/cart');
+        if (!isLoggedIn) {
+            navigate('/login');
+        } else {
+            navigate('/cart');
+        }
     };
-
     const handleMouseEnter = (menu) => {
         setDropdownVisible(menu);
     };
