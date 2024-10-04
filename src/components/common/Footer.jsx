@@ -4,6 +4,16 @@ import logo from '../../assets/icon/Home/localmark_logo.svg';
 
 export default function Footer() {
     const navigate = useNavigate();
+
+    const handleChatClick = () => {
+        const userId = localStorage.getItem('id'); // Assuming 'id' is the key you are using
+        if (userId) {
+            navigate('/chatting');
+        } else {
+            navigate('/login');
+        }
+    };
+
     return (
         <FooterWrapper>
             <FooterContainer>
@@ -32,6 +42,9 @@ export default function Footer() {
                             <StyledLink to="creatercommunity/chat">잡담</StyledLink>
                             <StyledLink to="creatercommunity/questions">질문</StyledLink>
                             <StyledLink to="/creatercommunity/info">정보공유</StyledLink>
+                            <StyledLink as="button" onClick={handleChatClick}>
+                                채팅하기
+                            </StyledLink>
                         </SubMenu>
                     </Column>
                     <Column>

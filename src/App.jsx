@@ -22,6 +22,7 @@ import Cart from './pages/Cart/Cart';
 import Payment from './pages/Payment/Payment';
 import BrandProfile from './pages/CreaterCommunity/BrandProfile';
 import PaymentConfirmation from './pages/Payment/PaymentConfirmation ';
+import Chatting from './pages/Chatting/Chatting';
 
 function App() {
     return (
@@ -50,6 +51,7 @@ function App() {
                 <Route path="/payment" element={<Payment />} />
                 <Route path="/brandprofile/:brandId/products" element={<BrandProfile />} />
                 <Route path="/payment-confirmation" element={<PaymentConfirmation />} />
+                <Route path="chatting" element={<Chatting />} />
             </Routes>
         </div>
     );
