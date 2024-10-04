@@ -33,6 +33,7 @@ export const userSlice = createSlice({
             localStorage.setItem('type', decodingInfo.type);
             console.log(decodingInfo.type);
             console.log(decodingInfo.is_brand_registered);
+            console.log(decodingInfo.id);
         },
         logoutAction: (state) => {
             Object.assign(state, initialState);
