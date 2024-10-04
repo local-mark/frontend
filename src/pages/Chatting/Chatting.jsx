@@ -52,7 +52,7 @@ export default function Chatting() {
 
         const intervalId = setInterval(() => {
             fetchMessages(); // 5초마다 메시지 가져오기
-        }, 500000);
+        }, 1000);
 
         // 컴포넌트가 언마운트될 때 인터벌 정리
         return () => clearInterval(intervalId);
